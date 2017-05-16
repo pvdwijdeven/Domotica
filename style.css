@@ -1,0 +1,45 @@
+body {
+	font: 14px/1.4 Arial;
+	font-size: 1.2em;
+	background-color: #CCCCCC;
+}
+
+* { 
+	margin: 0; 
+	padding: 0; 
+}
+
+.tCurrent {
+	text-align: center;
+}
+
+.tColumn {
+	display: inline-block;
+	text-align: right;
+}
+
+.tCel {
+	height: 50px;
+	width: auto;
+	border-size: 1;
+}
+
+.navButton {
+	margin: 10px;
+	width: 200px;
+	height: 45px;
+	text-align: center;
+	display: inline-block;
+	font-size: 1.5em;
+	background: dodgerblue;
+}
+
+.nolink {
+    color: #000000;
+	text-decoration: none;
+}
+
+.titleText{
+	font-size: 1.5em;
+	font-weight: bold;
+}

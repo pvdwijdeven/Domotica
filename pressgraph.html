@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+   <title>24 hours pressure graph</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" href="favicon.ico?v1" type="image/x-icon" />
+   <link rel="shortcut icon" href="favicon.ico?v1" type="image/x-icon" />
+   <link rel="apple-touch-icon" href="/measurement.png"/>
+   <link rel="apple-touch-icon-precomposed" href="/measurement.png"/>   <script src="https://www.google.com/jsapi"></script>
+   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<!--   <script src="http://prithwis.x10.bz/charts/jquery.csv-0.71.js"></script> -->
+   <script src="https://jquery-csv.googlecode.com/files/jquery.csv-0.71.js"></script>
+   <script type='text/javascript'>
+   // load the visualization library from Google and set a listener
+   google.load("visualization", "1", {packages:["corechart"]});
+   google.setOnLoadCallback(drawChartfromCSV);
+  
+   function drawChartfromCSV(){
+     // grab the CSV
+         $.get("/DB/24hrs.csv", function(csvString) {
+         // transform the CSV string into a 2-dimensional array
+            var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+         // this new DataTable object holds all the data
+            var data = new google.visualization.arrayToDataTable(arrayData);
+         // this view can select a subset of the data at a time
+            var view = new google.visualization.DataView(data);
+            view.setColumns([7,3,10]);
+         var options = {
+         title: "24 hours pressure",
+	 chartArea: {left:90},
+         curveType: 'function',
+		 backgroundColor: '#CCCCCC',
+          hAxis: {title: data.getColumnLabel(7), minValue: data.getColumnRange(7).min, maxValue: data.getColumnRange(7).max, showTextEvery: 3},
+          vAxis: {format: '####', title: "Pressure [hPa]", minValue: data.getColumnRange(3).min, maxValue: data.getColumnRange(3).max, gridlines: {color: '#000000'}},
+		  legend: {position: 'top'},
+          };
+          var chart = new google.visualization.LineChart(document.getElementById('csv2chart'));
+          chart.draw(view, options);
+         });
+   }
+   </script>
+</head>
+<body>
+	<div class = 'tCurrent'>
+		<div class = 'titleText'>Pressure last 24 hrs</div>
+		<br>
+		<a class='nolink' href='showcurrent.php'><div class="navButton">Back</div></a><br>
+		<div id="csv2chart" style="align: center; width: auto; height: 500px;"> </div>
+		<br>
+		<a class='nolink' href='showcurrent.php'><div class="navButton">Back</div></a>
+
