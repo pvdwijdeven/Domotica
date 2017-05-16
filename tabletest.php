@@ -20,11 +20,13 @@ while($tableName = mysql_fetch_row($result)) {
 
 	$table = $tableName[0];
 	
-	echo '<h3>',$table,'</h3>';
+	echo '<h3>',$table,'</h3>
+	';
 	$result2 = mysql_query('SHOW COLUMNS FROM '.$table) or die('cannot show columns from '.$table);
 	$result3 = mysql_query('SELECT * FROM '.$table) or die('cannot show contents from '.$table);
 	if(mysql_num_rows($result2)) {
-		echo '<table cellpadding="0" cellspacing="0" class="db-table">';
+		echo '
+		<table cellpadding="0" cellspacing="0" class="db-table" id="'.$table.'">';
 		echo '<tr>';
 		$x=-1;
 		while($row2 = mysql_fetch_row($result2)) {
