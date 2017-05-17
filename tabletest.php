@@ -14,15 +14,15 @@
 				var myid=($(elem).attr('id')).split('_');
 				switch (myid[0]) {
 					case "add":
-						alert("add row to table " + myid[1]);
+						document.location.href = 'tableupdate.php?action=add&table=' + myid[1];
 					break;
 					case "modify":
 						var sql_id=$("#" + myid[2] + "_0").html();
-						alert("modify row with ID " +sql_id + " in table " + myid[1]);
+						document.location.href = 'tableupdate.php?action=modify&table=' + myid[1] + '&ID=' + sql_id;
 					break;
 					case "delete":
 						var sql_id=$("#" + myid[2] + "_0").html();
-						alert("delete row with ID " + sql_id + " in table " + myid[1]);
+						document.location.href = 'tableupdate.php?action=delete&table=' + myid[1] + '&ID=' + sql_id;
 					break;
 				}
 				
@@ -33,9 +33,50 @@
 <body>
 
 <?php
-  include 'includes/db_connect.php';
-
 /* connect to the db */
+  include 'includes/db_connect.php';
+if (!empty($_POST)) {
+	switch($_POST['action']){
+		case "add":
+		$vals="";
+		$fields="";
+		foreach ($_POST as $key => $value)
+		{
+			if($key!='action' and $key!='ID' and $key!='tablename'){
+				$vals=$vals .', '.$value;
+				$fields=$fields.', '.$key;
+			}
+		};
+		$vals = substr($vals, 1);
+		$fields = substr($fields, 1);
+		$sqlstring="INSERT INTO " . $_POST['tablename'] . ' (' . $fields . ') VALUES (' . $vals . ');'; 
+		echo ($sqlstring);
+		echo ("   -->  ADD");
+		break;
+		case "modify":
+		$vals="";
+		foreach ($_POST as $key => $value)
+		{
+			if($key!='action' and $key!='ID' and $key!='tablename'){
+				$vals=$vals .', '.$key . "='" . $value . "' ";
+			}
+		};
+		$vals = substr($vals, 1);
+		$sqlstring="UPDATE " . $_POST['tablename'] . " SET " . $vals . " WHERE ID = " . $_POST['ID']. ";";
+		echo ($sqlstring);
+		echo ("   -->  MODIFY");
+		break;
+		case "delete":
+		$sqlstring="DELETE FROM " . $_POST['tablename'] . " WHERE ID = " . $_POST['ID']. ";";
+		echo ($sqlstring);
+		echo ("   --->   DELETE");
+		break;
+	}
+foreach ($_POST as $key => $value)
+	{
+	  echo ("<p>" . $key. " : " .$value."</p>");
+	};
+};
 
 /* show tables */
 $result = mysql_query('SHOW TABLES');

@@ -233,3 +233,12 @@ table.db-table td	{ padding:5px; border-left:1px solid #ccc; border-top:1px soli
 table.db-table .add	{ background:green; color: white;}
 table.db-table .delete	{ background:red; color: white;}
 table.db-table .modify	{ background:orange; color: white;}
+
+.name { 
+	width: 100% ;
+	font-weight: bold;
+	font-size: 1.5em;
+	text-align: left;
+	}
+.fieldupdate { text-align: left;
+}
