@@ -6,6 +6,29 @@
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="css/teststyle.css?v=1.0">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			<!--
+		
+		function clickButton(elem) {
+				var myid=($(elem).attr('id')).split('_');
+				switch (myid[0]) {
+					case "add":
+						alert("add row to table " + myid[1]);
+					break;
+					case "modify":
+						var sql_id=$("#" + myid[2] + "_0").html();
+						alert("modify row with ID " +sql_id + " in table " + myid[1]);
+					break;
+					case "delete":
+						var sql_id=$("#" + myid[2] + "_0").html();
+						alert("delete row with ID " + sql_id + " in table " + myid[1]);
+					break;
+				}
+				
+			}
+		//-->
+		</script>
 </head>
 <body>
 
@@ -34,15 +57,19 @@ while($tableName = mysql_fetch_row($result)) {
 			echo "<th>" . $row2[0] . "</th>";
 			$fields[$x]=$row2[0];
 		}
-		echo '</tr>';
+		echo '<th></th><th id="add_' . $table . '" class="add" onmouseup="clickButton(this)">add row</th></tr>
+		';
+		$rows=-1;
 		while($row3 = mysql_fetch_row($result3)) {
 			echo '<tr>';
+			$rows++;
 			for ($i=0;$i<=$x;$i++){
-				echo '<td>';
+				echo '<td id="' . $rows . "_" . $i . '">';
 				echo $row3[$i];
 				echo '</td>';
 			}
-			echo '</tr>';
+			echo '<td id="modify_' . $table . '_' . $rows . '" class="modify" onmouseup="clickButton(this)">modify</td>
+			<td id="delete_' . $table . '_' . $rows . '" class="delete" onmouseup="clickButton(this)">delete</td></tr>';
 		}
 		echo '</table><br />';
 	}

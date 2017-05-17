@@ -226,6 +226,10 @@ button:hover {
     to {transform: scale(1)}
 }
 
-table.db-table 		{ border-right:1px solid #ccc; border-bottom:1px solid #ccc; }
-table.db-table th	{ background:#eee; padding:5px; border-left:1px solid #ccc; border-top:1px solid #ccc; }
+table.db-table 		{ border-right:1px solid #ccc; border-bottom:1px solid #ccc; text-align:center;}
+table.db-table th	{ background:black; color: white; padding:5px; border-left:1px solid #ccc; border-top:1px solid #ccc; }
 table.db-table td	{ padding:5px; border-left:1px solid #ccc; border-top:1px solid #ccc; }
+
+table.db-table .add	{ background:green; color: white;}
+table.db-table .delete	{ background:red; color: white;}
+table.db-table .modify	{ background:orange; color: white;}
