@@ -43,15 +43,13 @@ if (!empty($_POST)) {
 		foreach ($_POST as $key => $value)
 		{
 			if($key!='action' and $key!='ID' and $key!='tablename'){
-				$vals=$vals .', '.$value;
+				$vals=$vals .", '".$value."'";
 				$fields=$fields.', '.$key;
 			}
 		};
 		$vals = substr($vals, 1);
 		$fields = substr($fields, 1);
 		$sqlstring="INSERT INTO " . $_POST['tablename'] . ' (' . $fields . ') VALUES (' . $vals . ');'; 
-		echo ($sqlstring);
-		echo ("   -->  ADD");
 		break;
 		case "modify":
 		$vals="";
@@ -62,20 +60,14 @@ if (!empty($_POST)) {
 			}
 		};
 		$vals = substr($vals, 1);
-		$sqlstring="UPDATE " . $_POST['tablename'] . " SET " . $vals . " WHERE ID = " . $_POST['ID']. ";";
-		echo ($sqlstring);
-		echo ("   -->  MODIFY");
+		$sqlstring="UPDATE " . $_POST['tablename'] . " SET " . $vals . " WHERE ID = '" . $_POST['ID']. "';";
 		break;
 		case "delete":
-		$sqlstring="DELETE FROM " . $_POST['tablename'] . " WHERE ID = " . $_POST['ID']. ";";
-		echo ($sqlstring);
-		echo ("   --->   DELETE");
+		$sqlstring="DELETE FROM " . $_POST['tablename'] . " WHERE ID = '" . $_POST['ID']. "';";
 		break;
 	}
-foreach ($_POST as $key => $value)
-	{
-	  echo ("<p>" . $key. " : " .$value."</p>");
-	};
+	$result = mysql_query($sqlstring) or die('something went wrong with '.mysql_error(). ' sql-string: '.$sqlstring);
+	echo($result);
 };
 
 /* show tables */
