@@ -67,7 +67,6 @@ if (!empty($_POST)) {
 		break;
 	}
 	$result = mysql_query($sqlstring) or die('something went wrong with '.mysql_error(). ' sql-string: '.$sqlstring);
-	echo($result);
 };
 
 /* show tables */
@@ -98,7 +97,16 @@ while($tableName = mysql_fetch_row($result)) {
 			$rows++;
 			for ($i=0;$i<=$x;$i++){
 				echo '<td id="' . $rows . "_" . $i . '">';
-				echo $row3[$i];
+				if (substr($fields[$i],-2)=="ID" and strlen($fields[$i])>2){
+						$resultID = mysql_query('SELECT * FROM ' . lcfirst($fields[$i])) or die('cannot show columns from '.lcfirst($fields[$i]));
+						while($rowID = mysql_fetch_row($resultID)) {
+							if ($rowID[0]==$row3[$i]) { 
+								echo $rowID[1];
+							}
+						}
+					} else {
+						echo $row3[$i];
+					}
 				echo '</td>';
 			}
 			echo '<td id="modify_' . $table . '_' . $rows . '" class="modify" onmouseup="clickButton(this)">modify</td>

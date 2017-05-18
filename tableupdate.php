@@ -40,16 +40,44 @@
 			echo "<table><tr><td class='name'>" . $row2[0] . ":</td><td class='type'>" . $row2[1] . "</td></tr></table>";
 			switch($action){
 				case "modify":
-				echo "<input class='fieldupdate' type='text' ID='" . $row2[0] . "' name='" . $row2[0] . "' value='". $row3[$x] . "'></input>
-				";
+				if (substr($row2[0], -2)=="ID" and strlen($row2[0])>2)
+					{ $resultID = mysql_query('SELECT * FROM ' . lcfirst($row2[0])) or die('cannot show columns from '.lcfirst($row2[0]));
+					echo "<select name='" . $row2[0] . "'>";
+					while($rowID = mysql_fetch_row($resultID)) {
+						if ($rowID[0]==$row3[$x]) {$selected="selected='selected' ";} else {$selected="";}
+						echo "<option ".$selected."value='".$rowID[0]."'>" .$rowID[1]."</option>";
+					}
+					echo "</select>";
+				} else {
+						echo "<input class='fieldupdate' type='text' ID='" . $row2[0] . "' name='" . $row2[0] . "' value='". $row3[$x] . "'></input>
+						";
+				}
 				break;
 				case "delete":
-				echo "<input class='fieldupdate' type='text' ID='" . $row2[0] . "' name='" . $row2[0] . "' value='". $row3[$x] . "' readonly></input>
-				";
+				if (substr($row2[0], -2)=="ID" and strlen($row2[0])>2)
+					{ $resultID = mysql_query('SELECT * FROM ' . lcfirst($row2[0])) or die('cannot show columns from '.lcfirst($row2[0]));
+					while($rowID = mysql_fetch_row($resultID)) {
+						if ($rowID[0]==$row3[$x]) {	echo "<input  class='fieldupdate' type='text' ID='" . $row2[0] . "' name='" . $row2[0] . "' value='". $rowID[1] . "' readonly></input>
+						";
+						}
+					}
+				} else {
+					echo "<input class='fieldupdate' type='text' ID='" . $row2[0] . "' name='" . $row2[0] . "' value='". $row3[$x] . "' readonly></input>
+					";
+				}
 				break;
 				case "add":
-				echo "<input class='fieldupdate' type='text' ID='" . $row2[0] . "' name='" . $row2[0] . "'</input>
-				";
+				if (substr($row2[0], -2)=="ID" and strlen($row2[0])>2)
+					{ $resultID = mysql_query('SELECT * FROM ' . lcfirst($row2[0])) or die('cannot show columns from '.lcfirst($row2[0]));
+					echo "<select name='" . $row2[0] . "'>";
+					while($rowID = mysql_fetch_row($resultID)) {
+						echo "<option value='".$rowID[0]."'>" .$rowID[1]."</option>";
+					}
+					echo "</select>";
+				} else {
+					echo "<input class='fieldupdate' type='text' ID='" . $row2[0] . "' name='" . $row2[0] . "'</input>
+					";
+				}
 				break;
 			}				
 			$fields[$x]=$row2[0];
