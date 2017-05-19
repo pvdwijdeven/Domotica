@@ -10,6 +10,53 @@ $row = $result->fetch_assoc();
 
 
 $adminName = $row['admin'];
+
+$result = mysql_query('SELECT * FROM measurements');
+
+$i=-1;
+while($row = mysql_fetch_row($result, MYSQL_ASSOC)) {
+	$i+=1;
+	$IDs[$i] = $row['ID'];
+	$Floors[$i] = $row['FloorID'];
+	$Rooms[$i] = $row['RoomID'];
+	$Types[$i] = $row['Type'];
+	$Descriptions[$i] = $row['LongDescription'];
+	$Graphs[$i] = $row['GraphID'];
+	$Interactions[$i] = $row['InteractionID'];
+	$UoMs[$i] = $row['Unit'];
+	$ValueNumbers[$i] = $row['ValueNumber'];
+}
+
+for ($x=0;$x<=$i;$x++){
+	$sqltext="SELECT Floor from floorID WHERE ID=" . $Floors[$x];
+	$result = mysql_query($sqltext);
+	$row = mysql_fetch_row($result);
+	$Floors[$x]=$row[0];
+
+	$sqltext="SELECT Room from roomID WHERE ID=" . $Rooms[$x];
+	$result = mysql_query($sqltext);
+	$row = mysql_fetch_row($result);
+	$Rooms[$x]=$row[0];
+	
+	$sqltext="SELECT Graph from graphID WHERE ID=" . $Graphs[$x];
+	$result = mysql_query($sqltext);
+	$row = mysql_fetch_row($result);
+	$Graphs[$x]=$row[0];
+	
+	$sqltext="SELECT Interaction from interactionID WHERE ID=" . $Interactions[$x];
+	$result = mysql_query($sqltext);
+	$row = mysql_fetch_row($result);
+	$Interactions[$x]=$row[0];
+}
+	$IDs = implode ( "," , $IDs );
+	$Floors = "'" . implode ( "','" , $Floors ) . "'";
+	$Rooms = "'" . implode ( "','" , $Rooms ) . "'";
+	$Types = "'" . implode ( "','" , $Types ) . "'";
+	$Descriptions = "'" . implode ( "','" , $Descriptions ) . "'";
+	$Graphs = "'" . implode ( "','" , $Graphs ) . "'";
+	$Interactions = "'" . implode ( "','" , $Interactions ) . "'";
+	$UoMs = "'" . implode ( "','" , $UoMs ) . "'";
+	$ValueNumbers = implode ( "," , $ValueNumbers );
 ?>
 
 
@@ -25,7 +72,35 @@ $adminName = $row['admin'];
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script type="text/javascript">
 			<!--
-
+			
+		function getValues(){
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var currentresult = this.responseText;
+					currentresult = currentresult.split(',');
+					document.getElementById("stuff").innerHTML="Last update: " + currentresult[0];
+					var IDs= "<?php echo $IDs;?>";
+					var valuepos = "<?php echo $ValueNumbers;?>";
+					IDs=IDs.split(',');
+					valuepos=valuepos.split(',');
+					var i=0;
+					for (i=0;i<IDs.length;i++){
+						thisButton = $('#'+ String(IDs[i]));
+						var temp = $(thisButton.find('.value'));
+						$(temp).html(currentresult[valuepos[i]] + ' ' + generalInfo['UoM'][i]);
+					}
+				}
+			};
+			xmlhttp.open("GET", "getCurrentValues.php", true);
+			xmlhttp.send();
+		}
+		
+		$( document ).ready(function()  {
+			getValues();
+			setInterval(getValues, 4000);
+		});
+			
 			var generalInfo = {};
 			
 			function pressButton(elem) {
@@ -68,14 +143,14 @@ $adminName = $row['admin'];
 			}
 
 			function getGeneralInfo(){
-				generalInfo['ID'] = [1,2,3,4,5,6];
-				generalInfo['Floor'] = ["Begane grond","Begane grond","Begane grond","1e verdieping","1e verdieping","Zolder", "Zolder"];
-				generalInfo['Room'] = ["Woonkamer","Woonkamer","Hal","Slaapkamer","Wasruimte", "Wasruimte"];
-				generalInfo['Type'] = ["Temperatuur","Luchtvochtigheid","Lamp","Kodi","Energie", "Energie totaal"];
-				generalInfo['Description'] = ["Temperatuur","Luchtvochtigheid","Lamp","Kodi","Energie", "Energie totaal"];
-				generalInfo['Graph'] = ["yes","yes","no","no","yes", "yes"];
-				generalInfo['Interaction'] = ["none","none","toggle","kodi","none", "none"];
-				generalInfo['UoM'] = ["&deg;C","%","","","Watt", "kWhr"];
+				generalInfo['ID'] = [<?php echo $IDs;?>];
+				generalInfo['Floor'] = [<?php echo $Floors;?>];
+				generalInfo['Room'] = [<?php echo $Rooms;?>];
+				generalInfo['Type'] = [<?php echo $Types;?>];
+				generalInfo['Description'] = [<?php echo $Descriptions;?>];
+				generalInfo['Graph'] = [<?php echo $Graphs;?>];
+				generalInfo['Interaction'] = [<?php echo $Interactions;?>];
+				generalInfo['UoM'] = [<?php echo $UoMs;?>];
 			}
 			
 			function disableButton(temp){
@@ -96,7 +171,7 @@ $adminName = $row['admin'];
 					var temp = $(thisButton.find('.measurement'));
 					$(temp).html(generalInfo['Description'][i]);
 					var temp = $(thisButton.find('.value'));
-					$(temp).html('20' + ' ' + generalInfo['UoM'][i]);
+					$(temp).html('xx' + ' ' + generalInfo['UoM'][i]);
 					var temp = $(thisButton.find('#graphButton'));
 					if (generalInfo['Graph'][i]=="no") {
 						disableButton(temp);
@@ -140,7 +215,7 @@ $adminName = $row['admin'];
 		<nav class=menuHidden>
 			<p>menu stuff here</p>
 		</nav>
-		<p>actual body here</p>
+		<p id="stuff"></p>
 		<div class="buttonarea">
 			<div class="button" id="0">
 				<table>

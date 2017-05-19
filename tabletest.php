@@ -17,11 +17,11 @@
 						document.location.href = 'tableupdate.php?action=add&table=' + myid[1];
 					break;
 					case "modify":
-						var sql_id=$("#" + myid[2] + "_0").html();
+						var sql_id=$("#" + myid[1] + "_" + myid[2] + "_0").html();
 						document.location.href = 'tableupdate.php?action=modify&table=' + myid[1] + '&ID=' + sql_id;
 					break;
 					case "delete":
-						var sql_id=$("#" + myid[2] + "_0").html();
+						var sql_id=$("#" + myid[1] + "_" + myid[2] + "_0").html();
 						document.location.href = 'tableupdate.php?action=delete&table=' + myid[1] + '&ID=' + sql_id;
 					break;
 				}
@@ -96,7 +96,7 @@ while($tableName = mysql_fetch_row($result)) {
 			echo '<tr>';
 			$rows++;
 			for ($i=0;$i<=$x;$i++){
-				echo '<td id="' . $rows . "_" . $i . '">';
+				echo '<td id="' .$table . '_' . $rows . "_" . $i . '">';
 				if (substr($fields[$i],-2)=="ID" and strlen($fields[$i])>2){
 						$resultID = mysql_query('SELECT * FROM ' . lcfirst($fields[$i])) or die('cannot show columns from '.lcfirst($fields[$i]));
 						while($rowID = mysql_fetch_row($resultID)) {
