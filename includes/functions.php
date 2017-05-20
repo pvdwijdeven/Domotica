@@ -67,8 +67,14 @@ function login($email, $password, $mysqli) {
                                                                 "", 
                                                                 $username);
                     $_SESSION['username'] = $username;
-                    $_SESSION['login_string'] = hash('sha512', 
-                              $db_password . $user_browser);
+					$loginstring=hash('sha512', $db_password . $user_browser);
+                    $_SESSION['login_string'] = $loginstring;
+							  
+					// add client side cookie
+					//change from original code starts here
+					setcookie('login',$user_id.",".$username.",".$loginstring,
+							time()+86400*30,'/','',1,1);
+					//change from original code ends here
                     // Login successful.
                     return true;
                 } else {
@@ -115,6 +121,7 @@ function checkbrute($user_id, $mysqli) {
 
 function login_check($mysqli) {
     // Check if all session variables are set 
+	$set=0;
     if (isset($_SESSION['user_id'], 
                         $_SESSION['username'], 
                         $_SESSION['login_string'])) {
@@ -122,7 +129,15 @@ function login_check($mysqli) {
         $user_id = $_SESSION['user_id'];
         $login_string = $_SESSION['login_string'];
         $username = $_SESSION['username'];
- 
+		$set=1;
+	} elseif (!isset($_COOKIE['login'])) {
+		$cookievalue= $_COOKIE[$cookie_name].split(',');
+		$user_id = $cookievalue[0];
+		$login_string = $cookievalue[2];
+		$username = $cookievalue[1];
+	}
+	
+	if ($set==1){
         // Get the user-agent string of the user.
         $user_browser = $_SERVER['HTTP_USER_AGENT'];
  
