@@ -30,10 +30,12 @@ header {
 
 #domoheader{
 	text-align:center;
+	padding-top:20px;
 }
 
 footer {
 	text-align: center;
+	font-size: 0.6em;
 }
 
 .menuHidden {
@@ -151,7 +153,7 @@ input[type=text], input[type=password], select {
 }
 
 /* Set a style for all buttons */
-button {
+.loginbtn {
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
@@ -168,7 +170,12 @@ button:hover {
 
 /* Extra style for the cancel button (red) */
 .cancelbtn {
-    width: auto;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
     padding: 10px 18px;
     background-color: #f44336;
 }
@@ -231,7 +238,7 @@ button:hover {
     to {transform: scale(1)}
 }
 
-table.db-table 		{ border-right:1px solid #ccc; border-bottom:1px solid #ccc; text-align:center;}
+table.db-table 		{ font-size: 0.6em; border-right:1px solid #ccc; border-bottom:1px solid #ccc; text-align:center;}
 table.db-table th	{ background:black; color: white; padding:5px; border-left:1px solid #ccc; border-top:1px solid #ccc; }
 table.db-table td	{ padding:5px; border-left:1px solid #ccc; border-top:1px solid #ccc; }
 

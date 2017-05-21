@@ -10,23 +10,85 @@ die();
     $logged = 'out';
 }
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Secure Login: Log In</title>
-        <link rel="stylesheet" href="css/style.css" />
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Domo login page</title>
+		<meta name="description" content="Domo login page">
+		<meta name="author" content="Pascal van de Wijdeven">
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="stylesheet" href="css/style.css?v=1.0">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script> 
-	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<script type="text/javascript">
+			<!--
+		function pressTButton(elem) {
+				$(elem).attr('class', 'tablebuttonpressed');
+			}
+			
+			function clickTButton(elem) {
+				releaseTButton(elem);
+				document.getElementById('id01').style.display='block'
+			}
+
+			function releaseTButton(elem) {
+				$(elem).attr('class', 'tablebutton');
+			}
+			//-->
+		</script>
+		
     </head>
     <body>
-        <?php
+		<header>
+			<div id=headercontainer>
+			<div id="domoheader">Homey Domotica</div>
+			</div>
+		</header>
+		<nav class=menuHidden>
+			<p>menu stuff here</p>
+		</nav>
+		<hr>
+
+<div class="buttonarea">
+			<div class="button" id="0">
+				<table>
+					<tr>
+						<td colspan=3>
+							<div class="location">
+								<?php
         if (isset($_GET['error'])) {
-            echo '<p class="error">Error Logging In!</p>';
+            echo 'Error Logging In!';
         }
         ?> 
-<!-- Button to open the modal login form -->
-<button style="width:auto;" onclick="document.getElementById('id01').style.display='block'">Login</button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan=3>
+							<div class="measurement">
+								Currently logged out
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan=3>
+							<div class="value">
+								
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td> <div class="tablebutton" id="interactButton" ontouchstart="pressTButton(this)" onmousedown="pressTButton(this)" ontouchend="clickTButton(this)" onmouseup="clickTButton(this)" onmouseleave="releaseTButton(this)">Login</div></td>
+						<td class="splitter"></td>
+						<td> </td>
+					</tr>
+				</table>
+			</div>
+		</div>
+        
+
 
 <!-- The Modal -->
 <div id="id01" class="modal">
@@ -43,7 +105,7 @@ class="close" title="Close Modal">&times;</span>
       <label><b>Password</b></label>
       <input type="password" placeholder="Enter Password" name="password" id="password" required>
 
-      <button type="submit" onclick="formhash(this.form, this.form.password);"/>Login</button>
+      <button class="loginbtn" type="submit" onclick="formhash(this.form, this.form.password);" />Login</button>
     </div>
 
     <div class="container" style="background-color:#f1f1f1">
@@ -51,14 +113,14 @@ class="close" title="Close Modal">&times;</span>
     </div>
   </form>
 </div> 
-<?php
-        if (login_check($mysqli) == true) {
-                        echo '<p>Currently logged ' . $logged . ' as ' . htmlentities($_SESSION['username']) . '.</p>';
- 
-            echo '<p>Do you want to change user? <a href="includes/logout.php">Log out</a>.</p>';
-        } else {
-                        echo '<p>Currently logged ' . $logged . '.</p>';
-                }
-?>      
+
+</td></tr></table></div>
+</div>
+		<footer>
+			<hr>
+			<p>
+			<?php include 'includes/footer.php' ?>
+			</p>
+		</footer>
     </body>
 </html>

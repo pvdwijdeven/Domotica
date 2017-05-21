@@ -1,8 +1,21 @@
+<?php
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+ 
+$sql = "SELECT * FROM config where row= 'config'";
+$result = $mysqli->query($sql);
+$row = $result->fetch_assoc();
+$adminName = $row['admin'];
+$checkadmin= login_check($mysqli);
+
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Test</title>
-		<meta name="description" content="Test page">
+		<title>Domo tablesview</title>
+		<meta name="description" content="Domo administrator - view tables">
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="css/style.css?v=1.0">
@@ -27,14 +40,29 @@
 				}
 				
 			}
-		//-->
+			//-->
 		</script>
-</head>
-<body>
+	</head>
+	<body>
+		<header>
+			<div id=headercontainer>
+			<div id="loginfo"><?php if ($_SESSION['username'] == $adminName): ?>
+			<a href="domo_admin.php">admin page</a>
+			<?php endif; ?>
+			logged in as <b><?php echo htmlentities($_SESSION['username']);?>
+			</b> (<a href="includes/logout.php">Log out</a>)</div>
+			<div id="domoheader">Homey Domotica - administrator - view tables</div>
+			</div>
+		</header>
+		<nav class=menuHidden>
+			<p>menu stuff here</p>
+		</nav>
+		<hr>
 
-<?php
-/* connect to the db */
-  include 'includes/db_connect.php';
+		
+		
+<?php if ($checkadmin == true and $_SESSION['username'] == $adminName) {
+
 if (!empty($_POST)) {
 	switch($_POST['action']){
 		case "add":
@@ -116,5 +144,20 @@ while($tableName = mysql_fetch_row($result)) {
 	}
 }
 
-?>
-</body>
+ } else { ?>
+            <p>
+                <span class="error">You are not authorized to access this page.</span> Please <a href="/includes/logout.php">logout</a> and/or <a href="index.php">login</a> as user with admin rights.
+            </p>
+<?php } ?>
+
+		<footer>
+			<hr>
+			<p>
+			<?php include 'includes/footer.php' ?>
+			</p>
+		</footer>
+		
+	
+	</body>
+</html>
+

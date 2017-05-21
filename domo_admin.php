@@ -1,14 +1,4 @@
-<?php
-include_once 'includes/db_connect.php';
-include_once 'includes/functions.php';
- 
-$sql = "SELECT * FROM config where row= 'config'";
-$result = $mysqli->query($sql);
-$row = $result->fetch_assoc();
-$adminName = $row['admin'];
-if (login_check($mysqli) == true and $_SESSION['username'] == $adminName) :
 
-?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -128,20 +118,36 @@ if (login_check($mysqli) == true and $_SESSION['username'] == $adminName) :
 	</head>
 	<body>
 		<header>
+				<?php
+		include_once 'includes/db_connect.php';
+		include_once 'includes/functions.php';
+		$checked=login_check($mysqli);
+		$sql = "SELECT * FROM config where row= 'config'";
+		$result = $mysqli->query($sql);
+		$row = $result->fetch_assoc();
+		$adminName = $row['admin'];
+		
+		?>
+
 			<div id=headercontainer>
 			<div id="loginfo"><?php if ($_SESSION['username'] == $adminName): ?>
 			<a href="domo_admin.php">admin page</a>
 			<?php endif; ?>
 			logged in as <b><?php echo htmlentities($_SESSION['username']);?>
 			</b> (<a href="includes/logout.php">Log out</a>)</div>
-			<div id="domoheader">Homey Domotica</div>
+				<div id="domoheader">Homey Domotica - administrator page</div>
 			</div>
 		</header>
 		<nav class=menuHidden>
 			<p>menu stuff here</p>
 		</nav>
 		<hr>
-		<div class="buttonarea">
+				<div class="buttonarea">
+		<?php
+		if ($checked == true and $_SESSION['username'] == $adminName) {
+
+		?>
+
 			<div class="button" id="0">
 				<table>
 					<tr>
@@ -172,18 +178,22 @@ if (login_check($mysqli) == true and $_SESSION['username'] == $adminName) :
 					</tr>
 				</table>
 			</div>
-		</div>
+		<?php }else { ?>
+            <p>
+                <span class="error">You are not authorized to access this page.</span> Please <a href="/includes/logout.php">logout</a> and/or <a href="index.php">login</a> as user with admin rights.
+            </p>
+        <?php } ?>
+			</div>
+
 		<footer>
 			<hr>
-			<p>Domo footer stuff here</p>
+			<p>
+			<?php include 'includes/footer.php' ?>
+			</p>
 		</footer>
 		
 	
 	</body>
 </html>
 
-<?php else : ?>
-            <p>
-                <span class="error">You are not authorized to access this page.</span> Please <a href="/includes/logout.php>"logout"</a> and or <a href="index.php">login</a> as user with admin rights.
-            </p>
-        <?php endif; ?>
+

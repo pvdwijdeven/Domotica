@@ -238,7 +238,9 @@ for ($x=0;$x<=$i;$x++){
 		</div>
 		<footer>
 			<hr>
-			<p>Domo footer stuff here</p>
+			<p>
+			<?php include 'includes/footer.php' ?>
+			</p>
 		</footer>
 		
 	
