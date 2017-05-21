@@ -2,7 +2,6 @@
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
  
-sec_session_start();
 if (login_check($mysqli) == true) :
 $sql = "SELECT * FROM config where row= 'config'";
 $result = $mysqli->query($sql);
@@ -79,7 +78,7 @@ for ($x=0;$x<=$i;$x++){
 				if (this.readyState == 4 && this.status == 200) {
 					var currentresult = this.responseText;
 					currentresult = currentresult.split(',');
-					document.getElementById("stuff").innerHTML="Last update: " + currentresult[0];
+					document.getElementById("update").innerHTML="Last update: " + currentresult[0];
 					var IDs= "<?php echo $IDs;?>";
 					var valuepos = "<?php echo $ValueNumbers;?>";
 					IDs=IDs.split(',');
@@ -199,23 +198,19 @@ for ($x=0;$x<=$i;$x++){
 	</head>
 	<body>
 		<header>
-			<table class="headertable">
-			<tr class="headertr">
-			<td class="headercenter"><div class="header">Homey Domotica</div>
-			<td class="headerleft"><div class="loginfo"> 
-			<?php if ($_SESSION['username'] == $adminName): ?>
+			<div id=headercontainer>
+			<div id="loginfo"><?php if ($_SESSION['username'] == $adminName): ?>
 			<a href="domo_admin.php">admin page</a>
 			<?php endif; ?>
 			logged in as <b><?php echo htmlentities($_SESSION['username']);?>
-			</b> (<a href="includes/logout.php">Log out</a>)</div></td>
-			</tr>
-			</table>
-			<hr>
+			</b> (<a href="includes/logout.php">Log out</a>)</div>
+			<div id="domoheader">Homey Domotica</div>
+			</div>
 		</header>
 		<nav class=menuHidden>
 			<p>menu stuff here</p>
 		</nav>
-		<p id="stuff"></p>
+		<p id="update">Last update: -</p>
 		<div class="buttonarea">
 			<div class="button" id="0">
 				<table>

@@ -1,34 +1,6 @@
 <?php
 include_once 'psl-config.php';
 
-function sec_session_start() {
-    $session_name = 'sec_session_id';   // Set a custom session name
-    /*Sets the session name. 
-     *This must come before session_set_cookie_params due to an undocumented bug/feature in PHP. 
-     */
-    session_name($session_name);
- 
-    $secure = true;
-    // This stops JavaScript being able to access the session id.
-    $httponly = true;
-    // Forces sessions to only use cookies.
-    if (ini_set('session.use_only_cookies', 1) === FALSE) {
-        header("Location: ../error.php?err=Could not initiate a safe session (ini_set)");
-        exit();
-    }
-    // Gets current cookies params.
-    $cookieParams = session_get_cookie_params();
-//    session_set_cookie_params($cookieParams["lifetime"],
-    session_set_cookie_params(2592000,
-        $cookieParams["path"], 
-        $cookieParams["domain"], 
-        $secure,
-        $httponly);
- 
-    session_start();            // Start the PHP session 
-    session_regenerate_id(true);    // regenerated the session, delete the old one. 
-}
-
 function login($email, $password, $mysqli) {
     // Using prepared statements means that SQL injection is not possible. 
     if ($stmt = $mysqli->prepare("SELECT id, username, password 
@@ -61,19 +33,15 @@ function login($email, $password, $mysqli) {
                     $user_browser = $_SERVER['HTTP_USER_AGENT'];
                     // XSS protection as we might print this value
                     $user_id = preg_replace("/[^0-9]+/", "", $user_id);
-                    $_SESSION['user_id'] = $user_id;
                     // XSS protection as we might print this value
                     $username = preg_replace("/[^a-zA-Z0-9_\-]+/", 
                                                                 "", 
                                                                 $username);
-                    $_SESSION['username'] = $username;
 					$loginstring=hash('sha512', $db_password . $user_browser);
-                    $_SESSION['login_string'] = $loginstring;
-							  
 					// add client side cookie
 					//change from original code starts here
 					setcookie('login',$user_id.",".$username.",".$loginstring,
-							time()+86400*30,'','',1,1);
+							time()+86400*30,'/','',1,1);
 					//change from original code ends here
                     // Login successful.
                     return true;
@@ -120,25 +88,11 @@ function checkbrute($user_id, $mysqli) {
 }
 
 function login_check($mysqli) {
-    // Check if all session variables are set 
-	$set=0;
-    if (isset($_SESSION['user_id'], 
-                        $_SESSION['username'], 
-                        $_SESSION['login_string'])) {
- 
-        $user_id = $_SESSION['user_id'];
-        $login_string = $_SESSION['login_string'];
-        $username = $_SESSION['username'];
-		$set=1;
-	}elseif (isset($_COOKIE['login'])) {
+	if (isset($_COOKIE['login'])) {
 		$cookievalue= split(',',$_COOKIE['login']);
 		$user_id = $cookievalue[0];
 		$login_string = $cookievalue[2];
 		$username = $cookievalue[1];
-		$set=1;
-	} 
-	
-	if ($set==1){
         // Get the user-agent string of the user.
         $user_browser = $_SERVER['HTTP_USER_AGENT'];
  
