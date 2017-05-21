@@ -17,6 +17,7 @@ while($row = mysql_fetch_row($result, MYSQL_ASSOC)) {
 	$i+=1;
 	$IDs[$i] = $row['ID'];
 	$Floors[$i] = $row['FloorID'];
+	$Analogs[$i] = $row['AnalogID'];
 	$Rooms[$i] = $row['RoomID'];
 	$Types[$i] = $row['Type'];
 	$Descriptions[$i] = $row['LongDescription'];
@@ -37,6 +38,11 @@ for ($x=0;$x<=$i;$x++){
 	$row = mysql_fetch_row($result);
 	$Rooms[$x]=$row[0];
 	
+	$sqltext="SELECT Analog from analogID WHERE ID=" . $Analogs[$x];
+	$result = mysql_query($sqltext);
+	$row = mysql_fetch_row($result);
+	$Analogs[$x]=$row[0];
+	
 	$sqltext="SELECT Graph from graphID WHERE ID=" . $Graphs[$x];
 	$result = mysql_query($sqltext);
 	$row = mysql_fetch_row($result);
@@ -49,6 +55,7 @@ for ($x=0;$x<=$i;$x++){
 }
 	$IDs = implode ( "," , $IDs );
 	$Floors = "'" . implode ( "','" , $Floors ) . "'";
+	$Analogs = "'" . implode ( "','" , $Analogs ) . "'";
 	$Rooms = "'" . implode ( "','" , $Rooms ) . "'";
 	$Types = "'" . implode ( "','" , $Types ) . "'";
 	$Descriptions = "'" . implode ( "','" , $Descriptions ) . "'";
@@ -85,9 +92,20 @@ for ($x=0;$x<=$i;$x++){
 					valuepos=valuepos.split(',');
 					var i=0;
 					for (i=0;i<IDs.length;i++){
-						thisButton = $('#'+ String(IDs[i]));
-						var temp = $(thisButton.find('.value'));
-						$(temp).html(currentresult[valuepos[i]] + ' ' + generalInfo['UoM'][i]);
+						if (valuepos[i]>0){
+							thisButton = $('#'+ String(IDs[i]));
+							
+							
+							if (generalInfo['Analog'][i]=='BOTH'){
+								var temp = $(thisButton.find('.value1'));
+								$(temp).html(currentresult[valuepos[i]]);
+								var temp = $(thisButton.find('.value2'));
+								$(temp).html(currentresult[parseInt(valuepos[i])+1] + ' ' + generalInfo['UoM'][i]);
+							}else{
+								var temp = $(thisButton.find('.value1'));
+								$(temp).html(currentresult[valuepos[i]] + ' ' + generalInfo['UoM'][i]);
+							}
+						}
 					}
 				}
 			};
@@ -135,6 +153,7 @@ for ($x=0;$x<=$i;$x++){
 			function getGeneralInfo(){
 				generalInfo['ID'] = [<?php echo $IDs;?>];
 				generalInfo['Floor'] = [<?php echo $Floors;?>];
+				generalInfo['Analog'] = [<?php echo $Analogs;?>];
 				generalInfo['Room'] = [<?php echo $Rooms;?>];
 				generalInfo['Type'] = [<?php echo $Types;?>];
 				generalInfo['Description'] = [<?php echo $Descriptions;?>];
@@ -159,9 +178,9 @@ for ($x=0;$x<=$i;$x++){
 					var temp = $(thisButton.find('.location'));
 					$(temp).html(generalInfo['Floor'][i] + ' - ' + generalInfo['Room'][i]);
 					var temp = $(thisButton.find('.measurement'));
-					$(temp).html(generalInfo['Description'][i]);
-					var temp = $(thisButton.find('.value'));
-					$(temp).html('xx' + ' ' + generalInfo['UoM'][i]);
+					$(temp).html(generalInfo['Type'][i]);
+					var temp = $(thisButton.find('.value1'));
+					$(temp).html('<br>');
 					var temp = $(thisButton.find('#graphButton'));
 					if (generalInfo['Graph'][i]=="no") {
 						disableButton(temp);
@@ -220,9 +239,18 @@ for ($x=0;$x<=$i;$x++){
 						</td>
 					</tr>
 					<tr>
-						<td colspan=3>
-							<div class="value">
-								20 &deg;C
+						<td colspan=1>
+							<div class="value1">
+								<br>
+							</div>
+						</td>
+						<td colspan=1>
+							<div >
+							</div>
+						</td>
+						<td colspan=1>
+							<div class="value2">
+								<br>
 							</div>
 						</td>
 					</tr>

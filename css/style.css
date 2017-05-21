@@ -112,6 +112,10 @@ td.tablebutton {
 	user-select: none;
 }
 
+.location {
+	font-size: 0.6em;
+}
+
 .buttonarea .button, .buttonarea .buttonpressed{
 	display: inline-block;
 	margin-top: 10px;
