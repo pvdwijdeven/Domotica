@@ -63,11 +63,11 @@ for ($x=0;$x<=$i;$x++){
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Test</title>
-		<meta name="description" content="Test page">
+		<title>Domo main page</title>
+		<meta name="description" content="Domo main page">
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<link rel="stylesheet" href="css/teststyle.css?v=1.0">
+		<link rel="stylesheet" href="css/style.css?v=1.0">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script type="text/javascript">
 			<!--
@@ -97,22 +97,13 @@ for ($x=0;$x<=$i;$x++){
 		
 		$( document ).ready(function()  {
 			getValues();
+			getGeneralInfo();
+			setButtons();
 			setInterval(getValues, 4000);
 		});
 			
 			var generalInfo = {};
-			
-			function pressButton(elem) {
-				$(elem).attr('class', 'buttonpressed');
-			}
-			
-			function clickButton(elem) {
-				releaseButton(elem);
-			}
 
-			function releaseButton(elem) {
-				$(elem).attr('class', 'button');
-			}
 			
 			function addButton(ID){
 				var tempEl = $( "#0" ).clone();
@@ -175,6 +166,7 @@ for ($x=0;$x<=$i;$x++){
 					if (generalInfo['Graph'][i]=="no") {
 						disableButton(temp);
 					}
+					$(temp).attr('id','graphButton_'+generalInfo['ID'][i]);
 					var temp = $(thisButton.find('#interactButton'));
 					if (generalInfo['Interaction'][i]=="none") {
 						disableButton(temp);
@@ -182,16 +174,13 @@ for ($x=0;$x<=$i;$x++){
 					} else {
 						temp.html(generalInfo['Interaction'][i]);
 					}
+					$(temp).attr('id','interactButton_'+generalInfo['ID'][i]);
 				}
 
 				$("#0").remove();
 			}
 			
-			$(function() {
-				getGeneralInfo();
-				setButtons();
-				
-			});
+
 			
 			//-->
 		</script>
@@ -210,7 +199,9 @@ for ($x=0;$x<=$i;$x++){
 		<nav class=menuHidden>
 			<p>menu stuff here</p>
 		</nav>
+		<hr>
 		<p id="update">Last update: -</p>
+		<hr>
 		<div class="buttonarea">
 			<div class="button" id="0">
 				<table>

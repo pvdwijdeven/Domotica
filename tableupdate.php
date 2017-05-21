@@ -5,14 +5,14 @@
 		<meta name="description" content="Test page">
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<link rel="stylesheet" href="css/teststyle.css?v=1.0">
+		<link rel="stylesheet" href="css/style.css?v=1.0">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		
 		<script type="text/javascript">
 			<!--
 		
 		function clickCancel() {
-			document.location.href = 'tabletest.php?action=none';
+			document.location.href = 'view_tables.php?action=none';
 			}
 		//-->
 		</script>
@@ -33,7 +33,7 @@
   $result2 = mysql_query('SHOW COLUMNS FROM '.$table) or die('cannot show columns from '.$table);
 	if(mysql_num_rows($result2)) {
 		echo '
-		<form method="POST" action="tabletest.php">';
+		<form method="POST" action="view_tables.php">';
 		$x=-1;
 		while($row2 = mysql_fetch_row($result2)) {
 			$x++;

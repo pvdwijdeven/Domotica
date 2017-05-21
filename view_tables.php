@@ -5,7 +5,7 @@
 		<meta name="description" content="Test page">
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<link rel="stylesheet" href="css/teststyle.css?v=1.0">
+		<link rel="stylesheet" href="css/style.css?v=1.0">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script type="text/javascript">
 			<!--

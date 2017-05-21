@@ -4,7 +4,7 @@ include_once 'includes/functions.php';
  
 if (login_check($mysqli) == true) {
     $logged = 'in';
-header('Location: '.'test.php');
+header('Location: '.'domo_main.php');
 die();
 } else {
     $logged = 'out';
@@ -14,7 +14,7 @@ die();
 <html>
     <head>
         <title>Secure Login: Log In</title>
-        <link rel="stylesheet" href="css/teststyle.css" />
+        <link rel="stylesheet" href="css/style.css" />
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script> 
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>

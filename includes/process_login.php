@@ -8,7 +8,7 @@ if (isset($_POST['email'], $_POST['p'])) {
  
     if (login($email, $password, $mysqli) == true) {
         // Login success 
-        header('Location: ../test.php');
+        header('Location: ../domo_main.php');
     } else {
         // Login failed 
         header('Location: ../index.php?error=1');
