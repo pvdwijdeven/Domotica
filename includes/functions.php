@@ -73,7 +73,7 @@ function login($email, $password, $mysqli) {
 					// add client side cookie
 					//change from original code starts here
 					setcookie('login',$user_id.",".$username.",".$loginstring,
-							time()+86400*30,'/','',1,1);
+							time()+86400*30,'','',1,1);
 					//change from original code ends here
                     // Login successful.
                     return true;
@@ -130,12 +130,13 @@ function login_check($mysqli) {
         $login_string = $_SESSION['login_string'];
         $username = $_SESSION['username'];
 		$set=1;
-	} elseif (!isset($_COOKIE['login'])) {
-		$cookievalue= $_COOKIE[$cookie_name].split(',');
+	}elseif (isset($_COOKIE['login'])) {
+		$cookievalue= split(',',$_COOKIE['login']);
 		$user_id = $cookievalue[0];
 		$login_string = $cookievalue[2];
 		$username = $cookievalue[1];
-	}
+		$set=1;
+	} 
 	
 	if ($set==1){
         // Get the user-agent string of the user.
@@ -157,6 +158,7 @@ function login_check($mysqli) {
  
                 if (hash_equals($login_check, $login_string) ){
                     // Logged In!!!! 
+					$_SESSION['username'] = $username;
                     return true;
                 } else {
                     // Not logged in 
