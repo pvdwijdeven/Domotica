@@ -22,6 +22,8 @@ while($row = mysql_fetch_row($result, MYSQL_ASSOC)) {
 	$Types[$i] = $row['Type'];
 	$Descriptions[$i] = $row['LongDescription'];
 	$Graphs[$i] = $row['GraphID'];
+	$TrueText[$i] = $row['TrueText'];
+	$FalseText[$i] = $row['FalseText'];
 	$Interactions[$i] = $row['InteractionID'];
 	$UoMs[$i] = $row['Unit'];
 	$ValueNumbers[$i] = $row['ValueNumber'];
@@ -60,6 +62,8 @@ for ($x=0;$x<=$i;$x++){
 	$Types = "'" . implode ( "','" , $Types ) . "'";
 	$Descriptions = "'" . implode ( "','" , $Descriptions ) . "'";
 	$Graphs = "'" . implode ( "','" , $Graphs ) . "'";
+	$TrueText = "'" . implode ( "','" , $TrueText ) . "'";
+	$FalseText = "'" . implode ( "','" , $FalseText ) . "'";
 	$Interactions = "'" . implode ( "','" , $Interactions ) . "'";
 	$UoMs = "'" . implode ( "','" , $UoMs ) . "'";
 	$ValueNumbers = implode ( "," , $ValueNumbers );
@@ -98,11 +102,25 @@ for ($x=0;$x<=$i;$x++){
 							
 							if (generalInfo['Analog'][i]=='BOTH'){
 								var temp = $(thisButton.find('.value1'));
-								$(temp).html(currentresult[valuepos[i]]);
+								if (currentresult[valuepos[i]]=="true"){
+									$(temp).css('color', 'red');
+								} else{
+									$(temp).css('color', 'black');
+								}
+								$(temp).html(gettext(currentresult[valuepos[i]],i));
 								var temp = $(thisButton.find('.value2'));
 								$(temp).html(currentresult[parseInt(valuepos[i])+1] + ' ' + generalInfo['UoM'][i]);
-							}else{
+							}else if (generalInfo['Analog'][i]=='FALSE') {
+								if (currentresult[valuepos[i]]=="true"){
+									$(temp).css('color', 'red');
+								} else{
+									$(temp).css('color', 'black');
+								}
 								var temp = $(thisButton.find('.value1'));
+								$(temp).html(gettext(currentresult[valuepos[i]],i));
+							} else{
+								var temp = $(thisButton.find('.value1'));
+								$(temp).css('color', 'black');
 								$(temp).html(currentresult[valuepos[i]] + ' ' + generalInfo['UoM'][i]);
 							}
 						}
@@ -128,6 +146,14 @@ for ($x=0;$x<=$i;$x++){
 				$(tempEl).attr('id',ID);
 				tempEl.appendTo( ".buttonarea" );
 				return tempEl;
+			}
+			
+			function gettext(status,i){
+				if (status=="false") {
+					return generalInfo['FalseText'][i];
+				} else{
+					return generalInfo['TrueText'][i];
+				}
 			}
 			
 			function showHideMenu(){
@@ -158,6 +184,8 @@ for ($x=0;$x<=$i;$x++){
 				generalInfo['Type'] = [<?php echo $Types;?>];
 				generalInfo['Description'] = [<?php echo $Descriptions;?>];
 				generalInfo['Graph'] = [<?php echo $Graphs;?>];
+				generalInfo['TrueText'] = [<?php echo $TrueText;?>];
+				generalInfo['FalseText'] = [<?php echo $FalseText;?>];
 				generalInfo['Interaction'] = [<?php echo $Interactions;?>];
 				generalInfo['UoM'] = [<?php echo $UoMs;?>];
 			}
@@ -218,6 +246,10 @@ for ($x=0;$x<=$i;$x++){
 		<nav class=menuHidden>
 			<p>menu stuff here</p>
 		</nav>
+		<hr>
+		<div class="selecttable">
+		<?php include "selecttable.php"; ?>
+		</div>
 		<hr>
 		<p id="update">Last update: -</p>
 		<hr>
