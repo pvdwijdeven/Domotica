@@ -83,6 +83,8 @@ for ($x=0;$x<=$i;$x++){
 		<script type="text/javascript">
 			<!--
 			
+
+	
 		function getValues(){
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function() {
@@ -111,12 +113,12 @@ for ($x=0;$x<=$i;$x++){
 								var temp = $(thisButton.find('.value2'));
 								$(temp).html(currentresult[parseInt(valuepos[i])+1] + ' ' + generalInfo['UoM'][i]);
 							}else if (generalInfo['Analog'][i]=='FALSE') {
+								var temp = $(thisButton.find('.value1'));
 								if (currentresult[valuepos[i]]=="true"){
 									$(temp).css('color', 'red');
 								} else{
 									$(temp).css('color', 'black');
 								}
-								var temp = $(thisButton.find('.value1'));
 								$(temp).html(gettext(currentresult[valuepos[i]],i));
 							} else{
 								var temp = $(thisButton.find('.value1'));
@@ -132,6 +134,7 @@ for ($x=0;$x<=$i;$x++){
 		}
 		
 		$( document ).ready(function()  {
+			setSButtons();
 			getValues();
 			getGeneralInfo();
 			setButtons();
@@ -167,6 +170,8 @@ for ($x=0;$x<=$i;$x++){
 			function pressTButton(elem) {
 				$(elem).attr('class', 'tablebuttonpressed');
 			}
+
+
 			
 			function clickTButton(elem) {
 				releaseTButton(elem);
