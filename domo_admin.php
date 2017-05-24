@@ -76,11 +76,8 @@
 			
 			function disableButton(temp){
 				temp.attr('class', 'tablebuttondisabled');
-				temp.attr('onmousedown', '');
-				temp.attr('onmouseleave', '');
 				temp.attr('onmouseup', '');
-				temp.attr('ontouchstart', '');
-				temp.attr('ontouchend', '');
+				temp.prop("disabled",true);
 			}
 			
 			
@@ -172,9 +169,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td> <div class="tablebutton" id="interactButton" ontouchstart="pressTButton(this)" onmousedown="pressTButton(this)" ontouchend="clickTButton(this)" onmouseup="clickTButton(this)" onmouseleave="releaseTButton(this)">-</div></td>
+						<td> <button class="tablebutton" id="interactButton" onmouseup="clickTButton(this)">-</button></td>
 						<td class="splitter"></td>
-						<td> <div class="tablebutton" id="graphButton" ontouchstart="pressTButton(this)" onmousedown="pressTButton(this)" ontouchend="clickTButton(this)" onmouseup="clickTButton(this)" onmouseleave="releaseTButton(this)">Go</div></td>
+						<td> <button class="tablebutton" id="graphButton" onmouseup="clickTButton(this)">Go</button></td>
 					</tr>
 				</table>
 			</div>

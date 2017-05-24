@@ -9,8 +9,84 @@ $row = $result->fetch_assoc();
 
 
 $adminName = $row['admin'];
+$curroom = $_COOKIE['room'];
+$curroom = substr($curroom, 4);
+$selected = " ".$_COOKIE['select'];
+$sqlfloor="";
+if (strpos($selected,'1')){
+	if ($sqlfloor!=""){
+		$sqlfloor = $sqlfloor." OR ";
+	}
+	$sqlfloor = $sqlfloor."FloorID = 2";
+}
 
+if (strpos($selected,'2')){
+	if ($sqlfloor!=""){
+		$sqlfloor = $sqlfloor." OR ";
+	}
+	$sqlfloor = $sqlfloor."FloorID = 4";
+}
+
+if (strpos($selected,'B')){
+	if ($sqlfloor!=""){
+		$sqlfloor = $sqlfloor." OR ";
+	}
+	$sqlfloor = $sqlfloor."FloorID = 1";
+}
+$sqltype="";
+
+if (strpos($selected,'L')){
+	$sqltype= $sqltype . "SelectorID = 1";
+}
+if (strpos($selected,'A')){
+	if ($sqltype!=""){
+		$sqltype = $sqltype." OR ";
+	}
+	$sqltype= $sqltype . "SelectorID = 2";
+}
+if (strpos($selected,'D')){
+	if ($sqltype!=""){
+		$sqltype = $sqltype." OR ";
+	}
+	$sqltype= $sqltype . "SelectorID = 3";
+}
+if (strpos($selected,'O')){
+	if ($sqltype!=""){
+		$sqltype = $sqltype." OR ";
+	}
+	$sqltype= $sqltype . "SelectorID = 4";
+}
+if ($sqlfloor!=""){
+	$sqltype = "(".$sqlfloor.') AND ('. $sqltype . ')';
+}
+
+if ($sqlfloor!=""){$sqlfloor = "WHERE ".$sqlfloor;}
+$roomselector = mysql_query('SELECT * FROM roomID '.$sqlfloor);
+$j=-1;
+while($rowroom = mysql_fetch_row($roomselector, MYSQL_ASSOC)) {
+	$j+=1;
+	$RoomSel[$j] = $rowroom['Room'];
+	$RoomSelID[$j] = $rowroom['ID'];
+	if ($RoomSelID[$j]==$curroom){
+		$curroomname=$RoomSel[$j];
+	}
+}
+
+if ($curroomname==""){
+	$curroomname="Allemaal";
+	$curroom='0';
+}
+
+if ($curroom=='0' or $sqltype==''){
+	$sqlfloor="";
+} else {
+	$sqlfloor=" AND RoomID=" . $curroom;
+}
+$result = mysql_query('SELECT * FROM measurements WHERE '.$sqltype.$sqlfloor);
+
+if (mysql_num_rows($result)==0){
 $result = mysql_query('SELECT * FROM measurements');
+}
 
 $i=-1;
 while($row = mysql_fetch_row($result, MYSQL_ASSOC)) {
@@ -28,6 +104,8 @@ while($row = mysql_fetch_row($result, MYSQL_ASSOC)) {
 	$UoMs[$i] = $row['Unit'];
 	$ValueNumbers[$i] = $row['ValueNumber'];
 }
+
+
 
 for ($x=0;$x<=$i;$x++){
 	$sqltext="SELECT Floor from floorID WHERE ID=" . $Floors[$x];
@@ -67,6 +145,8 @@ for ($x=0;$x<=$i;$x++){
 	$Interactions = "'" . implode ( "','" , $Interactions ) . "'";
 	$UoMs = "'" . implode ( "','" , $UoMs ) . "'";
 	$ValueNumbers = implode ( "," , $ValueNumbers );
+	$RoomSel = "'" . implode ( "','" , $RoomSel ) . "'";
+	$RoomSelID = "'" . implode ( "','" , $RoomSelID ) . "'";
 ?>
 
 
@@ -139,10 +219,27 @@ for ($x=0;$x<=$i;$x++){
 			getGeneralInfo();
 			setButtons();
 			setInterval(getValues, 4000);
+			setRoom();
+			getRooms();
 		});
 			
 			var generalInfo = {};
-
+			var rooms = [];
+			var curroom = 0;
+			var curroomname = "";
+			
+			function getRooms(){
+				var txt="";
+				for (x=0;x<rooms.length;x++){
+				txt+="<tr><td><button class='tablebutton' id='room"+roomsID[x]+"' onmouseup='clickRSButton(this)'>"+rooms[x]+"</button></td></tr>";
+				}
+				$('#rooms').html("<table>"+txt+ "</table>");
+			}
+			
+			function setRoom(){
+				$("#roomsel").html(curroomname);
+				setCookie("room","room"+curroom,365);
+			}
 			
 			function addButton(ID){
 				var tempEl = $( "#0" ).clone();
@@ -167,18 +264,8 @@ for ($x=0;$x<=$i;$x++){
 				}
 			}
 
-			function pressTButton(elem) {
-				$(elem).attr('class', 'tablebuttonpressed');
-			}
-
-
-			
 			function clickTButton(elem) {
-				releaseTButton(elem);
-			}
-
-			function releaseTButton(elem) {
-				$(elem).attr('class', 'tablebutton');
+				alert("clicked");
 			}
 
 			function getGeneralInfo(){
@@ -193,17 +280,19 @@ for ($x=0;$x<=$i;$x++){
 				generalInfo['FalseText'] = [<?php echo $FalseText;?>];
 				generalInfo['Interaction'] = [<?php echo $Interactions;?>];
 				generalInfo['UoM'] = [<?php echo $UoMs;?>];
+				rooms=['Allemaal',<?php echo $RoomSel;?>];
+				roomsID=['0',<?php echo $RoomSelID;?>];
+				curroomname='<?php echo $curroomname;?>';
+				curroom=<?php echo $curroom;?>;
 			}
 			
 			function disableButton(temp){
 				temp.attr('class', 'tablebuttondisabled');
-				temp.attr('onmousedown', '');
-				temp.attr('onmouseleave', '');
 				temp.attr('onmouseup', '');
-				temp.attr('ontouchstart', '');
-				temp.attr('ontouchend', '');
+				temp.prop("disabled",true);
 			}
 			
+
 			
 			function setButtons(){
 				for (i=0;i<=generalInfo['ID'].length-1;i++){
@@ -253,7 +342,10 @@ for ($x=0;$x<=$i;$x++){
 		</nav>
 		<hr>
 		<div class="selecttable">
+				
 		<?php include "selecttable.php"; ?>
+		<!-- The Modal -->
+
 		</div>
 		<hr>
 		<p id="update">Last update: -</p>
@@ -292,9 +384,9 @@ for ($x=0;$x<=$i;$x++){
 						</td>
 					</tr>
 					<tr>
-						<td> <div class="tablebutton" id="interactButton" ontouchstart="pressTButton(this)" onmousedown="pressTButton(this)" ontouchend="clickTButton(this)" onmouseup="clickTButton(this)" onmouseleave="releaseTButton(this)">Interact</div></td>
+						<td> <button class="tablebutton" id="interactButton" onmouseup="clickTButton(this)">Interact</button></td>
 						<td class="splitter"></td>
-						<td> <div class="tablebutton" id="graphButton" ontouchstart="pressTButton(this)" onmousedown="pressTButton(this)" ontouchend="clickTButton(this)" onmouseup="clickTButton(this)" onmouseleave="releaseTButton(this)">Graph</div></td>
+						<td> <button class="tablebutton" id="graphButton" onmouseup="clickTButton(this)">Graph</button></td>
 					</tr>
 				</table>
 			</div>

@@ -24,18 +24,10 @@ die();
         <script type="text/JavaScript" src="js/forms.js"></script> 
 		<script type="text/javascript">
 			<!--
-		function pressTButton(elem) {
-				$(elem).attr('class', 'tablebuttonpressed');
-			}
-			
 			function clickTButton(elem) {
-				releaseTButton(elem);
 				document.getElementById('id01').style.display='block'
 			}
 
-			function releaseTButton(elem) {
-				$(elem).attr('class', 'tablebutton');
-			}
 			//-->
 		</script>
 		
@@ -80,7 +72,7 @@ die();
 						</td>
 					</tr>
 					<tr>
-						<td> <div class="tablebutton" id="interactButton" ontouchstart="pressTButton(this)" onmousedown="pressTButton(this)" ontouchend="clickTButton(this)" onmouseup="clickTButton(this)" onmouseleave="releaseTButton(this)">Login</div></td>
+						<td> <button class="tablebutton" id="interactButton" onmouseup="clickTButton(this)">Login</button></td>
 						<td class="splitter"></td>
 						<td> </td>
 					</tr>

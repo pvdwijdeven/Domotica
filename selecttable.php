@@ -24,6 +24,8 @@
 		document.cookie = cname + "=" + cvalue + ";" + expires;
 	}
 	
+
+	
 	function setSButtons(){
 		var selected = getCookie("select");;
 		if (selected.indexOf('1') == -1){
@@ -83,7 +85,17 @@
 
 //-->
 </script>
-		
+
+<div id="myModal" class="modal2">
+
+  <!-- Modal content -->
+  <div class="modal-content2">
+	<span class="close">&times;</span>
+	<div id='rooms'></div>
+  </div>
+
+</div>
+	
 <table class="select-table">
 	<tr>
 		<th class="select-button" colspan=5>Verdieping</th>
@@ -107,6 +119,34 @@
 		<td class="select-bsplit"></td>
 		<td id="selectO" class="select-button" onmousedown="clickSButton(this)">O</td>
 		<td class="select-split"></td>
-		<td id="selectR" class="select-button" onmousedown="clickSButton(this)" colspan=3>Allemaal</td>
+		<td colspan=3 id="roomsel" class="select-button" onmousedown="clickRoomButton()"><div id="getpos">Allemaal</div></td>
 	</tr>
 </table>
+
+<script>
+
+			var modal = document.getElementById('myModal');
+			var btn = document.getElementById("myBtn");
+			var span = document.getElementsByClassName("close")[0];
+			
+			function clickRoomButton() {
+				modal.style.display = "block";
+			}
+
+			span.onclick = function() {
+				modal.style.display = "none";
+			}
+
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+
+				}
+			}
+			
+	function clickRSButton(temp){
+		modal.style.display = "none";
+		setCookie("room",$(temp).attr('id'),365);
+		location.reload();
+	}
+</script>
