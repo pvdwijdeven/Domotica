@@ -102,48 +102,48 @@ $result = mysql_query('SHOW TABLES');
 while($tableName = mysql_fetch_row($result)) {
 
 	$table = $tableName[0];
-	
-	echo '<h3>',$table,'</h3>
-	';
-	$result2 = mysql_query('SHOW COLUMNS FROM '.$table) or die('cannot show columns from '.$table);
-	$result3 = mysql_query('SELECT * FROM '.$table) or die('cannot show contents from '.$table);
-	if(mysql_num_rows($result2)) {
-		echo '
-		<table cellpadding="0" cellspacing="0" class="db-table" id="'.$table.'">';
-		echo '<tr>';
-		$x=-1;
-		while($row2 = mysql_fetch_row($result2)) {
-			$x++;
-			echo "<th>" . $row2[0] . "</th>";
-			$fields[$x]=$row2[0];
-		}
-		echo '<th></th><th id="add_' . $table . '" class="add" onmouseup="clickButton(this)">add row</th></tr>
+	if ($table!="measurement_values"){
+		echo '<h3>',$table,'</h3>
 		';
-		$rows=-1;
-		while($row3 = mysql_fetch_row($result3)) {
+		$result2 = mysql_query('SHOW COLUMNS FROM '.$table) or die('cannot show columns from '.$table);
+		$result3 = mysql_query('SELECT * FROM '.$table) or die('cannot show contents from '.$table);
+		if(mysql_num_rows($result2)) {
+			echo '
+			<table cellpadding="0" cellspacing="0" class="db-table" id="'.$table.'">';
 			echo '<tr>';
-			$rows++;
-			for ($i=0;$i<=$x;$i++){
-				echo '<td id="' .$table . '_' . $rows . "_" . $i . '">';
-				if (substr($fields[$i],-2)=="ID" and strlen($fields[$i])>2){
-						$resultID = mysql_query('SELECT * FROM ' . lcfirst($fields[$i])) or die('cannot show columns from '.lcfirst($fields[$i]));
-						while($rowID = mysql_fetch_row($resultID)) {
-							if ($rowID[0]==$row3[$i]) { 
-								echo $rowID[1];
-							}
-						}
-					} else {
-						echo $row3[$i];
-					}
-				echo '</td>';
+			$x=-1;
+			while($row2 = mysql_fetch_row($result2)) {
+				$x++;
+				echo "<th>" . $row2[0] . "</th>";
+				$fields[$x]=$row2[0];
 			}
-			echo '<td id="modify_' . $table . '_' . $rows . '" class="modify" onmouseup="clickButton(this)">modify</td>
-			<td id="delete_' . $table . '_' . $rows . '" class="delete" onmouseup="clickButton(this)">delete</td></tr>';
+			echo '<th></th><th id="add_' . $table . '" class="add" onmouseup="clickButton(this)">add row</th></tr>
+			';
+			$rows=-1;
+			while($row3 = mysql_fetch_row($result3)) {
+				echo '<tr>';
+				$rows++;
+				for ($i=0;$i<=$x;$i++){
+					echo '<td id="' .$table . '_' . $rows . "_" . $i . '">';
+					if (substr($fields[$i],-2)=="ID" and strlen($fields[$i])>2){
+							$resultID = mysql_query('SELECT * FROM ' . lcfirst($fields[$i])) or die('cannot show columns from '.lcfirst($fields[$i]));
+							while($rowID = mysql_fetch_row($resultID)) {
+								if ($rowID[0]==$row3[$i]) { 
+									echo $rowID[1];
+								}
+							}
+						} else {
+							echo $row3[$i];
+						}
+					echo '</td>';
+				}
+				echo '<td id="modify_' . $table . '_' . $rows . '" class="modify" onmouseup="clickButton(this)">modify</td>
+				<td id="delete_' . $table . '_' . $rows . '" class="delete" onmouseup="clickButton(this)">delete</td></tr>';
+			}
+			echo '</table><br />';
 		}
-		echo '</table><br />';
 	}
 }
-
  } else { ?>
             <p>
                 <span class="error">You are not authorized to access this page.</span> Please <a href="/includes/logout.php">logout</a> and/or <a href="index.php">login</a> as user with admin rights.
