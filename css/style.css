@@ -218,6 +218,13 @@ button:hover {
     width:  120px; /* Could be more or less, depending on screen size */
 }
 
+.modal-content3 {
+    background-color: lightsteelblue;
+    margin: 5px auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    width:  500px; /* Could be more or less, depending on screen size */
+}
+
 /* The Close Button */
 .close {
     /* Position it in the top right corner outside of the modal */

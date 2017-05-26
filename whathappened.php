@@ -128,6 +128,13 @@ while($row = mysql_fetch_row($result, MYSQL_ASSOC))
 				roomsID=['0',<?php echo $RoomSelID;?>];
 				curroomname='<?php echo $curroomname;?>';
 				curroom=<?php echo $curroom;?>;
+				var dto = new Date();
+				var diff = dto.getTimezoneOffset()
+				dto.setMinutes ( dto.getMinutes() - diff );
+				$('#formto').val(dto.toJSON().slice(0,16));
+				var dfrom = new Date(dto);
+				dfrom.setHours ( dto.getHours() - 1 );
+				$('#formfrom').val(dfrom.toJSON().slice(0,16));
 			setRoom();
 			getRooms();
 		});
@@ -149,7 +156,13 @@ while($row = mysql_fetch_row($result, MYSQL_ASSOC))
 				$("#roomsel").html(curroomname);
 				setCookie("room_whathappened.php","room"+curroom,365);
 			}
+			
+
+			
+			
 			</script>
+			
+			
 
 	</head>
 	<body>
@@ -167,14 +180,28 @@ while($row = mysql_fetch_row($result, MYSQL_ASSOC))
 			<p>menu stuff here</p>
 		</nav>
 		<hr>
-
 		<div class="selecttable">
 				
 		<?php include "selecttable.php"; ?>
 		<!-- The Modal -->
 
 		</div>
-		
+		<div id="myModal2" class="modal2">
+
+		  <!-- Modal content -->
+		  <div class="modal-content3">
+			<span class="close">&times;</span>
+
+		<form action="whathappened.php">
+			<table><tr><td>Create log from:</td>
+			<td><input id="formfrom" type="datetime-local" name="from"></td></tr>
+		  <tr><td>Create log to:</td>
+		  <td><input id="formto" type="datetime-local" name="to"></td></tr>
+		  <tr><td><input type="submit" value="Send"></td><td></td></tr></table>
+		</form>
+		  </div>
+
+		</div>
 		
 <?php 
 
@@ -185,11 +212,11 @@ $count=$_GET['every'];}
 
 $to=time();
 if (!empty($_GET['to'])){
-$to=$_GET['to'];}
+$to=strtotime($_GET['to']);}
 
 $from=$to-(24*60*60);
 if (!empty($_GET['from'])){
-$to=$_GET['from'];}
+$from=strtotime($_GET['from']);}
 
 $sqlstring="set @row:=-1";
 $sqlstring2="SELECT measurement_values.* FROM measurement_values INNER JOIN (SELECT ID FROM (SELECT @row:=@row+1 AS rownum, ID FROM ( SELECT ID from measurement_values WHERE ID BETWEEN ".$from." AND ".$to." ORDER BY ID ) AS sorted ) as ranked WHERE rownum %" . $count." = 0 ) AS subset ON subset.ID = measurement_values.ID";
@@ -202,27 +229,29 @@ $sqlstring2="SELECT measurement_values.* FROM measurement_values INNER JOIN (SEL
 	$lasttime = "";
 	while($row = mysql_fetch_row($result, MYSQL_ASSOC)) {
 		for ($x=0;$x<=$total;$x++){
-			if (array_key_exists($column[$x],$row) AND !is_null($row[$column[$x]])){
-				if (date('Y-m-d',$row['ID'])==$lastdate){
-					echo "<tr><td></td>";
-				}else{
-					echo "<tr><td>".date('Y-m-d',$row['ID'])."</td>";
-					$lastdate = date('Y-m-d',$row['ID']);
-				}
-				if (date('H:i:s',$row['ID'])==$lasttime){
-					echo "<td></td>";
-				}else{
-					echo "<td>".date('H:i:s',$row['ID'])."</td>";
-					$lasttime = date('H:i:s',$row['ID']);
-				}
-				echo "<td>".$meas[$column[$x]]['LongDescription']."</td>";
-				if ($meas[$column[$x]]['AnalogID']==1){
-					echo "<td>".$row[$column[$x]].$meas[$column[$x]]['Unit']."</td></tr>";
-				}else{
-					if ($row[$column[$x]]==1){
-						echo "<td>".$meas[$column[$x]]['TrueText']."</td></tr>";
+			if (array_key_exists($column[$x],$row)){
+				if	(!is_null($row[$column[$x]])){
+					if (date('Y-m-d',$row['ID'])==$lastdate){
+						echo "<tr><td></td>";
 					}else{
-						echo "<td>".$meas[$column[$x]]['FalseText']."</td></tr>";
+						echo "<tr><td>".date('Y-m-d',$row['ID'])."</td>";
+						$lastdate = date('Y-m-d',$row['ID']);
+					}
+					if (date('H:i:s',$row['ID'])==$lasttime){
+						echo "<td></td>";
+					}else{
+						echo "<td>".date('H:i:s',$row['ID'])."</td>";
+						$lasttime = date('H:i:s',$row['ID']);
+					}
+					echo "<td>".$meas[$column[$x]]['LongDescription']."</td>";
+					if ($meas[$column[$x]]['AnalogID']==1){
+						echo "<td>".$row[$column[$x]].$meas[$column[$x]]['Unit']."</td></tr>";
+					}else{
+						if ($row[$column[$x]]==1){
+							echo "<td>".$meas[$column[$x]]['TrueText']."</td></tr>";
+						}else{
+							echo "<td>".$meas[$column[$x]]['FalseText']."</td></tr>";
+						}
 					}
 				}
 			}
@@ -240,6 +269,27 @@ $sqlstring2="SELECT measurement_values.* FROM measurement_values INNER JOIN (SEL
 			</p>
 		</footer>
 		
+		
+		<script>
+			var modal2 = document.getElementById('myModal2');
+			var btn2 = document.getElementById("myBtn2");
+			var span2 = document.getElementsByClassName("close")[0];
+			
+			function clickRangeButton() {
+				modal2.style.display = "block";
+			}
+
+			span2.onclick = function() {
+				modal2.style.display = "none";
+			}
+
+			window.onclick = function(event) {
+				if (event.target == modal2) {
+					modal2.style.display = "none";
+
+				}
+			}
+		</script>
 	
 	</body>
 </html>

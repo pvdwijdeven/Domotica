@@ -50,9 +50,12 @@
 					document.location.href = 'view_users.php';
 					break;
 				case "graphButton_3":
-					document.location.href = 'index.php';
+					document.location.href = 'whathappened.php';
 					break;
 				case "graphButton_4":
+					document.location.href = 'index.php';
+					break;
+				case "graphButton_5":
 					document.location.href = 'includes/logout.php';
 					break;
 				}
@@ -64,14 +67,14 @@
 
 			function getGeneralInfo(){
 				//re-using the standard domo tiles here
-				generalInfo['ID'] = [1,2,3,4];
-				generalInfo['Floor'] = ["","","",""];
-				generalInfo['Room'] = ["<br>","<br>","<br>","<br>"];
-				generalInfo['Type'] = ["<br>","<br>","<br>","<br>"];
-				generalInfo['Description'] = ["Show/modify tables","Show/modify users","Back to main","Logout administrator"];
-				generalInfo['Graph'] = ["yes","yes","yes","yes"];
-				generalInfo['Interaction'] = ["none","none","none","none"];
-				generalInfo['UoM'] = ["<br>","<br>","<br>","<br>"];
+				generalInfo['ID'] = [1,2,3,4,5];
+				generalInfo['Floor'] = ["","","","",""];
+				generalInfo['Room'] = ["<br>","<br>","<br>","<br>","<br>"];
+				generalInfo['Type'] = ["<br>","<br>","<br>","<br>","<br>"];
+				generalInfo['Description'] = ["Show/modify tables","Show/modify users","What happened?","Back to main","Logout administrator"];
+				generalInfo['Graph'] = ["yes","yes","yes","yes","yes"];
+				generalInfo['Interaction'] = ["none","none","none","none","none"];
+				generalInfo['UoM'] = ["<br>","<br>","<br>","<br>","<br>"];
 			}
 			
 			function disableButton(temp){

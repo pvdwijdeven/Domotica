@@ -28,6 +28,7 @@
 	
 	function setSButtons(){
 		var selected = getCookie("select_<?php echo basename($_SERVER['PHP_SELF']);?>");;
+		if (selected==""){selected="12BOLAD";}
 		if (selected.indexOf('1') == -1){
 			$("#select1e").attr('class','select-buttonpressed');
 		}
@@ -119,7 +120,14 @@
 		<td class="select-bsplit"></td>
 		<td id="selectO" class="select-button" onmousedown="clickSButton(this)">O</td>
 		<td class="select-split"></td>
-		<td colspan=3 id="roomsel" class="select-button" onmousedown="clickRoomButton()"><div id="getpos">Allemaal</div></td>
+		
+		<td colspan=3 id="roomsel" class="select-button" onmousedown="clickRoomButton()"><div id="getpos">Allemaal</div></td></tr>
+		<?php
+		if (basename($_SERVER['PHP_SELF'])=="whathappened.php"){
+		echo '<tr><td colspan=17 id="rangesel" class="select-button" onmousedown="clickRangeButton()"><div id="getpos">Tijdslot</div></td>';
+		}
+		?>
+
 	</tr>
 </table>
 
