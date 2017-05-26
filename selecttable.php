@@ -27,7 +27,7 @@
 
 	
 	function setSButtons(){
-		var selected = getCookie("select");;
+		var selected = getCookie("select_<?php echo basename($_SERVER['PHP_SELF']);?>");;
 		if (selected.indexOf('1') == -1){
 			$("#select1e").attr('class','select-buttonpressed');
 		}
@@ -79,7 +79,7 @@
 		if ($("#selectO").attr('class')=='select-button'){
 			selectval+="O"
 		}
-		setCookie("select",selectval,365);
+		setCookie("select_<?php echo basename($_SERVER['PHP_SELF']);?>",selectval,365);
 		location.reload();
 	}
 
@@ -146,7 +146,7 @@
 			
 	function clickRSButton(temp){
 		modal.style.display = "none";
-		setCookie("room",$(temp).attr('id'),365);
+		setCookie("room_<?php echo basename($_SERVER['PHP_SELF']);?>",$(temp).attr('id'),365);
 		location.reload();
 	}
 </script>

@@ -314,3 +314,14 @@ td.select-buttonpressed{
 td.select-split { width: 20px;  border: 0px;}
 td.select-bsplit { width: 5px;  border: 0px;}
 th.select-split { width: 20px;  border: 0px;}
+
+table.log	{  text-align:left; margin-left:auto; margin-right:auto; user-select: none;  border-collapse: collapse;}
+table.log td, table.log th	{ 
+	border: 1px solid black;
+	background-color: lightsteelblue;
+	padding: 5px;
+}
+
+table.log td	{ 
+	font-weigth: bold;
+}

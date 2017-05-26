@@ -6,12 +6,18 @@ if (login_check($mysqli) == true) :
 $sql = "SELECT * FROM config where row= 'config'";
 $result = $mysqli->query($sql);
 $row = $result->fetch_assoc();
-
+$curroomname="";
 
 $adminName = $row['admin'];
-$curroom = $_COOKIE['room'];
-$curroom = substr($curroom, 4);
-$selected = " ".$_COOKIE['select'];
+if (isset($_COOKIE['room_domo_main_php'])){
+	$curroom = $_COOKIE['room_domo_main_php'];
+	$curroom = substr($curroom, 4);
+}else{$curroom='0';}
+if (isset($_COOKIE['select_domo_main_php'])){
+	$selected = " ".$_COOKIE['select_domo_main_php'];
+} else {
+	$selected=" 12BLADO";
+}
 $sqlfloor="";
 if (strpos($selected,'1')){
 	if ($sqlfloor!=""){
@@ -58,6 +64,8 @@ if (strpos($selected,'O')){
 }
 if ($sqlfloor!=""){
 	$sqltype = "(".$sqlfloor.') AND ('. $sqltype . ')';
+}else{
+	$sqltype = '('. $sqltype . ')';
 }
 
 if ($sqlfloor!=""){$sqlfloor = "WHERE ".$sqlfloor;}
@@ -82,10 +90,11 @@ if ($curroom=='0' or $sqltype==''){
 } else {
 	$sqlfloor=" AND RoomID=" . $curroom;
 }
-$result = mysql_query('SELECT * FROM measurements WHERE '.$sqltype.$sqlfloor);
+
+$result = mysql_query('SELECT * FROM measurements WHERE '.$sqltype.$sqlfloor.' AND TileID=1');
 
 if (mysql_num_rows($result)==0){
-$result = mysql_query('SELECT * FROM measurements');
+$result = mysql_query('SELECT * FROM measurements WHERE TileID=1');
 }
 
 $i=-1;
