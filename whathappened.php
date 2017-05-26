@@ -7,6 +7,109 @@ $result = $mysqli->query($sql);
 $row = $result->fetch_assoc();
 $adminName = $row['admin'];
 $checkadmin= login_check($mysqli);
+$curroomname="";
+if (isset($_COOKIE['room_whathappened_php'])){
+	$curroom = $_COOKIE['room_whathappened_php'];
+	$curroom = substr($curroom, 4);
+}else{$curroom='0';}
+if (isset($_COOKIE['select_whathappened_php'])){
+	$selected = " ".$_COOKIE['select_whathappened_php'];
+} else {
+	$selected=" 12BLADO";
+}
+$sqlfloor="";
+if (strpos($selected,'1')){
+	if ($sqlfloor!=""){
+		$sqlfloor = $sqlfloor." OR ";
+	}
+	$sqlfloor = $sqlfloor."FloorID = 2";
+}
+
+if (strpos($selected,'2')){
+	if ($sqlfloor!=""){
+		$sqlfloor = $sqlfloor." OR ";
+	}
+	$sqlfloor = $sqlfloor."FloorID = 4";
+}
+
+if (strpos($selected,'B')){
+	if ($sqlfloor!=""){
+		$sqlfloor = $sqlfloor." OR ";
+	}
+	$sqlfloor = $sqlfloor."FloorID = 1";
+}
+$sqltype="";
+
+if (strpos($selected,'L')){
+	$sqltype= $sqltype . "SelectorID = 1";
+}
+if (strpos($selected,'A')){
+	if ($sqltype!=""){
+		$sqltype = $sqltype." OR ";
+	}
+	$sqltype= $sqltype . "SelectorID = 2";
+}
+if (strpos($selected,'D')){
+	if ($sqltype!=""){
+		$sqltype = $sqltype." OR ";
+	}
+	$sqltype= $sqltype . "SelectorID = 3";
+}
+if (strpos($selected,'O')){
+	if ($sqltype!=""){
+		$sqltype = $sqltype." OR ";
+	}
+	$sqltype= $sqltype . "SelectorID = 4";
+}
+if ($sqlfloor!=""){
+	$sqltype = "(".$sqlfloor.') AND ('. $sqltype . ')';
+}else{
+	$sqltype = '('. $sqltype . ')';
+}
+
+if ($sqlfloor!=""){$sqlfloor = "WHERE ".$sqlfloor;}
+$roomselector = mysql_query('SELECT * FROM roomID '.$sqlfloor);
+$j=-1;
+while($rowroom = mysql_fetch_row($roomselector, MYSQL_ASSOC)) {
+	$j+=1;
+	$RoomSel[$j] = $rowroom['Room'];
+	$RoomSelID[$j] = $rowroom['ID'];
+	if ($RoomSelID[$j]==$curroom){
+		$curroomname=$RoomSel[$j];
+	}
+}
+
+	$RoomSel = "'" . implode ( "','" , $RoomSel ) . "'";
+	$RoomSelID = "'" . implode ( "','" , $RoomSelID ) . "'";
+
+if ($curroomname==""){
+	$curroomname="Allemaal";
+	$curroom='0';
+}
+
+if ($curroom=='0' or $sqltype==''){
+	$sqlfloor="";
+} else {
+	$sqlfloor=" AND RoomID=" . $curroom;
+}
+
+$result = mysql_query('SELECT * FROM measurements WHERE '.$sqltype.$sqlfloor.' AND TileID=1');
+
+if (mysql_num_rows($result)==0){
+$result = mysql_query('SELECT * FROM measurements WHERE TileID=1');
+
+}
+
+$meas=array();
+$total=-1;
+
+while($row = mysql_fetch_row($result, MYSQL_ASSOC))
+	{
+		$total+=1;
+		$column[$total]='val'.$row['ValueNumber'];
+		$meas['val'.$row['ValueNumber']]=$row;
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +121,35 @@ $checkadmin= login_check($mysqli);
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="css/style.css?v=1.0">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script>
+				$( document ).ready(function()  {
+					setSButtons();
+					rooms=['Allemaal',<?php echo $RoomSel;?>];
+				roomsID=['0',<?php echo $RoomSelID;?>];
+				curroomname='<?php echo $curroomname;?>';
+				curroom=<?php echo $curroom;?>;
+			setRoom();
+			getRooms();
+		});
+			
+			var generalInfo = {};
+			var rooms = [];
+			var curroom = 0;
+			var curroomname = "";
+			
+			function getRooms(){
+				var txt="";
+				for (x=0;x<rooms.length;x++){
+				txt+="<tr><td><button class='tablebutton' id='room"+roomsID[x]+"' onmouseup='clickRSButton(this)'>"+rooms[x]+"</button></td></tr>";
+				}
+				$('#rooms').html("<table>"+txt+ "</table>");
+			}
+			
+			function setRoom(){
+				$("#roomsel").html(curroomname);
+				setCookie("room_whathappened.php","room"+curroom,365);
+			}
+			</script>
 
 	</head>
 	<body>
@@ -36,18 +168,16 @@ $checkadmin= login_check($mysqli);
 		</nav>
 		<hr>
 
+		<div class="selecttable">
+				
+		<?php include "selecttable.php"; ?>
+		<!-- The Modal -->
+
+		</div>
 		
 		
 <?php 
-$meas=array();
-$total=-1;
-$result=mysql_query('SELECT * FROM measurements') or die('cannot show columns from measurements');
-while($row = mysql_fetch_row($result, MYSQL_ASSOC))
-	{
-		$total+=1;
-		$column[$total]='val'.$row['ValueNumber'];
-		$meas['val'.$row['ValueNumber']]=$row;
-}
+
 
 $count=1;
 if (!empty($_GET['every'])){
@@ -62,7 +192,7 @@ if (!empty($_GET['from'])){
 $to=$_GET['from'];}
 
 $sqlstring="set @row:=-1";
-$sqlstring2="SELECT measurement_values.* FROM measurement_values INNER JOIN (SELECT ID FROM (SELECT @row:=@row+1 AS rownum, ID FROM ( SELECT ID,val".$_GET['csv']." from measurement_values WHERE ID BETWEEN ".$from." AND ".$to." ORDER BY ID ) AS sorted ) as ranked WHERE rownum %" . $count." = 0 ) AS subset ON subset.ID = measurement_values.ID";
+$sqlstring2="SELECT measurement_values.* FROM measurement_values INNER JOIN (SELECT ID FROM (SELECT @row:=@row+1 AS rownum, ID FROM ( SELECT ID from measurement_values WHERE ID BETWEEN ".$from." AND ".$to." ORDER BY ID ) AS sorted ) as ranked WHERE rownum %" . $count." = 0 ) AS subset ON subset.ID = measurement_values.ID";
 
 	echo "<table class='log'><tr><th>Datum</th><th>tijd</th><th>Meting</th><th>Waarde</th></tr>";
 	
@@ -71,7 +201,7 @@ $sqlstring2="SELECT measurement_values.* FROM measurement_values INNER JOIN (SEL
 	$lastdate = "";
 	$lasttime = "";
 	while($row = mysql_fetch_row($result, MYSQL_ASSOC)) {
-		for ($x=1;$x<=$total;$x++){
+		for ($x=0;$x<=$total;$x++){
 			if (array_key_exists($column[$x],$row) AND !is_null($row[$column[$x]])){
 				if (date('Y-m-d',$row['ID'])==$lastdate){
 					echo "<tr><td></td>";

@@ -247,7 +247,7 @@ for ($x=0;$x<=$i;$x++){
 			
 			function setRoom(){
 				$("#roomsel").html(curroomname);
-				setCookie("room","room"+curroom,365);
+				setCookie("room_domo_main.php","room"+curroom,365);
 			}
 			
 			function addButton(ID){
