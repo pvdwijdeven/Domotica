@@ -1,6 +1,6 @@
 # Domo for Homey
 
-Extra MySQK/PHP server for webbased interface with Homey
+Extra MySQL/PHP server for webbased interface with Homey
 
 features:
 - tiles with current values generated from database
