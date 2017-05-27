@@ -91,7 +91,7 @@
 
   <!-- Modal content -->
   <div class="modal-content2">
-	<span class="close">&times;</span>
+	<span id="close1" class="close">&times;</span>
 	<div id='rooms'></div>
   </div>
 
@@ -135,7 +135,7 @@
 
 			var modal = document.getElementById('myModal');
 			var btn = document.getElementById("myBtn");
-			var span = document.getElementsByClassName("close")[0];
+			var span = document.getElementById("close1");
 			
 			function clickRoomButton() {
 				modal.style.display = "block";
@@ -145,13 +145,7 @@
 				modal.style.display = "none";
 			}
 
-			window.onclick = function(event) {
-				if (event.target == modal) {
-					modal.style.display = "none";
-
-				}
-			}
-			
+		
 	function clickRSButton(temp){
 		modal.style.display = "none";
 		setCookie("room_<?php echo basename($_SERVER['PHP_SELF']);?>",$(temp).attr('id'),365);

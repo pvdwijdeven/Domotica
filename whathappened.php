@@ -190,7 +190,7 @@ while($row = mysql_fetch_row($result, MYSQL_ASSOC))
 
 		  <!-- Modal content -->
 		  <div class="modal-content3">
-			<span class="close">&times;</span>
+			<span id="close2" class="close">&times;</span>
 
 		<form action="whathappened.php">
 			<table><tr><td>Create log from:</td>
@@ -214,7 +214,7 @@ $to=time();
 if (!empty($_GET['to'])){
 $to=strtotime($_GET['to']);}
 
-$from=$to-(24*60*60);
+$from=$to-(60*60);
 if (!empty($_GET['from'])){
 $from=strtotime($_GET['from']);}
 
@@ -273,7 +273,7 @@ $sqlstring2="SELECT measurement_values.* FROM measurement_values INNER JOIN (SEL
 		<script>
 			var modal2 = document.getElementById('myModal2');
 			var btn2 = document.getElementById("myBtn2");
-			var span2 = document.getElementsByClassName("close")[0];
+			var span2 = document.getElementById("close2");
 			
 			function clickRangeButton() {
 				modal2.style.display = "block";
@@ -286,6 +286,10 @@ $sqlstring2="SELECT measurement_values.* FROM measurement_values INNER JOIN (SEL
 			window.onclick = function(event) {
 				if (event.target == modal2) {
 					modal2.style.display = "none";
+
+				}
+				if (event.target == modal) {
+					modal.style.display = "none";
 
 				}
 			}

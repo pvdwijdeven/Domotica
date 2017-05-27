@@ -301,7 +301,12 @@ for ($x=0;$x<=$i;$x++){
 				temp.prop("disabled",true);
 			}
 			
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
 
+				}
+			}
 			
 			function setButtons(){
 				for (i=0;i<=generalInfo['ID'].length-1;i++){
@@ -353,7 +358,6 @@ for ($x=0;$x<=$i;$x++){
 		<div class="selecttable">
 				
 		<?php include "selecttable.php"; ?>
-		<!-- The Modal -->
 
 		</div>
 		<hr>
