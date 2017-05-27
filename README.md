@@ -1,10 +1,16 @@
-# Domotica
+# Domo for Homey
 
-test.html:
+Extra MySQK/PHP server for webbased interface with Homey
 
-to be done:
-- should create buttons from database/array
-- show graph/interaction (on/off,color select etc)
-- add, remove, move buttons
-- per room/area/all
+features:
+- tiles with current values generated from database
+- what happened? Shows log of given timeslot
+- user login
+- admin login
+- admin modify tables (for auto generated tiles)
 
+future features:
+- show graphs
+- actions to homey (start flow)
+- user administration
+....
