@@ -1,14 +1,32 @@
   <?php
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
+if (login_check($mysqli) == true){
+$sql = "SELECT * FROM config where row= 'config'";
+$result = $mysqli->query($sql);
+$row = $result->fetch_assoc();
+$adminName = $row['admin'];
 // The Chart table contains two fields: weekly_task and percentage
 // This example will display a pie chart. If you need other charts such as a Bar chart, you will need to modify the code a little to make it work with bar chart and other charts
 
 $to=time();
-
+if (!empty($_GET['to'])){
+$to=$_GET['to'];}
+if (strpos($to,"T")>-1){
+	$to=strtotime($_GET['to']);
+}
 $from = $to-2*24*60*60;
 if (!empty($_GET['from'])){
 $from=$_GET['from'];}
+if (strpos($from,"T")>-1){
+	$from=strtotime($_GET['from']);
+}
+
+if ($from>$to){
+	$temp=$to;
+	$to=$from;
+	$from=$temp;
+}
 
 $count=1;
 if (!empty($_GET['every'])){
@@ -49,12 +67,13 @@ $rows = array();
 //flag is not needed
 $flag = true;
 $table = array();
+
 $table['cols'] = array(
 
     // Labels for your chart, these represent the column titles
     // Note that one column is in "string" format and another one is in "number" format as pie chart only required "numbers" for calculating percentage and string will be used for column title
     array('label' => 'date/time', 'type' => 'datetime'),
-    array('label' => $properties['LongDescription'], 'type' => 'number')
+	array('label' => $properties['LongDescription'], 'type' => 'number')
 
 );
 
@@ -66,7 +85,8 @@ while($r = mysql_fetch_assoc($sth)) {
     $temp[] = array('v' => "Date(". ((int) $r['ID'])*1000 . ")" ); 
 
     // Values of each slice
-    $temp[] = array('v' => (float) $r[$val]); 
+	$temp[] = array('v' => (float) $r[$val]);
+	
     $rows[] = array('c' => $temp);
 }
 
@@ -77,13 +97,33 @@ $jsonTable = json_encode($table);
 
 <html>
   <head>
-    <!--Load the Ajax API-->
-	<style> html {height: 100%;} </style>
+  <!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Domo main page</title>
+		<meta name="description" content="Domo main page">
+		<meta name="author" content="Pascal van de Wijdeven">
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="stylesheet" href="css/style.css?v=1.0">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="css/style.css?v=1.0">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script type="text/javascript">
+<!--    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    -->
+	
+	<script type="text/javascript">
 
+
+	$( document ).ready(function()  {
+		var dto = new Date();
+		var diff = dto.getTimezoneOffset()
+		dto.setMinutes ( dto.getMinutes() - diff );
+		$('#formto').val(dto.toJSON().slice(0,16));
+		var dfrom = new Date(dto);
+		dfrom.setHours ( dto.getHours() - 1 );
+		$('#formfrom').val(dfrom.toJSON().slice(0,16));
+	});
 
 	
     // Load the Visualization API and the piechart package.
@@ -92,6 +132,8 @@ $jsonTable = json_encode($table);
     // Set a callback to run when the Google Visualization API is loaded.
     google.setOnLoadCallback(drawChart);
 
+	
+	
     function drawChart() {
 
       // Create our data table out of JSON data loaded from server.
@@ -102,18 +144,25 @@ $jsonTable = json_encode($table);
 		});
 	  
       var options = {
+		  legend: {position: 'none'},
            title: 'Trend <?php echo $properties['LongDescription']. ' '.$filtertext; ?>',
-		   curveType: 'function',
+		   curveType: 'none',
 		   crosshair: { trigger: 'both' },
-		   explorer: { axis: 'horizontal', keepInBounds: true, maxZoomIn: .01, maxZoomOut:100 },
+		   explorer: { axis: 'horizontal', keepInBounds: true, maxZoomIn: .001, maxZoomOut:1000 },
 		   backgroundColor: 'lightsteelblue',
-		   chartArea:{left:50,top:50,width:'80%',height:'80%'},
+		   chartArea:{left:50,top:50,width:'95%',height:'70%'},
 		   hAxis: {gridlines: {color: 'grey'}, format: 'yyyy-MM-dd HH:mm:ss'},
 		   vAxis: {gridlines: {color: 'grey'}, format: '#\'<?php echo $properties['Unit']; ?>\''}
         };
       // Instantiate and draw our chart, passing in some options.
       // Do not forget to check your div ID
-      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+	  
+      
+	  if (<?php echo $properties['AnalogID']; ?>==1){
+		var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+	  }else{
+		  var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+	  }
 	  formatter.format(data, 1);
       chart.draw(data, options);
 	  
@@ -143,9 +192,45 @@ $jsonTable = json_encode($table);
 	  }
 	
     </script>
-  </head>
+	</head>
+	<body>
+	<div>
+			<div id="myModal2" class="modal2">
 
-  <body>
+		  <!-- Modal content -->
+		  <div class="modal-content3">
+			<span id="close2" class="close">&times;</span>
+
+		<form action="singlegraph.php">
+			<table><tr><td>Create log from:</td>
+			<td><input id="formfrom" type="datetime-local" name="from"></td></tr>
+		  <tr><td>Create log to:</td>
+		  <td><input id="formto" type="datetime-local" name="to"></td></tr>
+		  <tr><td><input type="submit" value="Send"></td><td></td></tr></table>
+		  <input type="hidden" name="ID" value="<?php echo $ID;?>">
+		</form>
+		  </div>
+		</div>
+		<script>
+			var modal2 = document.getElementById('myModal2');
+			var btn2 = document.getElementById("myBtn2");
+			var span2 = document.getElementById("close2");
+			
+			function clickRangeButton() {
+				modal2.style.display = "block";
+			}
+
+			span2.onclick = function() {
+				modal2.style.display = "none";
+			}
+
+			window.onclick = function(event) {
+				if (event.target == modal2) {
+					modal2.style.display = "none";
+				}
+
+			}
+		</script>
 	<div>
 	<button class="tablebutton" id="back" onmouseup="document.location.href = 'domo_main.php'">Terug</button>
 	<button class="tablebutton" id="1day" onmouseup="clickWButton(this)">1 dag</button>
@@ -153,11 +238,19 @@ $jsonTable = json_encode($table);
 	<button class="tablebutton" id="1week" onmouseup="clickWButton(this)">1 week</button>
 	<button class="tablebutton" id="1month" onmouseup="clickWButton(this)">1 maand</button>
 	<button class="tablebutton" id="1year" onmouseup="clickWButton(this)">1 jaar</button>
+	<button class="tablebutton" id="1year" onmouseup="clickRangeButton()">Tijdspan</button>
+
 	</div>
 	<div id="chart_div" style="width: 100%; height: 90%;"></div>
+	</div>
+
   </body>
 </html>
 
 
-<?php
+<?php }else{ ?>
+            <p>
+                <span class="error">You are not authorized to access this page.</span> Please <a href="index.php">login</a>.
+            </p>
+<?php } ?>
   
