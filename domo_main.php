@@ -274,7 +274,13 @@ for ($x=0;$x<=$i;$x++){
 			}
 
 			function clickTButton(elem) {
-				alert("clicked");
+				if ($(elem).attr('id').substring(0,11)=='graphButton'){
+					
+					document.location.href = 'singlegraph.php?ID=' + $(elem).attr('id').substring(12);
+				}else{
+					alert("action clicked");
+					alert($(elem).attr('id').substring(0,11));
+				}
 			}
 
 			function getGeneralInfo(){
