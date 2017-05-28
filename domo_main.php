@@ -180,7 +180,7 @@ for ($x=0;$x<=$i;$x++){
 				if (this.readyState == 4 && this.status == 200) {
 					var currentresult = this.responseText;
 					currentresult = currentresult.split(',');
-					document.getElementById("update").innerHTML="Last update: " + currentresult[0];
+					document.getElementById("update").innerHTML="Last update: " + currentresult[25];
 					var IDs= "<?php echo $IDs;?>";
 					var valuepos = "<?php echo $ValueNumbers;?>";
 					IDs=IDs.split(',');
