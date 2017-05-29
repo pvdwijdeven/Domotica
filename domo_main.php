@@ -180,7 +180,7 @@ for ($x=0;$x<=$i;$x++){
 				if (this.readyState == 4 && this.status == 200) {
 					var currentresult = this.responseText;
 					currentresult = currentresult.split(',');
-					document.getElementById("update").innerHTML="Last update: " + currentresult[25];
+					document.getElementById("update").innerHTML="Last update: " + currentresult[0];
 					var IDs= "<?php echo $IDs;?>";
 					var valuepos = "<?php echo $ValueNumbers;?>";
 					IDs=IDs.split(',');
@@ -189,8 +189,7 @@ for ($x=0;$x<=$i;$x++){
 					for (i=0;i<IDs.length;i++){
 						if (valuepos[i]>0){
 							thisButton = $('#'+ String(IDs[i]));
-							
-							
+						
 							if (generalInfo['Analog'][i]=='BOTH'){
 								var temp = $(thisButton.find('.value1'));
 								if (currentresult[valuepos[i]]=="true"){
@@ -258,7 +257,7 @@ for ($x=0;$x<=$i;$x++){
 			}
 			
 			function gettext(status,i){
-				if (status=="false") {
+				if (status.trim()=='false') {
 					return generalInfo['FalseText'][i];
 				} else{
 					return generalInfo['TrueText'][i];
