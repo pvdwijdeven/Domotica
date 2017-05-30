@@ -20,22 +20,57 @@
 		<meta name="description" content="Template page">
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<link rel="stylesheet" href="css/style.css?v=1.0">
+		<link rel="stylesheet" href="css/style.css?v=3.0">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body>
 	
+		<script type="text/javascript">
+		<!--
+
+			window.onclick = function(event) {
+				if (event.target == document.getElementById("mySidenav")) {
+				console.log("OK");
+				document.getElementById("mySidenav").style.width = "0";
+				}
+			}	
+			
+			function openNav() {
+				document.getElementById("mySidenav").style.width = "100%";
+			}
+
+			function closeNav() {
+				document.getElementById("mySidenav").style.width = "0";
+			}
+		
+			//-->
+		</script>
+			
+		<div id="mySidenav" class="sidenav">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<table class="menutable">
+				<tr><td><button class="menubutton" id="menuButton_1" onmouseup="window.location.href='domo_main.php'">domo main</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_2" onmouseup="window.location.href='whathappened.php'">What happened?</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_3" onmouseup="window.location.href='page3'">Go3</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_4" onmouseup="window.location.href='page4'">Go4</button></td></tr>
+			</table>
+		</div>
+	
 		<header>
-			<div id=headercontainer>
-			<div id="loginfo"><?php if ($_SESSION['username'] == $adminName): ?>
+			<div class="header_left"><button class="tablebutton" onclick="openNav()">Menu</button></div>
+			
+			<div class="header_right" id="loginfo"><?php if ($_SESSION['username'] == $adminName): ?>
 			<a href="domo_admin.php">admin page</a>
 			<?php endif; ?>
-			logged in as <b><?php echo htmlentities($_SESSION['username']);?>
-			</b> (<a href="includes/logout.php">Log out</a>)</div>
-			<div id="domoheader">Homey Domotica</div>
-			</div>
+			<br>logged in as <b><?php echo htmlentities($_SESSION['username']);?>
+			</b><br> (<a href="includes/logout.php">Log out</a>)</div>
+			<div class="header_center">Homey Domotica</div>
 			<hr>
 		</header>
+
+
+			
+
 	
 	
 	
