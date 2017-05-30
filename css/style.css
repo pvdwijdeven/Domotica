@@ -1,418 +1,444 @@
-body {
-	font: 14px/1.4 Arial;
-	font-size: 1.2em;
-	background-color: lightgray;
+body
+{
+  font:14px/1.4 Arial;
+  font-size:1.2em;
+  background-color:lightgray;
 }
 
-header {
-	text-align: center;
+footer
+{
+  text-align:center;
+  font-size:.6em;
 }
 
-#loginfo{
-	font-size: 0.6em;
+.menuHidden
+{
+  display:none;
 }
 
-footer {
-	text-align: center;
-	font-size: 0.6em;
+.menuShown
+{
+  display:block;
 }
 
-.menuHidden {
-	display: none;
+.button
+{
+  margin-left:10px;
+  margin-right:10px;
+  box-shadow:-10px 0 5px #696969;
 }
 
-.menuShown {
-	display: block;
+.tablebutton
+{
+  box-shadow:-10px 0 5px #696969;
+  width:100px;
+  border-radius:15px;
+  background-color:#ADD8E6;
+  text-align:center;
+  margin:10px;
+  padding:10px;
 }
 
-.button {
-	margin-left: 10px;
-	margin-right: 10px;	
-	box-shadow: -10px 0px 5px dimgray;
+.tablebuttondisabled
+{
+  box-shadow:-10px 0 5px #696969;
+  border-radius:15px;
+  background-color:#b5c9de;
+  color:gray;
+  width:100px;
+  text-align:center;
+  margin:10px;
+  padding:10px;
 }
 
-
-.tablebutton{
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left: 10px;
-	margin-right: 10px;	
-	padding: 10px;
-	box-shadow: -10px 0px 5px dimgray;
-	width: 100px;
-	border-radius: 15px;
-	background-color: lightblue;
-	text-align: center;
+.buttonpressed
+{
+  margin-left:0;
+  margin-right:20px;
 }
 
-.tablebuttondisabled{
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left: 10px;
-	margin-right: 10px;	
-	padding: 10px;
-	box-shadow: -10px 0px 5px dimgray;
-	width: 100px;
-	border-radius: 15px;
-	background-color: #b5c9de;
-	color:gray;
-	width: 100px;
-	text-align: center;
+td.tablebutton
+{
+  height:40px;
 }
 
-.buttonpressed {
-	margin-left: 0px;
-	margin-right: 20px;
+.splitter
+{
+  width:50px;
 }
 
-td.tablebutton {
-	height: 40px;
+.buttonarea
+{
+  width:100%;
+  text-align:center;
+  user-select:none;
 }
 
-.splitter {
-	width: 50px;
+.buttonarea .button,.buttonarea .buttonpressed
+{
+  margin-top:10px;
+  margin-bottom:10px;
+  border-radius:15px;
+  background-color:#B0C4DE;
+  width:280px;
+  height:130px;
+  text-align:left;
+  font-weight:700;
+  line-height:1.4;
+  display:inline-block;
+  padding:10px;
 }
 
-.buttonarea {
-	width: 100%;
-	text-align: center;
-	user-select: none;
+form
+{
+  border:3px solid #f1f1f1;
 }
 
-.location {
-	font-size: 0.6em;
+.container
+{
+  padding:16px;
 }
 
-.buttonarea .button, .buttonarea .buttonpressed{
-	display: inline-block;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 10px;
-	border-radius: 15px;
-	background-color: lightsteelblue;
-	width: 280px;
-	height: 130px;
-	text-align: left;
-	font-weight: bold;
-	line-height:1.4;
-	display: inline-block;
+span.psw
+{
+  float:right;
+  padding-top:16px;
 }
 
-
-/* Bordered form */
-form {
-    border: 3px solid #f1f1f1;
+input[type=text],input[type=password],select
+{
+  width:100%;
+  display:inline-block;
+  border:1px solid #ccc;
+  box-sizing:border-box;
+  margin:8px 0;
+  padding:12px 20px;
 }
 
-.container {
-    padding: 16px;
+.loginbtn
+{
+  background-color:#4CAF50;
+  color:#FFF;
+  border:none;
+  cursor:pointer;
+  width:100%;
+  margin:8px 0;
+  padding:14px 20px;
 }
 
-span.psw {
-    float: right;
-    padding-top: 16px;
+button:hover
+{
+  opacity:0.8;
 }
 
-/* Full-width inputs */
-input[type=text], input[type=password], select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+.cancelbtn
+{
+  color:#FFF;
+  border:none;
+  cursor:pointer;
+  width:100%;
+  background-color:#f44336;
+  margin:8px 0;
+  padding:10px 18px;
 }
 
-/* Set a style for all buttons */
-.loginbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
+.modal
+{
+  display:none;
+  position:fixed;
+  z-index:1;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  overflow:auto;
+  background-color:rgba(0,0,0,0.4);
+  padding-top:60px;
 }
 
-/* Add a hover effect for buttons */
-button:hover {
-    opacity: 0.8;
+.modal2
+{
+  display:none;
+  position:fixed;
+  z-index:1;
+  padding-top:100px;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  overflow:auto;
+  background-color:rgba(0,0,0,0.4);
 }
 
-/* Extra style for the cancel button (red) */
-.cancelbtn {
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    padding: 10px 18px;
-    background-color: #f44336;
+.modal-content
+{
+  background-color:#fefefe;
+  border:1px solid #888;
+  width:80%;
+  margin:5px auto;
 }
 
-
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    padding-top: 60px;
+.modal-content2
+{
+  background-color:#B0C4DE;
+  border:1px solid #888;
+  width:120px;
+  margin:5px auto;
 }
 
-.modal2 {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+.modal-content3
+{
+  background-color:#B0C4DE;
+  border:1px solid #888;
+  width:500px;
+  margin:5px auto;
 }
 
-/* Modal ContentBox */
-.modal-content {
-    background-color: #fefefe;
-    margin: 5px auto; /* 15% from the top and centered */
-    border: 1px solid #888;
-    width:  80%; /* Could be more or less, depending on screen size */
+.close
+{
+  position:absolute;
+  right:25px;
+  top:0;
+  color:#000;
+  font-size:35px;
+  font-weight:700;
 }
 
-/* Modal ContentBox */
-.modal-content2 {
-    background-color: lightsteelblue;
-    margin: 5px auto; /* 15% from the top and centered */
-    border: 1px solid #888;
-    width:  120px; /* Could be more or less, depending on screen size */
+.close:hover,.close:focus
+{
+  color:red;
+  cursor:pointer;
 }
 
-.modal-content3 {
-    background-color: lightsteelblue;
-    margin: 5px auto; /* 15% from the top and centered */
-    border: 1px solid #888;
-    width:  500px; /* Could be more or less, depending on screen size */
+table.db-table
+{
+  font-size:.6em;
+  border-right:1px solid #ccc;
+  border-bottom:1px solid #ccc;
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
 }
 
-/* The Close Button */
-.close {
-    /* Position it in the top right corner outside of the modal */
-    position: absolute;
-    right: 25px;
-    top: 0; 
-    color: #000;
-    font-size: 35px;
-    font-weight: bold;
+table.db-table th
+{
+  background:#000;
+  color:#FFF;
+  border-left:1px solid #ccc;
+  border-top:1px solid #ccc;
+  padding:5px;
 }
 
-/* Close button on hover */
-.close:hover,
-.close:focus {
-    color: red;
-    cursor: pointer;
+table.db-table td
+{
+  border-left:1px solid #ccc;
+  border-top:1px solid #ccc;
+  padding:5px;
 }
 
-/* Add Zoom Animation */
-.animate {
-    -webkit-animation: animatezoom 0.6s;
-    animation: animatezoom 0.6s
+table.db-table .add
+{
+  background:green;
+  color:#FFF;
 }
 
-@-webkit-keyframes animatezoom {
-    from {-webkit-transform: scale(0)} 
-    to {-webkit-transform: scale(1)}
+table.db-table .delete
+{
+  background:red;
+  color:#FFF;
 }
 
-@keyframes animatezoom {
-    from {transform: scale(0)} 
-    to {transform: scale(1)}
+table.db-table .modify
+{
+  background:orange;
+  color:#FFF;
 }
 
-table.db-table 		{ font-size: 0.6em; border-right:1px solid #ccc; border-bottom:1px solid #ccc; text-align:center;}
-table.db-table th	{ background:black; color: white; padding:5px; border-left:1px solid #ccc; border-top:1px solid #ccc; }
-table.db-table td	{ padding:5px; border-left:1px solid #ccc; border-top:1px solid #ccc; }
-
-table.db-table .add	{ background:green; color: white;}
-table.db-table .delete	{ background:red; color: white;}
-table.db-table .modify	{ background:orange; color: white;}
-
-.name { 
-	width: 100% ;
-	font-weight: bold;
-	font-size: 1.5em;
-	text-align: left;
-	}
-	
-.fieldupdate { text-align: left;
+.name
+{
+  width:100%;
+  font-weight:700;
+  font-size:1.5em;
+  text-align:left;
 }
 
-#update { text-align: center;
+.fieldupdate
+{
+  text-align:left;
 }
 
-table.select-table 		{  text-align:center; margin-left:auto; margin-right:auto; user-select: none;}
-th.select-button {  
-		font-size: 1em;
-}
-td.select-button { 
-
-	font-size: 1.5em;
-	font-weight: bold; 
-	background-color: lightsteelblue; 
-	width: 50px;  
-	border: 1px solid black; 
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left: 10px;
-	margin-right: 10px;	
-	box-shadow: -10px 0px 5px dimgray;
-	border-radius: 15px;
-	background-color: lightsteelblue;
-	text-align: center;
-	color: black;
+table.select-table
+{
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+  user-select:none;
 }
 
-td.select-buttonpressed{
-	font-size: 1.5em;
-	font-weight: bold; 
-	background-color: lightsteelblue; 
-	width: 50px;  
-	border: 1px solid black; 
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left: 0px;
-	margin-right: 20px;	
-	border-radius: 15px;
-	background-color: lightsteelblue;
-	text-align: center;
-	color: grey;
+th.select-button
+{
+  font-size:1em;
 }
 
-td.select-split { width: 20px;  border: 0px;}
-td.select-bsplit { width: 5px;  border: 0px;}
-th.select-split { width: 20px;  border: 0px;}
-
-table.log	{  text-align:left; margin-left:auto; margin-right:auto; user-select: none;  border-collapse: collapse;}
-table.log td, table.log th	{ 
-	border: 1px solid black;
-	background-color: lightsteelblue;
-	padding: 5px;
+td.select-button
+{
+  font-size:1.5em;
+  font-weight:700;
+  width:50px;
+  border:1px solid #000;
+  box-shadow:-10px 0 5px #696969;
+  border-radius:15px;
+  background-color:#B0C4DE;
+  text-align:center;
+  color:#000;
+  margin:10px;
 }
 
-table.log td	{ 
-	font-weigth: bold;
+td.select-buttonpressed
+{
+  font-size:1.5em;
+  font-weight:700;
+  width:50px;
+  border:1px solid #000;
+  border-radius:15px;
+  background-color:#B0C4DE;
+  text-align:center;
+  color:grey;
+  margin:10px 20px 10px 0;
 }
 
-#chart_div {
-	max-width: 100%;
-    max-height: 100%;
+td.select-bsplit
+{
+  width:5px;
+  border:0;
 }
 
-.header_left {
-	float: left;
+table.log
+{
+  text-align:left;
+  margin-left:auto;
+  margin-right:auto;
+  user-select:none;
+  border-collapse:collapse;
 }
 
-.header_right {
-	float: right;
+table.log td,table.log th
+{
+  border:1px solid #000;
+  background-color:#B0C4DE;
+  padding:5px;
 }
 
-.header_center {
-	font-weight: bold;
-	font-size: 1.8em;
-	text-align: center;
-	height: 60px;
-	margin: auto;
+#chart_div
+{
+  max-width:100%;
+  max-height:100%;
 }
 
-/* Portrait */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-	.header_center {
-	clear: both;
-	height: 40px;
-	}
+.header_left
+{
+  float:left;
 }
 
-/* Portrait */
-@media screen 
-  and (device-width: 320px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 2) 
-  and (orientation: portrait) {
-	  .header_center {
-	clear: both;
-	height: 40px;
-	}
-
+.header_right
+{
+  float:right;
 }
 
-.menutable {
-	margin-left: auto;
-	margin-right: auto;
+.header_center
+{
+  font-weight:700;
+  font-size:1.8em;
+  text-align:center;
+  height:60px;
+  margin:auto;
 }
 
-/* The side navigation menu */
-.sidenav {
-    height: 100%; /* 100% Full-height */
-    width: 0; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    top: 0;
-    left: 0;
-	background-color: rgb(0, 0, 0);
-    background-color: rgba(0,0,0,0.5);
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-	margin-left: auto;
-	margin-right: auto;
+.menutable
+{
+  margin-left:auto;
+  margin-right:auto;
 }
 
-/* Position and style the close button (top right corner) */
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+.sidenav
+{
+  height:100%;
+  width:0;
+  position:fixed;
+  z-index:10;
+  top:0;
+  left:0;
+  background-color:rgba(0,0,0,0.5);
+  overflow-x:hidden;
+  padding-top:60px;
+  transition:.5s;
+  margin-left:auto;
+  margin-right:auto;
 }
 
-/* The navigation menu links */
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s
+.sidenav .closebtn
+{
+  position:absolute;
+  top:0;
+  right:25px;
+  font-size:36px;
+  margin-left:50px;
 }
 
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover, .offcanvas a:focus{
-    color: #f1f1f1;
+.sidenav a
+{
+  text-decoration:none;
+  font-size:25px;
+  color:#818181;
+  display:block;
+  transition:.3s;
+  padding:8px 8px 8px 32px;
 }
 
-.menubutton{
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left: 10px;
-	margin-right: 10px;	
-	padding: 10px;
-	box-shadow: -10px 0px 5px dimgray;
-	width: 300px;
-	border-radius: 15px;
-	background-color: lightblue;
-	text-align: center;
+.sidenav a:hover,.offcanvas a:focus
+{
+  color:#f1f1f1;
+}
+
+.menubutton
+{
+  box-shadow:-10px 0 5px #696969;
+  width:300px;
+  border-radius:15px;
+  background-color:#ADD8E6;
+  text-align:center;
+  margin:10px;
+  padding:10px;
+}
+
+header,#update
+{
+  text-align:center;
+}
+
+#loginfo,.location
+{
+  font-size:.6em;
+}
+
+td.select-split,th.select-split
+{
+  width:20px;
+  border:0;
+}
+
+@media only screen and min-device-width 320px and max-device-width 480px and -webkit-min-device-pixel-ratio 2 and orientation portrait {
+  .header_center
+  {
+    clear:both;
+    height:40px;
+  }
+}
+
+@media screen and device-width 320px and device-height 640px and -webkit-device-pixel-ratio 2 and orientation portrait {
+  .header_center
+  {
+    clear:both;
+    height:40px;
+  }
 }

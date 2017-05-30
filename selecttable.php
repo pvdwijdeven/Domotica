@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	<!--
-
+	
 	function getCookie(cname) {
 		var name = cname + "=";
 		var decodedCookie = decodeURIComponent(document.cookie);
@@ -24,7 +24,7 @@
 		document.cookie = cname + "=" + cvalue + ";" + expires;
 	}
 	
-
+	
 	
 	function setSButtons(){
 		var selected = getCookie("select_<?php echo basename($_SERVER['PHP_SELF']);?>");;
@@ -83,20 +83,16 @@
 		setCookie("select_<?php echo basename($_SERVER['PHP_SELF']);?>",selectval,365);
 		location.reload();
 	}
-
-//-->
-</script>
-
-<div id="myModal" class="modal2">
-
-  <!-- Modal content -->
-  <div class="modal-content2">
-	<span id="close1" class="close">&times;</span>
-	<div id='rooms'></div>
-  </div>
-
-</div>
 	
+	//-->
+</script>
+<div id="myModal" class="modal2">
+	<!-- Modal content -->
+	<div class="modal-content2">
+		<span id="close1" class="close">&times;</span>
+		<div id='rooms'></div>
+	</div>
+</div>
 <table class="select-table">
 	<tr>
 		<th class="select-button" colspan=5>Verdieping</th>
@@ -120,35 +116,34 @@
 		<td class="select-bsplit"></td>
 		<td id="selectO" class="select-button" onmousedown="clickSButton(this)">O</td>
 		<td class="select-split"></td>
-		
-		<td colspan=3 id="roomsel" class="select-button" onmousedown="clickRoomButton()"><div id="getpos">Allemaal</div></td></tr>
-		<?php
+		<td colspan=3 id="roomsel" class="select-button" onmousedown="clickRoomButton()">
+			<div id="getpos">Allemaal</div>
+		</td>
+	</tr>
+	<?php
 		if (basename($_SERVER['PHP_SELF'])=="whathappened.php"){
 		echo '<tr><td colspan=17 id="rangesel" class="select-button" onmousedown="clickRangeButton()"><div id="getpos">Tijdslot</div></td>';
 		}
-		?>
-
+	?>
 	</tr>
 </table>
-
 <script>
-
-			var modal = document.getElementById('myModal');
-			var btn = document.getElementById("myBtn");
-			var span = document.getElementById("close1");
-			
-			function clickRoomButton() {
-				modal.style.display = "block";
-			}
-
-			span.onclick = function() {
-				modal.style.display = "none";
-			}
-
-		
-	function clickRSButton(temp){
+	var modal = document.getElementById('myModal');
+	var btn = document.getElementById("myBtn");
+	var span = document.getElementById("close1");
+	
+	function clickRoomButton() {
+		modal.style.display = "block";
+	}
+	
+	span.onclick = function() {
 		modal.style.display = "none";
-		setCookie("room_<?php echo basename($_SERVER['PHP_SELF']);?>",$(temp).attr('id'),365);
-		location.reload();
+	}
+	
+	
+	function clickRSButton(temp){
+	modal.style.display = "none";
+	setCookie("room_<?php echo basename($_SERVER['PHP_SELF']);?>",$(temp).attr('id'),365);
+	location.reload();
 	}
 </script>
