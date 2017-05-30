@@ -8,29 +8,8 @@ header {
 	text-align: center;
 }
 
-.header{
-	display: inline-block;
-	text-align: center;
-}
-
-.headertable{
-	width: 100%;
-}
-
-.headerleft{
-	width: 1%;
-	white-space: nowrap;
-	font-size: 0.5em;
-}
-
 #loginfo{
-	position: absolute;
 	font-size: 0.6em;
-}
-
-#domoheader{
-	text-align:center;
-	padding-top:20px;
 }
 
 footer {
@@ -336,4 +315,104 @@ table.log td	{
 #chart_div {
 	max-width: 100%;
     max-height: 100%;
+}
+
+.header_left {
+	float: left;
+}
+
+.header_right {
+	float: right;
+}
+
+.header_center {
+	font-weight: bold;
+	font-size: 1.8em;
+	text-align: center;
+	height: 60px;
+	margin: auto;
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+	.header_center {
+	clear: both;
+	height: 40px;
+	}
+}
+
+/* Portrait */
+@media screen 
+  and (device-width: 320px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 2) 
+  and (orientation: portrait) {
+	  .header_center {
+	clear: both;
+	height: 40px;
+	}
+
+}
+
+.menutable {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+	background-color: rgb(0, 0, 0);
+    background-color: rgba(0,0,0,0.5);
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+.menubutton{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	margin-right: 10px;	
+	padding: 10px;
+	box-shadow: -10px 0px 5px dimgray;
+	width: 300px;
+	border-radius: 15px;
+	background-color: lightblue;
+	text-align: center;
 }
