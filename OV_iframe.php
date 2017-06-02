@@ -46,11 +46,24 @@
 		</script>
 
 		<!-- main page starts here -->	
-
-
+<?php
+	$OVINFO = mysql_query('SELECT * FROM OVINFO ');
+	$j            = -1;
+	$ov_table="[";
+	while ($ov_info = mysql_fetch_row($OVINFO, MYSQL_ASSOC)) {
+		$j += 1;
+		$ov_table.= "[".$ov_info['ID'].",'".$ov_info['Source']."','".$ov_info['Destination']."','".$ov_info['SourceName']."','".$ov_info['DestinationName']."','".$ov_info['DefaultYNID']."'],";
+	}
+	$ov_table=substr($ov_table, 0, -1);
+	$ov_table.="]";
+	$ID=0;
+	if (!empty($_GET['ID'])){
+	$ID=$_GET['ID'];}
+?>
+		
 <script>
 
-function getValues(){
+function getValues(ID){
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -59,12 +72,15 @@ function getValues(){
 			getStuff(currentresult);
 		}
 	};
-	xmlhttp.open("GET", "directions.php", true);
+	xmlhttp.open("GET", "directions.php?ID="+ID, true);
 	xmlhttp.send();
 }
 
 $( document ).ready(function()  {
-	getValues();
+	getValues(<?php echo $ID; ?>);
+	if (window.self == window.top){
+		setTimeout(function(){ window.location.href = "domo_dashboard.php"; }, 60000);
+	}
 });
 
 
@@ -173,71 +189,161 @@ function addDetail(ID){
 	return tempEl;
 }
 
+function fgowhen(seconds){
+	if (seconds < 120){
+		return "<b>vertrek nu!</b>";
+	}
+	return "vertrek over " + Math.round(seconds/60) + " minuten";
+}
+
+function getsymbols(text){
+		text = text.replace(/WALK/g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/walk.png' height='15' width='15'></img>");
+		text = text.replace(/Bus /g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png' height='15' width='15'></img>");
+		text = text.replace(/Tram /g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/tram2.png' height='15' width='15'></img>");
+		return text;
+}
+
+function showtable(routes,routedesc){
+	var ID = <?php echo $ID; ?>;
+	var source_dest = <?php echo $ov_table; ?>;
+	if (ID==0){
+		for (j=0;j<source_dest.length;j++){
+			if (source_dest[j][5]==1){
+				var sourcename=source_dest[j][3];
+				var destname=source_dest[j][4];
+			}
+		}
+	} else {
+		for (j=0;j<source_dest.length;j++){
+			if (source_dest[j][0]==ID){
+				var sourcename=source_dest[j][3];
+				var destname=source_dest[j][4];
+			}
+		}
+	}
+	maxsteps=0;
+	for (x=0;x<routes.length;x++){
+		maxsteps=Math.max(routes[x].length,maxsteps);
+	}
+	text="<table class='OV' style='text-align: center;'>";
+	text+="<tr><td colspan="+(maxsteps+1)+"><button id='OV_header' class='menubutton'></button></td></tr>";
+	for (x=0;x<routes.length;x++){
+		if(routes[x].length>0){
+			text+="<tr><td colspan="+(maxsteps+1)+">";
+			text+="Van " + routedesc[x][0] + " tot " + routedesc[x][1] + " ("+routedesc[x][2]+") " + routedesc[x][3];
+			text+="</td></tr><tr>";
+			for (y=0;y<routes[x].length;y++){
+				text+="<td>"+getsymbols(routes[x][y][0])+"</td>";
+			}
+			if (routes[x].length<maxsteps){
+				for (z=routes[x].length;z<maxsteps;z++){
+					text+="<td></td>";
+				}
+			}
+			text+="<td>"+routedesc[x][4]+"</td></tr><tr>";
+			for (y=0;y<routes[x].length;y++){
+				text+="<td>"+routes[x][y][1]+"</td>";
+			}
+			if (routes[x].length<maxsteps){
+				for (z=routes[x].length;z<maxsteps;z++){
+					text+="<td></td>";
+				}
+			}
+			text+="<td>"+routedesc[x][5]+"</td></tr>";		
+		}	
+	}
+	text+="</table>";
+	$("#OVtable").html(text);
+	$('#OV_header').html("OV van " + sourcename + " naar " + destname);
+	$("#OV_header").width="100%";
+}
+
 function getStuff(data_directions_tram){
 		$("#OV").empty();
 		//data is the JSON string
 		var det =  new Array();
 		var desc = new Array();
 		console.log(data_directions_tram);
+
 		
 		if (data_directions_tram.status=="OK"){
+			//determine max steps
+			var max_steps=0;
 			for (x=0; x<data_directions_tram.routes.length; x++){
-				firststop=false;
-				objopt = addOpt(x);
-				objdesc = addDesc(x);
-				objdesc.html("testttt"+x);
-				objdet = addDetail(x);
-				objdet.html("testrrr"+x);
-				
-				det[x]= new Detail(objdet);
-				desc[x] = new Desc(objdesc);
-				det[x].log("Optie "+(x+1)+":");
-				det[x].log("Vertrek om: "+data_directions_tram.routes[x].legs[0].departure_time.text);
-				desc[x].departure(data_directions_tram.routes[x].legs[0].departure_time.text);
-				for (y=0; y<data_directions_tram.routes[x].legs[0].steps.length; y++){
-					if (data_directions_tram.routes[x].legs[0].steps[y].travel_mode=="WALKING"){
-						tram_text =data_directions_tram.routes[x].legs[0].steps[y].html_instructions;
-						tram_text+=' ('+data_directions_tram.routes[x].legs[0].steps[y].duration.text+')';
-						det[x].log(tram_text);
-						desc[x].logstep('WALK',data_directions_tram.routes[x].legs[0].steps[y].duration.text);
-					}
-					if (data_directions_tram.routes[x].legs[0].steps[y].travel_mode=="TRANSIT"){
-						tram_text="Neem om ";
-						tram_text+=data_directions_tram.routes[x].legs[0].steps[y].transit_details.departure_time.text;
-						tram_text+=' bij halte '+data_directions_tram.routes[x].legs[0].steps[y].transit_details.departure_stop.name;
-						tram_text+=' '+data_directions_tram.routes[x].legs[0].steps[y].transit_details.line.vehicle.name;
-						tram_text+=' '+data_directions_tram.routes[x].legs[0].steps[y].transit_details.line.short_name;
-						tram_text+=' richting '+data_directions_tram.routes[x].legs[0].steps[y].transit_details.headsign;
-						tram_text+=', aankomst om '+data_directions_tram.routes[x].legs[0].steps[y].transit_details.arrival_time.text;
-						tram_text+=' ('+data_directions_tram.routes[x].legs[0].steps[y].duration.text+').';
-						det[x].log(tram_text);
-						desc[x].logstep(data_directions_tram.routes[x].legs[0].steps[y].transit_details.line.vehicle.name+' ' +data_directions_tram.routes[x].legs[0].steps[y].transit_details.line.short_name,data_directions_tram.routes[x].legs[0].steps[y].duration.text);
-						if (!firststop){
-							firststop=true;
-							console.log("hierzo");
-							console.log(data_directions_tram.routes[x].legs[0].steps[y].transit_details.departure_stop.name);
-							desc[x].stopname(data_directions_tram.routes[x].legs[0].steps[y].transit_details.departure_stop.name);
-							desc[x].stoptime(data_directions_tram.routes[x].legs[0].steps[y].transit_details.departure_time.text);
+				max_steps=(max_steps,data_directions_tram.routes[x].legs[0].steps.length);
+			}
+			var routes=[];
+			var routedesc=[];
+			
+			for (x=0; x<data_directions_tram.routes.length; x++){
+				var curroute=[];
+				var curroutedesc=[];
+				if (data_directions_tram.routes[x].legs[0].steps.length>1){
+					firststop=false;
+					objdet = addDetail(x);
+					var starttime = data_directions_tram.routes[x].legs[0].departure_time.text;
+					var arrivaltime = data_directions_tram.routes[x].legs[0].arrival_time.text;
+					var duration = data_directions_tram.routes[x].legs[0].duration.text;
+					var startepoch = data_directions_tram.routes[x].legs[0].departure_time.value;
+					var currentepoch = Math.ceil(new Date().getTime() / 1000);
+					var gowhen = fgowhen(startepoch-currentepoch);
+					curroutedesc=[starttime,arrivaltime,duration,gowhen];
+					
+					det[x]= new Detail(objdet);
+					//det[x].log("Optie "+(x+1)+": van " + sourcename + " naar " + destname);
+					det[x].log("Vertrek om: "+data_directions_tram.routes[x].legs[0].departure_time.text);
+
+					for (y=0; y<data_directions_tram.routes[x].legs[0].steps.length; y++){
+						if (data_directions_tram.routes[x].legs[0].steps[y].travel_mode=="WALKING"){
+							tram_text =data_directions_tram.routes[x].legs[0].steps[y].html_instructions;
+							tram_text+=' ('+data_directions_tram.routes[x].legs[0].steps[y].duration.text+')';
+							det[x].log(tram_text);
+							curroute.push(['WALK',data_directions_tram.routes[x].legs[0].steps[y].duration.text]);
+						}
+						if (data_directions_tram.routes[x].legs[0].steps[y].travel_mode=="TRANSIT"){
+							tram_text="Neem om ";
+							tram_text+=data_directions_tram.routes[x].legs[0].steps[y].transit_details.departure_time.text;
+							tram_text+=' bij halte '+data_directions_tram.routes[x].legs[0].steps[y].transit_details.departure_stop.name;
+							tram_text+=' '+data_directions_tram.routes[x].legs[0].steps[y].transit_details.line.vehicle.name;
+							tram_text+=' '+data_directions_tram.routes[x].legs[0].steps[y].transit_details.line.short_name;
+							tram_text+=' richting '+data_directions_tram.routes[x].legs[0].steps[y].transit_details.headsign;
+							tram_text+=', aankomst om '+data_directions_tram.routes[x].legs[0].steps[y].transit_details.arrival_time.text;
+							tram_text+=' ('+data_directions_tram.routes[x].legs[0].steps[y].duration.text+').';
+							det[x].log(tram_text);
+							curroute.push([data_directions_tram.routes[x].legs[0].steps[y].transit_details.line.vehicle.name+' ' +data_directions_tram.routes[x].legs[0].steps[y].transit_details.line.short_name,data_directions_tram.routes[x].legs[0].steps[y].duration.text]);
+							if (!firststop){
+								firststop=true;
+								var firststop = data_directions_tram.routes[x].legs[0].steps[y].transit_details.departure_stop.name
+								var firststoptime = data_directions_tram.routes[x].legs[0].steps[y].transit_details.departure_time.text
+								console.log(firststop);
+								curroutedesc.push(firststop,firststoptime);
+							}
 						}
 					}
+					det[x].log('Aankomsttijd: '+data_directions_tram.routes[x].legs[0].arrival_time.text+', reisduur: '+data_directions_tram.routes[x].legs[0].duration.text)
+					det[x].print(max_steps);
+					//desc[x].print();
 				}
-			det[x].log('Aankomsttijd: '+data_directions_tram.routes[x].legs[0].arrival_time.text+', reisduur: '+data_directions_tram.routes[x].legs[0].duration.text)
-			desc[x].arrival(data_directions_tram.routes[x].legs[0].arrival_time.text);
-			desc[x].duration(data_directions_tram.routes[x].legs[0].duration.text);
-			det[x].print();
-			desc[x].print();
+			routedesc.push(curroutedesc);
+			routes.push(curroute);
 			}
+		console.log(routes);
+		console.log(routedesc);
+		showtable(routes,routedesc);
 		} else {det[x].log(data_directions_tram.status);
 		}
-setTimeout(function(){ getValues(); }, 60000);		
+		
+setTimeout(function(){ getValues(<?php echo $ID; ?>); }, 60000);		
 	};
 
 
 </script>
 <div id="OVhidden" style="display: none;">
-	<div id="OV_optie"></div>
+	
+	<div id="OV_optie" class="OV_optie"></div>
 	<div id="OV_description"></div>
 	<div id="details" style="display: none;"></div></div>
+<div id="OVtable"></div>
 <div id="OV">
 
 </div>

@@ -423,7 +423,7 @@ header,#update
 
 table.OV, table.OV th, table.OV td {
 	border: 1px solid black;
-	padding: 5px;
+	padding: 2px;
 	font-size:0.8em;
 }
 
@@ -448,16 +448,16 @@ td.select-split,th.select-split
 }
 
 #wrap_OV { 
-	width: 600px; 
-	height: 400px; 
+	width: 400px; 
+	height: 350px; 
 	padding: 0; 
 	overflow: hidden;
 }
 	
 #frame_OV { 
-	width: 600px; 
-	height: 400px; 
-	border: 1px solid black;
+	width: 400px; 
+	height: 350px; 
+	border: 0px solid black;
 }
 
 @media all and (orientation:portrait) {
