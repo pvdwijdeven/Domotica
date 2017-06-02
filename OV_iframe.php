@@ -29,17 +29,17 @@
 			<!--
 			
 				window.onclick = function(event) {
-					if (event.target == document.getElementById("mySidenav")) {
-					document.getElementById("mySidenav").style.width = "0";
+					if (event.target == document.getElementById("showdetails")) {
+					document.getElementById("showdetails").style.width = "0";
 					}
 				}	
 				
-				function openNav() {
-					document.getElementById("mySidenav").style.width = "100%";
+				function openDet() {
+					document.getElementById("showdetails").style.width = "100%";
 				}
 			
-				function closeNav() {
-					document.getElementById("mySidenav").style.width = "0";
+				function closeDet() {
+					document.getElementById("showdetails").style.width = "0";
 				}
 			
 				//-->
@@ -62,6 +62,20 @@
 ?>
 		
 <script>
+
+	window.onclick = function(event) {
+		if (event.target == document.getElementById("mySidenav")) {
+		document.getElementById("mySidenav").style.width = "0";
+		}
+	}	
+	
+	function openNav() {
+		document.getElementById("mySidenav").style.width = "100%";
+	}
+
+	function closeNav() {
+		document.getElementById("mySidenav").style.width = "0";
+	}
 
 function getValues(ID){
 	var xmlhttp = new XMLHttpRequest();
@@ -96,90 +110,6 @@ class Detail {
 		this.obj.html(this.text);
 		console.log(this.text);
 	}
-}
-
-class Desc {
-	constructor(obj) {
-		this.text = "";
-		this.arr="";
-		this.dep="";
-		this.steps=[];
-		this.obj = obj;
-		this.stepsize=-1;
-		this.transport="";
-		this.stp="";
-		this.stpname="";
-		this.maxsteps=0;
-	}
-	
-    logstep(transport,dur) {
-		this.transport=transport;
-		this.transport = this.transport.replace(/WALK/g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/walk.png' height='15' width='15'></img>");
-		this.transport = this.transport.replace(/Bus /g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png' height='15' width='15'></img>");
-		this.transport = this.transport.replace(/Tram /g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/tram2.png' height='15' width='15'></img>");
-
-		this.stepsize+=1;
-		this.steps[this.stepsize]=[this.transport,dur];
-    }
-	duration(line) {
-		this.duration=line;
-    }
-	arrival(line) {
-		this.arr=line;
-    }
-	departure(line) {
-		this.dep=line;
-    }
-
-	stoptime(line) {
-		this.stp=line;
-		console.log(this.stp);
-    }
-	
-	stopname(line) {
-		this.stpname=line;
-    }
-	
-	getmaxstep(mainobj){
-		for (this.x=0; this.x<mainobj.routes.length; this.x++){
-			if (mainobj.routes[x].legs[0].steps.length>this.maxsteps){
-				this.maxsteps=mainobj.routes[x].legs[0].steps.length;
-			}
-		}
-	}
-	
-	print(){
-		this.text="<table class='OV' style='text-align: center;'><tr><td>"+this.dep+"</td><td>"+this.duration+"</td>";
-		for (this.x=0;this.x<=this.stepsize;this.x++){
-			this.text+="<td>"+this.steps[this.x][0]+"</td>";
-		}
-		for (this.x=this.stepsize;this.x<this.maxsteps;this.x++){
-			this.text+="<td></td>";
-		}
-		this.text+="<td>Eerste halte:"+this.stp+"</td>";
-		this.text+="</tr><tr><td>"+this.arr+"</td><td>button</td>";
-		for (this.x=0;this.x<=this.stepsize;this.x++){
-			this.text+="<td>"+this.steps[this.x][1]+"</td>";
-		}
-		this.text+="<td>"+this.stpname+"</td>";
-		this.text+="</tr></table>";
-		this.obj.html(this.text);
-	}
-}
-
-function addOpt(ID){
-	var tempEl = $( "#OV_optie" ).clone();
-	$(tempEl).attr('id',"optie_"+ID);
-	tempEl.html("Optie " + (ID+1) + ":");
-	tempEl.appendTo( "#OV" );
-	return tempEl;
-}
-
-function addDesc(ID){
-	var tempEl = $( "#OV_description" ).clone();
-	$(tempEl).attr('id',"desc_"+ID);
-	tempEl.appendTo( "#OV" );
-	return tempEl;
 }
 
 function addDetail(ID){
@@ -226,7 +156,7 @@ function showtable(routes,routedesc){
 		maxsteps=Math.max(routes[x].length,maxsteps);
 	}
 	text="<table class='OV' style='text-align: center;'>";
-	text+="<tr><td colspan="+(maxsteps+1)+"><button id='OV_header' class='menubutton'></button></td></tr>";
+	text+="<tr><td colspan="+(maxsteps+1)+"><button id='OV_header' class='menubutton' onclick='openDet()'></button></td></tr>";
 	for (x=0;x<routes.length;x++){
 		if(routes[x].length>0){
 			text+="<tr><td colspan="+(maxsteps+1)+">";
@@ -256,6 +186,7 @@ function showtable(routes,routedesc){
 	$("#OVtable").html(text);
 	$('#OV_header').html("OV van " + sourcename + " naar " + destname);
 	$("#OV_header").width="100%";
+	$("#detail_text").html($("#det_1").html());
 }
 
 function getStuff(data_directions_tram){
@@ -338,11 +269,15 @@ setTimeout(function(){ getValues(<?php echo $ID; ?>); }, 60000);
 
 
 </script>
+
+<div id="showdetails" class="OV_details">
+	<a href="javascript:void(0)" class="closebtn" onclick="closeDet()">&times;</a>
+	<div id="detail_text"></div>
+</div>
+
 <div id="OVhidden" style="display: none;">
-	
-	<div id="OV_optie" class="OV_optie"></div>
-	<div id="OV_description"></div>
-	<div id="details" style="display: none;"></div></div>
+	<div id="OV_details" style="display: none;"></div>
+</div>
 <div id="OVtable"></div>
 <div id="OV">
 
