@@ -1,3 +1,26 @@
+		<script>
+		function fullscreen(){
+			if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
+		   (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+			if (document.documentElement.requestFullScreen) {  
+			  document.documentElement.requestFullScreen();  
+			} else if (document.documentElement.mozRequestFullScreen) {  
+			  document.documentElement.mozRequestFullScreen();  
+			} else if (document.documentElement.webkitRequestFullScreen) {  
+			  document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
+			}  
+		  } else {  
+			if (document.cancelFullScreen) {  
+			  document.cancelFullScreen();  
+			} else if (document.mozCancelFullScreen) {  
+			  document.mozCancelFullScreen();  
+			} else if (document.webkitCancelFullScreen) {  
+			  document.webkitCancelFullScreen();  
+			}  
+		  }  
+		}
+		</script>
+		
 		<div id="mySidenav" class="sidenav">
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 			<table class="menutable">
@@ -18,7 +41,8 @@
 			<a href="domo_admin.php">admin page</a>
 			<?php endif; ?>
 			<br>logged in as <b><?php echo htmlentities($_SESSION['username']);?>
-			</b><br> (<a href="includes/logout.php">Log out</a>)</div>
+			</b><br> (<a href="includes/logout.php">Log out</a>)<BR>
+			<button onclick='fullscreen()'></button></div>
 			<div class="header_center"><?php echo $title; ?></div>
 			<hr>
 		</header>

@@ -448,33 +448,48 @@ td.select-split,th.select-split
 }
 
 #wrap_OV { 
-	width: 400px; 
+	width: 440px; 
 	height: 350px; 
 	padding: 0; 
 	overflow: hidden;
 }
 	
 #frame_OV { 
-	width: 400px; 
+	width: 440px; 
 	height: 350px; 
 	border: 0px solid black;
+}
+
+.OV_details, .OV_quick
+{
+  position:fixed;
+  left:0;
+  
+  overflow-x:hidden;
+  padding-top:60px;
+  transition:.5s;
+  margin-left:auto;
+  margin-right:auto;
+
 }
 
 .OV_details
 {
   height:100%;
   width:0;
-  position:fixed;
   z-index:10;
   top:0;
-  left:0;
   background-color:rgba(211,211,211,1);
-  overflow-x:hidden;
-  padding-top:60px;
-  transition:.5s;
-  margin-left:auto;
-  margin-right:auto;
   font-size:.7em;
+}
+
+.OV_quick
+{
+  height:100%;
+  width:100%;
+  z-index:20;
+  top:0px;
+  background-color:rgba(211,211,211,1);
 }
 
 .OV_details .closebtn
@@ -499,6 +514,53 @@ td.select-split,th.select-split
 .OV_details a:hover,.offcanvas a:focus
 {
   color:#f1f1f1;
+}
+
+.evenrow
+{
+	background-color:rgb(211,211,211);
+}
+
+.oddrow
+{
+	background-color:rgb(180,180,180);
+}
+
+
+.OVselectbutton
+{
+  width:100%;
+  heigth:100%;
+  background-color:#ADD8E6;
+  text-align:center;
+  font-weight: 900;
+}
+
+.OVdetbutton
+{
+  width:100%;
+  heigth:100%;
+  background-color:#ADD8E6;
+  text-align:center;
+}
+
+#quick_text
+{
+	font-size:1.3em;
+	top:0px;
+	position:absolute;
+	width:100%;
+}
+
+.emphasize
+{
+	font-size:2.5em;
+	font-weight:900;
+}
+
+.emphasize2
+{
+	font-size:1.5em;
 }
 
 @media all and (orientation:portrait) {
