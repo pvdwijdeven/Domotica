@@ -47,14 +47,14 @@
 				//-->
 		</script>
 		<?php include "includes/header.php"; ?>
-		<!-- main page starts here -->	
-		<div id="wrap_OV">
-		<iframe id="frame_OV" src="OV_iframe.php"></iframe>
-		</div>
-		<div id="wrap_weather">
-		<iframe id="frame_weather" src="weather_iframe.php"></iframe>
+		<!-- main page starts here -->
+		<div id="main_wrapper">
+			<div id="wrap_OV">
+				<iframe id="frame_OV" src="OV_iframe.php"></iframe>
+			</div><div id="wrap_weather">
+				<iframe id="frame_weather" src="weather_iframe.php"></iframe>
+			</div>		
 		</div>		
-
 
 
 		<!-- main page ends here -->	

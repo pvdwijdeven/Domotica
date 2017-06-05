@@ -491,12 +491,20 @@ td.select-split,th.select-split
 	-webkit-transform-origin: 0 0;
 }
 
+#main_wrapper { 
+	padding: 0; 
+	overflow: hidden;
+	display:inline-block;
+	margin: 0 0 0 0;
+}
+
 #wrap_OV { 
-	width: 380px; 
+	width: 330px; 
 	height: 250px; 
 	padding: 0; 
 	overflow: hidden;
 	display:inline-block;
+	border: 0px solid black;
 }
 	
 #frame_OV { 
@@ -608,11 +616,12 @@ td.select-split,th.select-split
 }
 
 #wrap_weather { 
-	width: 380px; 
+	width: 330px; 
 	height: 250px; 
 	padding: 0; 
 	overflow: hidden;
 	display:inline-block;
+	border: 0px solid black;
 }
 	
 #frame_weather { 
@@ -620,6 +629,24 @@ td.select-split,th.select-split
 	height: 350px; 
 	border: 0px solid black;
 	display:inline-block;
+}
+
+.forecast td
+{
+	border: 1px solid grey;
+	text-align: center;
+	font-size: 0.7em;
+}
+
+#weather_current, #weather_minmax
+{
+	font-size: 0.7em;
+	text-align: center;
+}
+
+#weather
+{
+	border: 1px solid black;
 }
 
 @media all and (orientation:portrait) {
