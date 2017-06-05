@@ -24,7 +24,7 @@
 		document.cookie = cname + "=" + cvalue + ";" + expires;
 	}
 	
-	
+
 	
 	function setSButtons(){
 		var selected = getCookie("select_<?php echo basename($_SERVER['PHP_SELF']);?>");;
@@ -104,11 +104,11 @@
 	<tr>
 		<td id="selectBG" class="select-button" onmousedown="clickSButton(this)">BG</td>
 		<td class="select-bsplit"></td>
-		<td id="select1e"class="select-button" onmousedown="clickSButton(this)">1e</td>
+		<td id="select1e" class="select-button" onmousedown="clickSButton(this)">1e</td>
 		<td class="select-bsplit"></td>
-		<td id="select2e"class="select-button" onmousedown="clickSButton(this)">2e</td>
+		<td id="select2e" class="select-button" onmousedown="clickSButton(this)">2e</td>
 		<td class="select-split"></td>
-		<td id="selectL"class="select-button" onmousedown="clickSButton(this)">L</td>
+		<td id="selectL" class="select-button" onmousedown="clickSButton(this)">L</td>
 		<td class="select-bsplit"></td>
 		<td id="selectA" class="select-button" onmousedown="clickSButton(this)">A</td>
 		<td class="select-bsplit"></td>
@@ -123,6 +123,7 @@
 	<?php
 		if (basename($_SERVER['PHP_SELF'])=="whathappened.php"){
 		echo '<tr><td colspan=17 id="rangesel" class="select-button" onmousedown="clickRangeButton()"><div id="getpos">Tijdslot</div></td>';
+		echo "<tr><td colspan=17><table width='100%'><tr><td width='25%' class='select-button' onmousedown='setRange(1)'>1 uur</td><td class='select-bsplit'></td><td width='25%' class='select-button' onmousedown='setRange(3)'>3 uur</td><td class='select-bsplit'></td><td width='25%' class='select-button' onmousedown='setRange(24)'>1 dag</td><td class='select-bsplit'></td><td width='25%' class='select-button' onmousedown='setRange(168)'>7 dagen</td></tr></table></td></tr>";
 		}
 	?>
 	</tr>

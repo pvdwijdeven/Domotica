@@ -228,6 +228,17 @@
 			modal2.style.display = "none";
 			}
 			
+			function setRange(hours){
+				var dto = new Date();
+				var diff = dto.getTimezoneOffset()
+				dto.setMinutes ( dto.getMinutes() - diff );
+				var valto = (dto.toJSON().slice(0,16));
+				var dfrom = new Date(dto);
+				dfrom.setHours ( dto.getHours() - hours );
+				var valfrom = (dfrom.toJSON().slice(0,16));
+				window.location.href = "whathappened.php?from="+valfrom+"&to="+valto;
+			}
+			
 		</script>
 		<!-- The Modal -->
 		<?php 

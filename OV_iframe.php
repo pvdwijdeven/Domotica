@@ -1,5 +1,5 @@
 <?php 
-	$title="Domo Dashboard";
+	$title="Domo OV_iframe";
 	$adminpage=false;
 	include_once 'includes/db_connect.php';
 	include_once 'includes/functions.php';
@@ -211,59 +211,63 @@ function showtable(routes,routedesc){
 			}
 		}
 	}
-	quick+="<tr><td colspan="+routes[shortestID].length+"><button id='OV_header1' class='OVselectbutton' onclick='openSel()'></button></td></tr>";
-	quick+=fgowhenquick(routedesc[shortestID][3]);
-	quick+="<tr><td colspan="+routes[shortestID].length+">naar halte<BR><div class='emphasize2'>"+routedesc[shortestID][4]+"</div></td></tr>";
-	quick+="<tr><td colspan="+routes[shortestID].length+">vertrek: "+routedesc[shortestID][0]+"<BR>aankomst: "+routedesc[shortestID][1]+"<BR>reistijd: "+routedesc[shortestID][2]+"</div></td></tr>";
+	if (shortest==99999999){
+		$("#quick_text").html("Er is momenteel helaas geen OV beschikbaar voor deze route!!");
+	}else{
+		quick+="<tr><td colspan="+routes[shortestID].length+"><button id='OV_header1' class='OVselectbutton' onclick='openSel()'></button></td></tr>";
+		quick+=fgowhenquick(routedesc[shortestID][3]);
+		quick+="<tr><td colspan="+routes[shortestID].length+">naar halte<BR><div class='emphasize2'>"+routedesc[shortestID][4]+"</div></td></tr>";
+		quick+="<tr><td colspan="+routes[shortestID].length+">vertrek: "+routedesc[shortestID][0]+"<BR>aankomst: "+routedesc[shortestID][1]+"<BR>reistijd: "+routedesc[shortestID][2]+"</div></td></tr>";
 
-	for (x=0;x<routes.length;x++){
-		if(routes[x].length>0){
-			if (evenrow=="evenrow"){
-				evenrow="oddrow";
-			}else{
-				evenrow="evenrow";
-			}
+		for (x=0;x<routes.length;x++){
+			if(routes[x].length>0){
+				if (evenrow=="evenrow"){
+					evenrow="oddrow";
+				}else{
+					evenrow="evenrow";
+				}
 
-			text+="<tr class="+evenrow+"><td colspan="+(maxsteps+2)+">";
-			text+="Van " + routedesc[x][0] + " tot " + routedesc[x][1] + " ("+routedesc[x][2]+") " + routedesc[x][3];
-			text+="</td></tr><tr class="+evenrow+">";
-			for (y=0;y<routes[x].length;y++){
-				text+="<td>"+getsymbols(routes[x][y][0])+"</td>";
+				text+="<tr class="+evenrow+"><td colspan="+(maxsteps+2)+">";
+				text+="Van " + routedesc[x][0] + " tot " + routedesc[x][1] + " ("+routedesc[x][2]+") " + routedesc[x][3];
+				text+="</td></tr><tr class="+evenrow+">";
+				for (y=0;y<routes[x].length;y++){
+					text+="<td>"+getsymbols(routes[x][y][0])+"</td>";
+					if (shortestID==x){
+						quick+="<td>"+getsymbols(routes[x][y][0],25)+"</td>";
+					}
+				}
+				if (routes[x].length<maxsteps){
+					for (z=routes[x].length;z<maxsteps;z++){
+						text+="<td></td>";
+					}
+				}
 				if (shortestID==x){
-					quick+="<td>"+getsymbols(routes[x][y][0],25)+"</td>";
+					quick+="</tr><tr>";
 				}
-			}
-			if (routes[x].length<maxsteps){
-				for (z=routes[x].length;z<maxsteps;z++){
-					text+="<td></td>";
+				text+="<td colspan=2>"+routedesc[x][4]+"</td></tr><tr class="+evenrow+">";
+				for (y=0;y<routes[x].length;y++){
+					text+="<td>"+routes[x][y][1]+"</td>";
+					if (shortestID==x){
+						quick+="<td>"+routes[x][y][1]+"</td>";
+					}
 				}
-			}
-			if (shortestID==x){
-				quick+="</tr><tr>";
-			}
-			text+="<td colspan=2>"+routedesc[x][4]+"</td></tr><tr class="+evenrow+">";
-			for (y=0;y<routes[x].length;y++){
-				text+="<td>"+routes[x][y][1]+"</td>";
-				if (shortestID==x){
-					quick+="<td>"+routes[x][y][1]+"</td>";
+				if (routes[x].length<maxsteps){
+					for (z=routes[x].length;z<maxsteps;z++){
+						text+="<td></td>";
+					}
 				}
-			}
-			if (routes[x].length<maxsteps){
-				for (z=routes[x].length;z<maxsteps;z++){
-					text+="<td></td>";
-				}
-			}
-			text+="<td><button class='OVdetbutton' onclick='openDet("+x+")'>Details</button></td><td>"+routedesc[x][5]+"</td></tr>";		
-		}	
+				text+="<td><button class='OVdetbutton' onclick='openDet("+x+")'>Details</button></td><td>"+routedesc[x][5]+"</td></tr>";		
+			}	
+		}
+		text+="</table>";
+		quick+="</tr><tr><td colspan="+routes[shortestID].length+"><button id='showoptions' class='OVdetbutton' onclick='showOpt()'>Laat opties zien</button></td></tr></table";
+		$("#quick_text").html(quick);
+		$("#OVtable").html(text);
+		$('#OV_header').html("OV van " + sourcename + " naar " + destname);
+		$('#OV_header1').html("OV van " + sourcename + " naar " + destname);
+		$("#OV_header").width="100%";
+		$("#OV_header1").width="100%";
 	}
-	text+="</table>";
-	quick+="</tr><tr><td colspan="+routes[shortestID].length+"><button id='showoptions' class='OVdetbutton' onclick='showOpt()'>Laat opties zien</button></td></tr></table";
-	$("#quick_text").html(quick);
-	$("#OVtable").html(text);
-	$('#OV_header').html("OV van " + sourcename + " naar " + destname);
-	$('#OV_header1').html("OV van " + sourcename + " naar " + destname);
-	$("#OV_header").width="100%";
-	$("#OV_header1").width="100%";
 
 	
 }

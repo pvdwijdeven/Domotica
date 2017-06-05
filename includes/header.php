@@ -24,13 +24,13 @@
 		<div id="mySidenav" class="sidenav">
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 			<table class="menutable">
-				<tr><td><button class="menubutton" id="menuButton_1" onmouseup="window.location.href='domo_main.php'">domo main</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_1" onmouseup="window.location.href='domo_main.php'">Domo Main</button></td></tr>
 				<tr><td><button class="menubutton" id="menuButton_2" onmouseup="window.location.href='domo_dashboard.php'">Domo Dashboard</button></td></tr>
-				<tr><td><button class="menubutton" id="menuButton_3" onmouseup="window.location.href='whathappened.php'">What happened?</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_3" onmouseup="window.location.href='whathappened.php'">Domo What Happened?</button></td></tr>
 				<?php if ($_SESSION['username'] == $adminName){ ?>
-				<tr><td><button class="menubutton" id="menuButton_4" onmouseup="window.location.href='view_tables.php'">View/modify tables</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_4" onmouseup="window.location.href='view_tables.php'">Domo View/Modify Tables</button></td></tr>
 				<?php } ?>
-				<tr><td><button class="menubutton" id="menuButton_5" onmouseup="window.location.href='includes/logout.php'">Log out</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_5" onmouseup="window.location.href='includes/logout.php'">Domo Log out</button></td></tr>
 			</table>
 		</div>
 	

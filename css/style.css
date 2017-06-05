@@ -1,14 +1,79 @@
+/*colors*/
+
+body
+{
+  background-color:lightgray;
+  color:black;
+}
+
+.menubutton, .OVselectbutton, .OVdetbutton, .tablebutton
+{
+  background-color:LightBlue;
+}
+
+.close, td.select-button, button, a{
+	color:black;
+}
+
+.loginbtn, .cancelbtn, table.db-table th, table.db-table .add, table.db-table .delete, table.db-table .modify
+{
+	color:white;
+}
+
+.tablebuttondisabled
+{
+	background-color:#b5c9de;
+	color:gray;
+}
+
+td.select-buttonpressed
+{
+	color:gray;
+}
+
+.buttonarea .button,.buttonarea .buttonpressed, .modal-content2, .modal-content3, td.select-button, td.select-buttonpressed, table.log td,table.log th
+{
+	background-color:LightSteelBlue;
+}
+
+.loginbtn
+{
+	background-color:green;
+}
+
+.cancelbtn
+{
+	background-color:red;
+}
+
+.detected
+{
+	color:red;
+}
+
+#weather_icon, #weather_temp
+{
+	background-color:#0099cc;
+}
+
+/*END colors*/
+
 body
 {
   font:14px/1.4 Arial;
   font-size:1.2em;
-  background-color:lightgray;
 }
 
 footer
 {
   text-align:center;
   font-size:.6em;
+}
+
+#weather
+{
+	padding:0px;
+	border-collapse: collapse;
 }
 
 .menuHidden
@@ -33,7 +98,6 @@ footer
   box-shadow:-10px 0 5px #696969;
   width:100px;
   border-radius:15px;
-  background-color:#ADD8E6;
   text-align:center;
   margin:10px;
   padding:10px;
@@ -43,8 +107,6 @@ footer
 {
   box-shadow:-10px 0 5px #696969;
   border-radius:15px;
-  background-color:#b5c9de;
-  color:gray;
   width:100px;
   text-align:center;
   margin:10px;
@@ -79,7 +141,6 @@ td.tablebutton
   margin-top:10px;
   margin-bottom:10px;
   border-radius:15px;
-  background-color:#B0C4DE;
   width:280px;
   height:130px;
   text-align:left;
@@ -117,8 +178,6 @@ input[type=text],input[type=password],select
 
 .loginbtn
 {
-  background-color:#4CAF50;
-  color:#FFF;
   border:none;
   cursor:pointer;
   width:100%;
@@ -133,11 +192,9 @@ button:hover
 
 .cancelbtn
 {
-  color:#FFF;
   border:none;
   cursor:pointer;
   width:100%;
-  background-color:#f44336;
   margin:8px 0;
   padding:10px 18px;
 }
@@ -180,7 +237,6 @@ button:hover
 
 .modal-content2
 {
-  background-color:#B0C4DE;
   border:1px solid #888;
   width:120px;
   margin:5px auto;
@@ -188,7 +244,6 @@ button:hover
 
 .modal-content3
 {
-  background-color:#B0C4DE;
   border:1px solid #888;
   width:500px;
   margin:5px auto;
@@ -199,7 +254,6 @@ button:hover
   position:absolute;
   right:25px;
   top:0;
-  color:#000;
   font-size:35px;
   font-weight:700;
 }
@@ -223,7 +277,6 @@ table.db-table
 table.db-table th
 {
   background:#000;
-  color:#FFF;
   border-left:1px solid #ccc;
   border-top:1px solid #ccc;
   padding:5px;
@@ -239,19 +292,16 @@ table.db-table td
 table.db-table .add
 {
   background:green;
-  color:#FFF;
 }
 
 table.db-table .delete
 {
   background:red;
-  color:#FFF;
 }
 
 table.db-table .modify
 {
   background:orange;
-  color:#FFF;
 }
 
 .name
@@ -288,9 +338,7 @@ td.select-button
   border:1px solid #000;
   box-shadow:-10px 0 5px #696969;
   border-radius:15px;
-  background-color:#B0C4DE;
   text-align:center;
-  color:#000;
   margin:10px;
 }
 
@@ -301,9 +349,7 @@ td.select-buttonpressed
   width:50px;
   border:1px solid #000;
   border-radius:15px;
-  background-color:#B0C4DE;
   text-align:center;
-  color:grey;
   margin:10px 20px 10px 0;
 }
 
@@ -325,7 +371,6 @@ table.log
 table.log td,table.log th
 {
   border:1px solid #000;
-  background-color:#B0C4DE;
   padding:5px;
 }
 
@@ -405,7 +450,6 @@ table.log td,table.log th
   box-shadow:-10px 0 5px #696969;
   width:300px;
   border-radius:15px;
-  background-color:#ADD8E6;
   text-align:center;
   margin:10px;
   padding:10px;
@@ -448,16 +492,18 @@ td.select-split,th.select-split
 }
 
 #wrap_OV { 
-	width: 440px; 
-	height: 350px; 
+	width: 380px; 
+	height: 250px; 
 	padding: 0; 
 	overflow: hidden;
+	display:inline-block;
 }
 	
 #frame_OV { 
 	width: 440px; 
 	height: 350px; 
 	border: 0px solid black;
+	display:inline-block;
 }
 
 .OV_details, .OV_quick
@@ -531,7 +577,6 @@ td.select-split,th.select-split
 {
   width:100%;
   heigth:100%;
-  background-color:#ADD8E6;
   text-align:center;
   font-weight: 900;
 }
@@ -540,7 +585,6 @@ td.select-split,th.select-split
 {
   width:100%;
   heigth:100%;
-  background-color:#ADD8E6;
   text-align:center;
 }
 
@@ -561,6 +605,21 @@ td.select-split,th.select-split
 .emphasize2
 {
 	font-size:1.5em;
+}
+
+#wrap_weather { 
+	width: 380px; 
+	height: 250px; 
+	padding: 0; 
+	overflow: hidden;
+	display:inline-block;
+}
+	
+#frame_weather { 
+	width: 440px; 
+	height: 350px; 
+	border: 0px solid black;
+	display:inline-block;
 }
 
 @media all and (orientation:portrait) {

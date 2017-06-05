@@ -226,9 +226,9 @@
 								if (generalInfo['Analog'][i]=='BOTH'){
 									var temp = $(thisButton.find('.value1'));
 									if (currentresult[valuepos[i]]=="true"){
-										$(temp).css('color', 'red');
+										$(temp).addClass('detected');
 									} else{
-										$(temp).css('color', 'black');
+										$(temp).removeClass('detected');
 									}
 									$(temp).html(gettext(currentresult[valuepos[i]],i));
 									var temp = $(thisButton.find('.value2'));
@@ -236,14 +236,14 @@
 								}else if (generalInfo['Analog'][i]=='FALSE') {
 									var temp = $(thisButton.find('.value1'));
 									if (currentresult[valuepos[i]]=="true"){
-										$(temp).css('color', 'red');
+										$(temp).addClass('detected');
 									} else{
-										$(temp).css('color', 'black');
+										$(temp).removeClass('detected');
 									}
 									$(temp).html(gettext(currentresult[valuepos[i]],i));
 								} else{
 									var temp = $(thisButton.find('.value1'));
-									$(temp).css('color', 'black');
+									$(temp).removeClass('detected');
 									$(temp).html(currentresult[valuepos[i]] + ' ' + generalInfo['UoM'][i]);
 								}
 							}
