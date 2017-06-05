@@ -1,6 +1,6 @@
 /*colors*/
 
-body
+body, .weather_modal1
 {
   background-color:lightgray;
   color:black;
@@ -647,6 +647,18 @@ td.select-split,th.select-split
 #weather
 {
 	border: 1px solid black;
+}
+
+.weather_modal1
+{
+  display:none;
+  position:fixed;
+  z-index:1;
+  top:100px;
+  left:8px;
+  overflow:auto;
+  height:100%;
+  width:100%;
 }
 
 @media all and (orientation:portrait) {

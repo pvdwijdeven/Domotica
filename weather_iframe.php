@@ -77,7 +77,7 @@
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						var currentresult = JSON.parse(this.responseText);
-						console.log(currentresult);
+						//console.log(currentresult);
 						processCurrent(currentresult);
 					}
 				};
@@ -90,7 +90,7 @@
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						var forecastresult = JSON.parse(this.responseText);
-						console.log(forecastresult);
+						//console.log(forecastresult);
 						processForecast(forecastresult);
 					}
 				};
@@ -103,7 +103,7 @@
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						var hourlyresult = JSON.parse(this.responseText);
-						console.log(hourlyresult);
+						//console.log(hourlyresult);
 						processHourly(hourlyresult);
 					}
 				};
@@ -125,7 +125,6 @@
 			google.load('visualization', '1', {'packages':['corechart']});
 
 			// Set a callback to run when the Google Visualization API is loaded.
-			google.setOnLoadCallback(getHourly);
 			
 			function processCurrent(current){
 				$("#weather_icon").html('<img src="resources/weather/'+current.weather[0].icon+'.png" width="150px" height="90px">');
@@ -172,16 +171,17 @@
 					d.setTime(jshourly.hourly_forecast[x].FCTTIME.epoch*1000);
 					hforecast.push([d,parseInt(jshourly.hourly_forecast[x].pop),parseInt(jshourly.hourly_forecast[x].temp.metric)]);
 				}
-				console.log(hforecast);
+				//console.log(hforecast);
 				var data = new google.visualization.DataTable();
 				data.addColumn('datetime', 'datum/tijd');
-				data.addColumn('number', 'neerslagkans');
-				data.addColumn('number', 'temperatuur');
+				data.addColumn('number', 'neerslag%');
+				data.addColumn('number', 'temp.');
 				data.addRows(hforecast);
 				 // Set chart options
 				var options = {'title':'Komende 30 uur:',
-                     'width':300,
-                     'height':100,
+                     'width':306,
+                     'height':140,
+					 'legend':{position:'bottom'},
 					 backgroundColor: 'lightgray',
 					 series:{
 					0:{targetAxisIndex:0, type:"steppedArea", color:"grey"},
@@ -191,6 +191,19 @@
 			  var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
 			  chart.draw(data, options);
 				return true
+			}	
+
+			window.onclick = function(event) {
+				//console.log(event.target.parentElement);
+				if ($(event.target.parentElement).attr('ID')=='weather_icon'){
+					if (!$('.weather_modal1').is(":visible")){
+						$('.weather_modal1').show();
+						getHourly();
+						setTimeout(function(){ $('.weather_modal1').hide(); }, 60000);	
+					}else{
+						$('.weather_modal1').hide();
+					}
+				}
 			}			
 			
 		</script>
@@ -203,8 +216,12 @@
 			</table>
 
 		</div>
-		<div id="chart_div" style="width:300; height:100"></div>
-
+		
+		<div id="weather_detail" class="weather_modal1">
+			<table id="weather">
+				<td><td><div id="chart_div"></div></td></tr>
+			</table>
+		</div>
 	</body>
 </html>
 <?php
