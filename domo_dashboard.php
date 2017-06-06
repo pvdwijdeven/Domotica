@@ -51,6 +51,8 @@
 		<div id="main_wrapper">
 			<div id="wrap_OV">
 				<iframe id="frame_OV" src="OV_iframe.php"></iframe>
+			</div><div id="wrap_traffic">
+				<iframe id="frame_traffic" src="traffic_iframe.php"></iframe>
 			</div><div id="wrap_weather">
 				<iframe id="frame_weather" src="weather_iframe.php"></iframe>
 			</div>		

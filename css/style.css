@@ -465,7 +465,7 @@ header,#update
   font-size:.6em;
 }
 
-table.OV, table.OV th, table.OV td {
+table.OV, table.OV th, table.OV td, table.traffic, table.traffic th, table.traffic td {
 	border: 1px solid black;
 	padding: 2px;
 	font-size:0.8em;
@@ -473,6 +473,15 @@ table.OV, table.OV th, table.OV td {
 
 table.OV {
 	border-collapse: collapse;
+}
+
+table.traffic {
+	border-collapse: collapse;
+	text-align: center;
+}
+
+table.traffic tr, table.traffic td {
+	text-align: left;
 }
 
 td.select-split,th.select-split
@@ -661,6 +670,33 @@ td.select-split,th.select-split
   width:100%;
 }
 
+#frame_traffic {
+	-ms-zoom: 0.70
+	-moz-transform: scale(0.70);
+	-moz-transform-origin: 0 0;
+	-o-transform: scale(0.70);
+	-o-transform-origin: 0 0;
+	-webkit-transform: scale(0.70);
+	-webkit-transform-origin: 0 0;
+}
+
+#wrap_traffic { 
+	width: 330px; 
+	height: 250px; 
+	padding: 0; 
+	overflow: hidden;
+	display:inline-block;
+	border: 0px solid black;
+}
+	
+#frame_traffic { 
+	width: 440px; 
+	height: 350px; 
+	border: 0px solid black;
+	display:inline-block;
+}
+
+
 @media all and (orientation:portrait) {
   .header_center
   {
@@ -668,6 +704,15 @@ td.select-split,th.select-split
     height:40px;
   }
   #frame_OV {
+	-ms-zoom: 0.60;
+	-moz-transform: scale(0.60);
+	-moz-transform-origin: 0 0;
+	-o-transform: scale(0.60);
+	-o-transform-origin: 0 0;
+	-webkit-transform: scale(0.60);
+	-webkit-transform-origin: 0 0;
+	}
+  #frame_traffic {
 	-ms-zoom: 0.60;
 	-moz-transform: scale(0.60);
 	-moz-transform-origin: 0 0;
