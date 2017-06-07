@@ -10,6 +10,7 @@
 	$result = $mysqli->query($sql);
 	$row = $result->fetch_assoc();
 	$adminName = $row['admin'];
+	$camkey=$row['CamKey'];
 	if (($adminpage AND $adminName==$_SESSION['username'] AND $loginchecked) OR (!$adminpage AND $loginchecked)){
 ?>
 
@@ -25,41 +26,9 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body>
-		<script type="text/javascript">
-			<!--
-			
-				window.onclick = function(event) {
-					if (event.target == document.getElementById("mySidenav")) {
-					document.getElementById("mySidenav").style.width = "0";
-					}
-				}	
-				
-				function openNav() {
-					document.getElementById("mySidenav").style.width = "100%";
-				}
-			
-				function closeNav() {
-					document.getElementById("mySidenav").style.width = "0";
-				}
 
+				<img src="https://192.168.2.224:443/cgi-bin/CGIProxy.fcgi?cmd=snapPicture2&<?php echo $camkey?>&t=" width='400' onload='setTimeout(function() {src = src.substring(0, (src.lastIndexOf("t=")+2))+(new Date()).getTime()}, 500)' onerror='setTimeout(function() {src = src.substring(0, (src.lastIndexOf("t=")+2))+(new Date()).getTime()}, 5000)' alt='' />
 
-			
-				//-->
-		</script>
-		<?php include "includes/header.php"; ?>
-		<!-- main page starts here -->
-		<div id="main_wrapper">
-			<div id="wrap_OV"><iframe id="frame_OV" src="OV_iframe.php"></iframe></div><div id="wrap_traffic"><iframe id="frame_traffic" src="traffic_iframe.php"></iframe></div><div id="wrap_weather"><iframe id="frame_weather" src="weather_iframe.php"></iframe></div>		
-		</div>		
-
-
-		<!-- main page ends here -->	
-		<footer>
-			<hr>
-			<p>
-				<?php include 'includes/footer.php'; ?>
-			</p>
-		</footer>
 	</body>
 </html>
 <?php

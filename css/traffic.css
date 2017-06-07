@@ -1,0 +1,82 @@
+
+#traffic_mainframe
+{
+	width: 400px;
+	height: 300px;
+	left: 0px;
+	top: 0px;
+	position: fixed;
+}
+
+.traffic_details
+{
+  position:fixed;
+  left:0;
+  
+  overflow-x:hidden;
+  padding-top:0px;
+  transition:.5s;
+  margin-left:auto;
+  margin-right:auto;
+
+}
+
+.traffic_details
+{
+  height:0px;
+  width:0;
+  z-index:10;
+  top:0;
+  background-color:rgba(211,211,211,1);
+  font-size:.7em;
+}
+
+.traffic_details .closebtn
+{
+  position:absolute;
+  top:0;
+  right:25px;
+  font-size:36px;
+  margin-left:50px;
+}
+
+.traffic_details a
+{
+  margin: auto;
+  text-decoration:none;
+  font-size:25px;
+  color:#818181;
+  display:block;
+  transition:.3s;
+  padding:8px 8px 8px 32px;
+}
+
+.traffic_details a:hover,.offcanvas a:focus
+{
+  color:#f1f1f1;
+}
+
+.trafficselectbutton
+{
+  width:100%;
+  heigth:100%;
+  text-align:center;
+  font-weight: 900;
+}
+
+.trafficdetbutton
+{
+  width:100%;
+  heigth:100%;
+  text-align:center;
+}
+
+.traffic_menubutton
+{
+  box-shadow:-10px 0 5px #696969;
+  margin:0px;
+  padding:10px;
+  width:300px;
+  border-radius:15px;
+  text-align:center;
+}

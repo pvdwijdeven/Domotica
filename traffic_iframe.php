@@ -22,6 +22,7 @@
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="css/style.css?v=3.0">
+		<link rel="stylesheet" href="css/traffic.css?v=3.0">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body>
@@ -36,7 +37,8 @@
 				
 				function openDet(x) {
 					$("#detail_text").html($("#det_"+x).html());
-					document.getElementById("showdetails").style.width = "100%";
+					document.getElementById("showdetails").style.width = $(traffic_mainframe).css('width');
+					document.getElementById("showdetails").style.height = $(traffic_mainframe).css('height');
 					setTimeout(function(){closeDet(); }, 300000);
 				}
 			
@@ -47,7 +49,8 @@
 				
 				function openSel(x) {
 					$("#showroutes").css('z-index', '50');
-					$("#showroutes").css('width', '100%');
+					$("#showroutes").css('width', $(traffic_mainframe).css('width'));
+					$("#showroutes").css('height', $(traffic_mainframe).css('height'));
 					setTimeout(function(){closeDet(); }, 300000);
 				}
 			
@@ -67,15 +70,15 @@
 
 		<!-- main page starts here -->	
 <?php
-	$OVINFO = mysql_query('SELECT * FROM trafficINFO ');
+	$trafficINFO = mysql_query('SELECT * FROM trafficINFO ');
 	$j            = -1;
-	$ov_table="[";
-	while ($ov_info = mysql_fetch_row($OVINFO, MYSQL_ASSOC)) {
+	$traffic_table="[";
+	while ($traffic_info = mysql_fetch_row($trafficINFO, MYSQL_ASSOC)) {
 		$j += 1;
-		$ov_table.= "[".$ov_info['ID'].",'".$ov_info['Source']."','".$ov_info['Destination']."','".$ov_info['SourceName']."','".$ov_info['DestinationName']."','".$ov_info['DefaultYNID']."'],";
+		$traffic_table.= "[".$traffic_info['ID'].",'".$traffic_info['Source']."','".$traffic_info['Destination']."','".$traffic_info['SourceName']."','".$traffic_info['DestinationName']."','".$traffic_info['DefaultYNID']."'],";
 	}
-	$ov_table=substr($ov_table, 0, -1);
-	$ov_table.="]";
+	$traffic_table=substr($traffic_table, 0, -1);
+	$traffic_table.="]";
 	$ID=0;
 	if (!empty($_GET['ID'])){
 	$ID=$_GET['ID'];}
@@ -103,7 +106,7 @@ function addButton(ID){
 }
 
 function setRouteMenu(){
-	var source_dest = <?php echo $ov_table; ?>;
+	var source_dest = <?php echo $traffic_table; ?>;
 	for (x=0;x<source_dest.length;x++){
 		tempEl=addButton("route_"+source_dest[x][0]);
 		if (source_dest[x][3]=="thuis"){
@@ -142,15 +145,15 @@ class Detail {
 }
 
 function addDetail(ID){
-	var tempEl = $( "#OV_details" ).clone();
+	var tempEl = $( "#traffic_details" ).clone();
 	$(tempEl).attr('id',"det_"+ID);
-	tempEl.appendTo( "#OV" );
+	tempEl.appendTo( "#traffic" );
 	return tempEl;
 }
 
 function showtable(routedesc){
 	var ID = <?php echo $ID; ?>;
-	var source_dest = <?php echo $ov_table; ?>;
+	var source_dest = <?php echo $traffic_table; ?>;
 	if (ID==0){
 		for (j=0;j<source_dest.length;j++){
 			if (source_dest[j][5]==1){
@@ -168,14 +171,14 @@ function showtable(routedesc){
 	}
 	text="<table class='traffic' style='text-align: center; margin: 0 auto;'>";
 	evenrow="oddrow";
-	text+="<tr><td colspan='2'><button id='OV_header' style='width: 300px'class='OVselectbutton' onclick='openSel()'></button></td></tr>";
+	text+="<tr><td colspan='2'><button id='traffic_header' style='width: 390px'class='trafficselectbutton' onclick='openSel()'></button></td></tr>";
 	for (x=0;x<routedesc.length;x++){
 		if (evenrow=="evenrow"){
 			evenrow="oddrow";
 		}else{
 			evenrow="evenrow";
 		}
-		text+="<tr class="+evenrow+"><td>Route ("+routedesc[x][5]+"):</td><td><button class='OVdetbutton' onclick='openDet("+x+")'>"+routedesc[x][0]+"</button></td></tr>";
+		text+="<tr class="+evenrow+"><td>Route ("+routedesc[x][5]+"):</td><td><button class='trafficdetbutton' onclick='openDet("+x+")'>"+routedesc[x][0]+"</button></td></tr>";
 		text+="<tr class="+evenrow+"><td>Reistijd huidig verkeer:</td><td>"+routedesc[x][3]+"</td></tr>";
 		var t = new Date();
 		t.setSeconds(t.getSeconds() + parseInt(routedesc[x][4]));
@@ -185,15 +188,15 @@ function showtable(routedesc){
 	text+="</table>";
 	$("#traffictable").html(text);
 	if (sourcename=="thuis"){
-		$('#OV_header').html("verkeer naar " + destname);
+		$('#traffic_header').html("verkeer naar " + destname);
 	}else{
-		$('#OV_header').html("verkeer van " + sourcename + " naar " + destname);
+		$('#traffic_header').html("verkeer van " + sourcename + " naar " + destname);
 	}
-	$("#OV_header").width="100%";
+	$("#traffic_header").width="100%";
 }
 
 function getStuff(data_traffic){
-		$("#OV").empty();
+		$("#traffic").empty();
 		//data is the JSON string
 		var det =  new Array();
 		//console.log(data_traffic);
@@ -240,26 +243,26 @@ setTimeout(function(){ getValues(<?php echo $ID; ?>); }, 300000);
 
 
 </script>
-
-<div id="showdetails" class="OV_details" onclick="closeDet()">
+<div id="traffic_mainframe">
+<div id="showdetails" class="traffic_details" onclick="closeDet()">
 	<a href="javascript:void(0)" class="closebtn" onclick="closeDet()">&times;</a>
 	<div id="detail_text"></div>
 </div>
 
-<div id="showroutes" class="OV_details" onclick="closeSel()">
+<div id="showroutes" class="traffic_details" onclick="closeSel()">
 	<a href="javascript:void(0)" class="closebtn" onclick="closeSel(this)">&times;</a>
 </div>
 
-<div id="OVhidden" style="display: none;">
-	<div id="OV_details"></div>
-	<button id="route0" class="menubutton" onclick="routeSel(this)">Route1</button>
+<div id="traffichidden" style="display: none;">
+	<div id="traffic_details"></div>
+	<button id="route0" class="traffic_menubutton" onclick="routeSel(this)">Route1</button>
 </div>
-<div id="OVoverview"></div>
+<div id="trafficoverview"></div>
 <div id="traffictable"></div>
-<div id="OV" style="display: none;">
+<div id="traffic" style="display: none;">
 
 </div>
-
+</div>
 
 	</body>
 </html>
