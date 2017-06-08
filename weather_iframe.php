@@ -23,6 +23,7 @@
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="css/style.css?v=3.0">
+		<link rel="stylesheet" href="css/weather.css?v=3.0">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
@@ -127,7 +128,7 @@
 			// Set a callback to run when the Google Visualization API is loaded.
 			
 			function processCurrent(current){
-				$("#weather_icon").html('<img src="resources/weather/'+current.weather[0].icon+'.png" width="150px" height="90px">');
+				$("#weather_icon").html('<img src="resources/weather/'+current.weather[0].icon+'.png" width="150px" height="96px">');
 				$("#weather_temp").html("<div class='emphasize'>"+Math.round(current.main.temp)+"&degC&nbsp</div>");
 				$("#weather_current").html("luchtvochtigheid: "+current.main.humidity+"%<BR>"+current.weather[0].description);
 				var sunr=current.sys.sunrise;
@@ -156,7 +157,7 @@
 			function processForecast(jsforecast){
 					$('#weather_minmax').html("max:"+jsforecast.forecast.simpleforecast.forecastday[0].high.celsius+"&deg<BR>min:"+jsforecast.forecast.simpleforecast.forecastday[0].low.celsius+"&deg");
 					for (x=1;x<5;x++){
-						$("#forecast"+x).html('<img src="'+getIcon(jsforecast.forecast.simpleforecast.forecastday[x].icon)+'" width="75px" height="45px">');
+						$("#forecast"+x).html('<img src="'+getIcon(jsforecast.forecast.simpleforecast.forecastday[x].icon)+'" width="70px" height="40px">');
 						$("#temp"+x).html(jsforecast.forecast.simpleforecast.forecastday[x].low.celsius+"&deg/"+jsforecast.forecast.simpleforecast.forecastday[x].high.celsius+"&deg");
 						$("#day"+x).html(jsforecast.forecast.simpleforecast.forecastday[x].date.weekday.substring(0,2));
 					}
@@ -179,8 +180,8 @@
 				data.addRows(hforecast);
 				 // Set chart options
 				var options = {'title':'Komende 30 uur:',
-                     'width':306,
-                     'height':140,
+                     'width':298,
+                     'height':146,
 					 'legend':{position:'bottom'},
 					 backgroundColor: 'lightgray',
 					 series:{
@@ -207,6 +208,7 @@
 			}			
 			
 		</script>
+		<div id="weather_mainframe">
 		<div id="weather_main">
 			<table id="weather"><tr><td colspan='2' id="weather_icon"></td><td colspan='2' id="weather_temp"></td></tr>
 			<tr><td colspan='3' id="weather_current"></td><td id="weather_minmax"></td></tr>
@@ -221,6 +223,7 @@
 			<table id="weather">
 				<td><td><div id="chart_div"></div></td></tr>
 			</table>
+		</div>
 		</div>
 	</body>
 </html>

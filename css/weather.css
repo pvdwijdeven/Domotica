@@ -1,0 +1,39 @@
+
+#weather_mainframe
+{
+	width: 300px;
+	height: 250px;
+	left: 0px;
+	top: 0px;
+	position: fixed;
+	font-size:1em;
+}
+.forecast td
+{
+	border: 1px solid grey;
+	text-align: center;
+	font-size: 0.8em;
+}
+
+#weather_current, #weather_minmax
+{
+	font-size: 0.9em;
+	text-align: center;
+}
+
+#weather
+{
+	border: 1px solid black;
+}
+
+.weather_modal1
+{
+  display:none;
+  position:fixed;
+  z-index:1;
+  top:100px;
+  left:1px;
+  overflow:auto;
+  height:100%;
+  width:298px;
+}
