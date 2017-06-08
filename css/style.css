@@ -465,7 +465,8 @@ header,#update
   font-size:.6em;
 }
 
-table.OV, table.OV th, table.OV td, table.traffic, table.traffic th, table.traffic td {
+table.OV, table.OV th, table.OV td
+{
 	border: 1px solid black;
 	padding: 2px;
 	font-size:0.8em;
@@ -473,15 +474,6 @@ table.OV, table.OV th, table.OV td, table.traffic, table.traffic th, table.traff
 
 table.OV {
 	border-collapse: collapse;
-}
-
-table.traffic {
-	border-collapse: collapse;
-	text-align: center;
-}
-
-table.traffic tr, table.traffic td {
-	text-align: left;
 }
 
 td.select-split,th.select-split
@@ -672,16 +664,16 @@ td.select-split,th.select-split
 
 
 #wrap_traffic { 
-	width: 404px; 
-	height: 304px; 
+	width: 300; 
+	height: 250px; 
 	padding: 0; 
 	display:inline-block;
 	border: 0px solid black;
 }
 	
 #frame_traffic { 
-	width: 404px; 
-	height: 304px; 
+	width: 300px; 
+	height: 250px; 
 	border: 0px solid black;
 	display:inline-block;
 }

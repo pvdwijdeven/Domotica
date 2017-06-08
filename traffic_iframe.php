@@ -90,7 +90,7 @@ function getValues(ID){
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			var currentresult = JSON.parse(this.responseText);
-			console.log(currentresult);
+			//console.log(currentresult);
 			getStuff(currentresult);
 		}
 	};
@@ -154,6 +154,24 @@ function addDetail(ID){
 function showtable(routedesc){
 	var ID = <?php echo $ID; ?>;
 	var source_dest = <?php echo $traffic_table; ?>;
+	fastest=-1
+	fastestval=999999
+	shortest=-1
+	shortestval=999999
+	for (x=0;x<routedesc.length;x++){
+		temp=routedesc[x][5].replace(',', '.')
+		temp=parseFloat(temp.substring(0,temp.length-3));
+		//console.log(temp);
+		if (temp<shortestval){
+			shortestval=temp;
+			shortest=x;
+		}
+		temp=parseInt(routedesc[x][4]);
+		if (temp<fastestval){
+			fastestval=temp;
+			fastest=x;
+		}
+	}
 	if (ID==0){
 		for (j=0;j<source_dest.length;j++){
 			if (source_dest[j][5]==1){
@@ -169,20 +187,35 @@ function showtable(routedesc){
 			}
 		}
 	}
-	text="<table class='traffic' style='text-align: center; margin: 0 auto;'>";
+	text="<table class='traffic_table'>";
 	evenrow="oddrow";
-	text+="<tr><td colspan='2'><button id='traffic_header' style='width: 390px'class='trafficselectbutton' onclick='openSel()'></button></td></tr>";
+	text+="<tr><td colspan='2'><button id='traffic_header' class='trafficselectbutton' onclick='openSel()'></button></td></tr>";
 	for (x=0;x<routedesc.length;x++){
+		diff=parseInt(routedesc[x][4])-parseInt(routedesc[x][2]);
+		diff=Math.round(diff/60);
+		col="black";
+		if (diff<0){col="green";} else
+		if (diff>0 & diff<15){col="orange";} else
+		if (diff>=15){col="red";}
+		difftxt="<span style='color:"+col+"'><b>"+diff+" min.</b></span>";
+		faststr="";
+		if (fastest==x){
+			faststr=" <b>(snelste route)</b>";
+		}
+		shortstr="";
+		if (shortest==x){
+			shortstr=" <b>(kortste route)</b>";
+		}
 		if (evenrow=="evenrow"){
 			evenrow="oddrow";
 		}else{
 			evenrow="evenrow";
 		}
-		text+="<tr class="+evenrow+"><td>Route ("+routedesc[x][5]+"):</td><td><button class='trafficdetbutton' onclick='openDet("+x+")'>"+routedesc[x][0]+"</button></td></tr>";
-		text+="<tr class="+evenrow+"><td>Reistijd huidig verkeer:</td><td>"+routedesc[x][3]+"</td></tr>";
+		text+="<tr class="+evenrow+"><td>Route ("+routedesc[x][5]+"):"+shortstr+"</td><td><button class='trafficdetbutton' onclick='openDet("+x+")'>"+routedesc[x][0]+"</button></td></tr>";
+		text+="<tr class="+evenrow+"><td>Reistijd huidig verkeer: ("+difftxt+")</td><td>"+routedesc[x][3]+"</td></tr>";
 		var t = new Date();
 		t.setSeconds(t.getSeconds() + parseInt(routedesc[x][4]));
-		text+="<tr class="+evenrow+"><td>Aankomsttijd:</td><td>"+t.toLocaleTimeString().substr(0,5)+"</td></tr>";
+		text+="<tr class="+evenrow+"><td>Aankomsttijd:"+faststr+"</td><td>"+t.toLocaleTimeString().substr(0,5)+"</td></tr>";
 		text+="<tr class="+evenrow+"><td>Reistijd normaal verkeer:</td><td>"+routedesc[x][1]+"</td></tr>";
 	}
 	text+="</table>";
@@ -192,7 +225,25 @@ function showtable(routedesc){
 	}else{
 		$('#traffic_header').html("verkeer van " + sourcename + " naar " + destname);
 	}
-	$("#traffic_header").width="100%";
+	$(".traffic_menubutton").css("width",$(traffic_mainframe).css('width'));
+	$("#traffic_header").css("width",(parseInt($(traffic_mainframe).css('width'))-10)+'px');
+
+	while (parseInt($("#traffic_header").css("height"))>25){
+		curfont = parseInt($("#traffic_header").css("font-size"));
+		curfont-=1;
+		$("#traffic_header").css("font-size",curfont+"px");
+		//console.log($("#traffic_header").css("height"));
+	}
+	
+	$(".trafficdetbutton").each(function( index ) {
+	while (parseInt($(this).css("height"))>16){
+		curfont = parseInt($(this).css("font-size"));
+		curfont-=1;
+		$(this).css("font-size",curfont+"px");
+		//console.log($(this).css("height"));
+	}
+	});
+	
 }
 
 function getStuff(data_traffic){
@@ -231,6 +282,7 @@ function getStuff(data_traffic){
 					det[x].print();
 				}
 			routedesc.push(curroutedesc);
+			
 			}
 		//console.log(routes);
 		//console.log(routedesc);
@@ -238,20 +290,16 @@ function getStuff(data_traffic){
 		} else {det[x].log(data_traffic.status);
 		}
 		
-setTimeout(function(){ getValues(<?php echo $ID; ?>); }, 300000);		
+setTimeout(function(){ getValues(<?php echo $ID; ?>); }, 280000);		
 	};
 
 
 </script>
 <div id="traffic_mainframe">
-<div id="showdetails" class="traffic_details" onclick="closeDet()">
-	<a href="javascript:void(0)" class="closebtn" onclick="closeDet()">&times;</a>
-	<div id="detail_text"></div>
+<div id="showdetails" class="traffic_details" onclick="closeDet()"><div id="detail_text"></div>
 </div>
 
-<div id="showroutes" class="traffic_details" onclick="closeSel()">
-	<a href="javascript:void(0)" class="closebtn" onclick="closeSel(this)">&times;</a>
-</div>
+<div id="showroutes" class="traffic_details" onclick="closeSel()"></div>
 
 <div id="traffichidden" style="display: none;">
 	<div id="traffic_details"></div>
