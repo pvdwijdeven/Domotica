@@ -22,6 +22,7 @@
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="css/style.css?v=3.0">
+		<link rel="stylesheet" href="css/OV.css?v=3.0">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body>
@@ -36,23 +37,27 @@
 				
 				function openDet(x) {
 					$("#detail_text").html($("#det_"+x).html());
-					document.getElementById("showdetails").style.width = "100%";
+					$("#showdetails").css('width', $(OV_mainframe).css('width'));
+					$("#showdetails").css('height', $(OV_mainframe).css('height'));
 					setTimeout(function(){closeDet(); }, 60000);
 				}
 			
 				function closeDet() {
 					$("#detail_text").html("");
 					document.getElementById("showdetails").style.width = "0";
+					document.getElementById("showdetails").style.height = "0";
 				}
 				
 				function openSel(x) {
 					$("#showroutes").css('z-index', '50');
-					$("#showroutes").css('width', '100%');
-					setTimeout(function(){closeDet(); }, 300000);
+					$("#showroutes").css('width', $(OV_mainframe).css('width'));
+					$("#showroutes").css('height', $(OV_mainframe).css('height'));
+					setTimeout(function(){closeSel(); }, 300000);
 				}
 			
 				function closeSel() {
 					document.getElementById("showroutes").style.width = "0";
+					document.getElementById("showroutes").style.height = "0";
 				}
 				
 				function routeSel(tempEl) {
@@ -114,15 +119,19 @@ function setRouteMenu(){
 	var source_dest = <?php echo $ov_table; ?>;
 	for (x=0;x<source_dest.length;x++){
 		tempEl=addButton("route_"+source_dest[x][0]);
-		tempEl.html("van "+ source_dest[x][3] + " naar "+ source_dest[x][4]);
+		if (source_dest[x][3]=="thuis"){
+			tempEl.html("naar "+ source_dest[x][4]);
+		}else{
+			tempEl.html("van "+ source_dest[x][3] + " naar "+ source_dest[x][4]);
+		}
 	}
 }
 
 $( document ).ready(function()  {
 	getValues(<?php echo $ID; ?>);
-	if (window.self == window.top){
-		setTimeout(function(){ window.location.href = "domo_dashboard.php"; }, 60000);
-	}
+	//if (window.self == window.top){
+	//	setTimeout(function(){ window.location.href = "domo_dashboard.php"; }, 60000);
+	//}
 	
 	if (<?php echo $ID; ?> != 0){
 		setTimeout(function(){ window.location.href = "OV_iframe.php"; }, 3600000);
@@ -161,12 +170,12 @@ function fgowhen(seconds){
 
 function fgowhenquick(text){
 	if (text=="<b>vertrek nu!</b>"){
-		return "<tr><td colspan="+(maxsteps+2)+">vertrek<BR><div class='emphasize'><B>nu!</B></div></td></tr>";
+		return "<tr class='evenrow'><td colspan="+(maxsteps+2)+"><div>vertrek</div><div class='OV_emphasize'><B>nu!</B></div></td></tr>";
 	}
-	return "<tr><td colspan="+(maxsteps+2)+">vertrek over<BR><div class='emphasize'>"+ parseInt(text.substring(13)) + " minuten</div></td></tr>";
+	return "<tr class='evenrow'><td colspan="+(maxsteps+2)+"><div>vertrek over</div><div class='OV_emphasize'>"+ parseInt(text.substring(13)) + " minuten</div></td></tr>";
 }
 
-function getsymbols(text,size=15){
+function getsymbols(text,size=8){
 		text = text.replace(/WALK/g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/walk.png' height='"+size+"' width='"+size+"'></img>");
 		text = text.replace(/Bus /g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png' height='"+size+"' width='"+size+"'></img>");
 		text = text.replace(/Tram /g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/tram2.png' height='"+size+"' width='"+size+"'></img>");
@@ -212,12 +221,24 @@ function showtable(routes,routedesc){
 		}
 	}
 	if (shortest==99999999){
-		$("#quick_text").html("Er is momenteel helaas geen OV beschikbaar voor deze route!!");
+		quick+="<tr><td colspan="+routes[shortestID].length+"><button id='OV_header1' class='OVselectbutton' onclick='openSel()'></button></td></tr><tr><td>Er is momenteel helaas geen OV beschikbaar voor deze route!!</td></tr></table>";
+		$("#quick_text").html(quick);
+		$('#OV_header').html("OV van " + sourcename + " naar " + destname);
+		$('#OV_header1').html("OV van " + sourcename + " naar " + destname);
+		$("#OV_header").width="100%";
+		$("#OV_header1").width="100%";
+		while (parseInt($("#OV_header1").css("height"))>25){
+			curfont = parseInt($("#OV_header1").css("font-size"));
+			curfont-=1;
+			$("#OV_header1").css("font-size",curfont+"px");
+			$("#OV_header").css("font-size",curfont+"px");
+			//console.log($("#traffic_header").css("height"));
+		}
 	}else{
 		quick+="<tr><td colspan="+routes[shortestID].length+"><button id='OV_header1' class='OVselectbutton' onclick='openSel()'></button></td></tr>";
 		quick+=fgowhenquick(routedesc[shortestID][3]);
-		quick+="<tr><td colspan="+routes[shortestID].length+">naar halte<BR><div class='emphasize2'>"+routedesc[shortestID][4]+"</div></td></tr>";
-		quick+="<tr><td colspan="+routes[shortestID].length+">vertrek: "+routedesc[shortestID][0]+"<BR>aankomst: "+routedesc[shortestID][1]+"<BR>reistijd: "+routedesc[shortestID][2]+"</div></td></tr>";
+		quick+="<tr class='oddrow'><td style='white-space: nowrap' colspan="+routes[shortestID].length+"><div id='OV_halte'>naar halte<BR><div class='emphasize2'>"+routedesc[shortestID][4]+"</div></div></td></tr>";
+		quick+="<tr class='evenrow'><td colspan="+routes[shortestID].length+"><div style='width: 294px'>vertrek: "+routedesc[shortestID][0]+" - aankomst: "+routedesc[shortestID][1]+" ("+routedesc[shortestID][2]+")</div></td></tr><tr  class='oddrow'>";
 
 		for (x=0;x<routes.length;x++){
 			if(routes[x].length>0){
@@ -233,7 +254,7 @@ function showtable(routes,routedesc){
 				for (y=0;y<routes[x].length;y++){
 					text+="<td>"+getsymbols(routes[x][y][0])+"</td>";
 					if (shortestID==x){
-						quick+="<td>"+getsymbols(routes[x][y][0],25)+"</td>";
+						quick+="<td>"+getsymbols(routes[x][y][0],15)+"</td>";
 					}
 				}
 				if (routes[x].length<maxsteps){
@@ -242,7 +263,7 @@ function showtable(routes,routedesc){
 					}
 				}
 				if (shortestID==x){
-					quick+="</tr><tr>";
+					quick+="</tr><tr class='evenrow'>";
 				}
 				text+="<td colspan=2>"+routedesc[x][4]+"</td></tr><tr class="+evenrow+">";
 				for (y=0;y<routes[x].length;y++){
@@ -267,6 +288,20 @@ function showtable(routes,routedesc){
 		$('#OV_header1').html("OV van " + sourcename + " naar " + destname);
 		$("#OV_header").width="100%";
 		$("#OV_header1").width="100%";
+		while (parseInt($("#OV_header1").css("height"))>25){
+			curfont = parseInt($("#OV_header1").css("font-size"));
+			curfont-=1;
+			$("#OV_header1").css("font-size",curfont+"px");
+			$("#OV_header").css("font-size",curfont+"px");
+			//console.log($("#traffic_header").css("height"));
+		}
+		while (parseInt($('#OV_halte').css('width'))>=300){
+			curfont = parseInt($('#OV_halte').css("font-size"));
+			curfont-=1;
+			temp=$('#OV_halte').css('font-size',curfont+"px")
+			console.log($('#OV_halte').css('width'));
+			console.log($('#OV_halte').css('font-size'));
+		}
 	}
 
 	
@@ -353,30 +388,26 @@ setTimeout(function(){ getValues(<?php echo $ID; ?>); }, 60000);
 
 
 </script>
-
+<div id="OV_mainframe">
 <div id="showquick" class="OV_quick">
 	<div id="quick_text">
 	</div>
 </div>
 
 <div id="showdetails" class="OV_details" onclick="closeDet()">
-	<a href="javascript:void(0)" class="closebtn" onclick="closeDet()">&times;</a>
 	<div id="detail_text"></div>
 </div>
 
-<div id="showroutes" class="OV_details" onclick="closeSel()">
-	<a href="javascript:void(0)" class="closebtn" onclick="closeSel(this)">&times;</a>
-	
-</div>
+<div id="showroutes" class="OV_details" onclick="closeSel()"></div>
 
 <div id="OVhidden" style="display: none;">
 	<div id="OV_details" style="display: none;"></div>
-	<button id="route0" class="menubutton" onclick="routeSel(this)">Route1</button>
+	<button id="route0" class="OV_menubutton" onclick="routeSel(this)">Route1</button>
 </div>
 <div id="OVoverview"></div>
 <div id="OVtable"></div>
 <div id="OV">
-
+</div>
 </div>
 
 

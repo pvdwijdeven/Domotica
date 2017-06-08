@@ -51,7 +51,7 @@
 					$("#showroutes").css('z-index', '50');
 					$("#showroutes").css('width', $(traffic_mainframe).css('width'));
 					$("#showroutes").css('height', $(traffic_mainframe).css('height'));
-					setTimeout(function(){closeDet(); }, 300000);
+					setTimeout(function(){closeSel(); }, 300000);
 				}
 			
 				function closeSel() {
