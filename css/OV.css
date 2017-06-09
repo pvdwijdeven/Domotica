@@ -18,6 +18,12 @@
 	width:100%;
 }
 
+#OVtable
+{
+	left:-300px;
+	position: fixed;
+	z-index: 5;
+}
 
 .OVdetbutton
 {
@@ -50,7 +56,6 @@
   width:300px;
   z-index:20;
   top:0px;
-  background-color:rgba(211,211,211,1);
 }
 
 .OV_emphasize

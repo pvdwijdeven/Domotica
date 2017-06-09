@@ -67,12 +67,14 @@
 				}
 				
 				function showOpt() {
-					document.getElementById("showquick").style.width = "0%";
+					document.getElementById("OVtable").style.left = "0px";
+					document.getElementById("showquick").style.left = "-300px";
 					setTimeout(function(){hideOpt(); }, 300000);
 				}
 				
 				function hideOpt() {
-					document.getElementById("showquick").style.width = "100%";
+					document.getElementById("OVtable").style.left = "-300px";
+					document.getElementById("showquick").style.left = "0px";
 				}
 			
 				//-->
@@ -208,7 +210,7 @@ function showtable(routes,routedesc){
 	quick="<table class='OV' style='text-align: center; margin: 0 auto;'>";
 	text="<table class='OV' style='text-align: center;'>";
 
-	text+="<tr><td colspan="+(maxsteps+2)+"><button id='OV_header' class='OVselectbutton' onclick='openSel()'></button></td></tr>";
+	text+="<tr><td colspan="+(maxsteps+2)+"><button id='OV_header' class='OVselectbutton' onclick='hideOpt()'></button></td></tr>";
 	evenrow="oddrow";
 	shortest=99999999;
 	shortestID=0;
@@ -284,7 +286,7 @@ function showtable(routes,routedesc){
 		quick+="</tr><tr><td colspan="+routes[shortestID].length+"><button id='showoptions' class='OVdetbutton' onclick='showOpt()'>Laat opties zien</button></td></tr></table";
 		$("#quick_text").html(quick);
 		$("#OVtable").html(text);
-		$('#OV_header').html("OV van " + sourcename + " naar " + destname);
+		$('#OV_header').html("terug naar overzicht");
 		$('#OV_header1').html("OV van " + sourcename + " naar " + destname);
 		while (parseInt($("#OV_header1").css("height"))>25){
 			curfont = parseInt($("#OV_header1").css("font-size"));

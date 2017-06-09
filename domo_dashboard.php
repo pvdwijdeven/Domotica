@@ -48,9 +48,7 @@
 		</script>
 		<?php include "includes/header.php"; ?>
 		<!-- main page starts here -->
-		<div id="main_wrapper">
-			<div id="wrap_OV"><iframe id="frame_OV" src="OV_iframe.php"></iframe></div><div id="wrap_traffic"><iframe id="frame_traffic" src="traffic_iframe.php"></iframe></div><div id="wrap_weather"><iframe id="frame_weather" src="weather_iframe.php"></iframe></div>		
-		</div>		
+		<div id="main_wrapper"><iframe id="frame_OV" src="OV_iframe.php"></iframe><iframe id="frame_traffic" src="traffic_iframe.php"></iframe><iframe id="frame_weather" src="weather_iframe.php"></iframe><iframe id="frame_camera" src="frontdoor_iframe.php"></iframe></div>		
 
 
 		<!-- main page ends here -->	

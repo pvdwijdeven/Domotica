@@ -26,11 +26,11 @@
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="css/style.css?v=3.0">
+		<link rel="stylesheet" href="css/frontdoor.css?v=3.0">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body>
-
-				<img src="https://192.168.2.224:443/cgi-bin/CGIProxy.fcgi?cmd=snapPicture2&<?php echo $camkey?>&t=" width='400' onload='setTimeout(function() {src = src.substring(0, (src.lastIndexOf("t=")+2))+(new Date()).getTime()}, 500)' onerror='setTimeout(function() {src = src.substring(0, (src.lastIndexOf("t=")+2))+(new Date()).getTime()}, 5000)' alt='' />
+	<div id='cam_holder'><img src="https://192.168.2.224:443/cgi-bin/CGIProxy.fcgi?cmd=snapPicture2&<?php echo $camkey?>&t=" id="cam_frontdoor" onload='setTimeout(function() {src = src.substring(0, (src.lastIndexOf("t=")+2))+(new Date()).getTime()}, 500)' onerror='setTimeout(function() {src = src.substring(0, (src.lastIndexOf("t=")+2))+(new Date()).getTime()}, 5000)' alt='' /></div>
 
 	</body>
 </html>

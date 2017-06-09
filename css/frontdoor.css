@@ -1,0 +1,16 @@
+
+#cam_holder
+{
+	width: 300px;
+	height: 250px;
+	left: 0px;
+	top: 0px;
+	position: fixed;
+	font-size:0.8em;
+}
+
+#cam_frontdoor
+{
+	width:300px;
+	height:250px;
+}
