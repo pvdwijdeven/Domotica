@@ -2,8 +2,8 @@
 
 body, .weather_modal1
 {
-  background-color:lightgray;
-  color:black;
+  background-color:black;
+  color:white;
 }
 
 .menubutton, .tablebutton
@@ -23,7 +23,7 @@ body, .weather_modal1
 .tablebuttondisabled
 {
 	background-color:#b5c9de;
-	color:gray;-
+	color:gray;
 }
 
 td.select-buttonpressed
@@ -490,12 +490,12 @@ td.select-split,th.select-split
 
 .evenrow
 {
-	background-color:rgb(211,211,211);
+	background-color:rgb(75,75,75);
 }
 
 .oddrow
 {
-	background-color:rgb(180,180,180);
+	background-color:rgb(0,0,0);
 }
 
 

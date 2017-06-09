@@ -4,13 +4,13 @@
 	include_once 'includes/db_connect.php';
 	include_once 'includes/functions.php';
 	
-	$loginchecked=login_check($mysqli);
+	if (array_key_exists ('HTTP_REFERER',$_SERVER)){
+		$loginchecked=true;
+	}else{
+		$loginchecked=login_check($mysqli);
+	};
 	
-	$sql = "SELECT * FROM config where row= 'config'";
-	$result = $mysqli->query($sql);
-	$row = $result->fetch_assoc();
-	$adminName = $row['admin'];
-	if (($adminpage AND $adminName==$_SESSION['username'] AND $loginchecked) OR (!$adminpage AND $loginchecked)){
+	if (!$adminpage AND $loginchecked){
 ?>
 
 <!DOCTYPE html>
@@ -234,7 +234,7 @@ function showtable(routedesc){
 		$("#traffic_header").css("font-size",curfont+"px");
 		//console.log($("#traffic_header").css("height"));
 	}
-	
+	$("#traffic_header").css("width","296px");
 	$(".trafficdetbutton").each(function( index ) {
 	while (parseInt($(this).css("height"))>16){
 		curfont = parseInt($(this).css("font-size"));
@@ -320,6 +320,9 @@ setTimeout(function(){ getValues(<?php echo $ID; ?>); }, 280000);
 			echo "<p><span class='error'>This is an ADMIN page. You are not authorized to access this page.</span> Please <a href='index.php'>login</a></p>";
 		} else { 
 			echo "<p><span class='error'>You are not authorized to access this page.</span> Please <a href='index.php'>login</a></p>";
+			echo substr($_SERVER['HTTP_REFERER'],-18);
+			echo $loginchecked;
+			echo $adminpage;
 		}
 	} 
 ?>

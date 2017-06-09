@@ -4,13 +4,13 @@
 	include_once 'includes/db_connect.php';
 	include_once 'includes/functions.php';
 	
-	$loginchecked=login_check($mysqli);
+	if (array_key_exists ('HTTP_REFERER',$_SERVER)){
+		$loginchecked=true;
+	}else{
+		$loginchecked=login_check($mysqli);
+	};
 	
-	$sql = "SELECT * FROM config where row= 'config'";
-	$result = $mysqli->query($sql);
-	$row = $result->fetch_assoc();
-	$adminName = $row['admin'];
-	if (($adminpage AND $adminName==$_SESSION['username'] AND $loginchecked) OR (!$adminpage AND $loginchecked)){
+	if (!$adminpage AND $loginchecked){
 ?>
 
 <!DOCTYPE html>
@@ -170,7 +170,7 @@ function fgowhen(seconds){
 
 function fgowhenquick(text){
 	if (text=="<b>vertrek nu!</b>"){
-		return "<tr class='evenrow'><td colspan="+(maxsteps+2)+"><div>vertrek</div><div class='OV_emphasize'><B>nu!</B></div></td></tr>";
+		return "<tr class='evenrow'><td colspan="+(maxsteps+2)+"><div>vertrek</div><div class='OV_emphasize'>nu!</div></td></tr>";
 	}
 	return "<tr class='evenrow'><td colspan="+(maxsteps+2)+"><div>vertrek over</div><div class='OV_emphasize'>"+ parseInt(text.substring(13)) + " minuten</div></td></tr>";
 }
@@ -286,8 +286,6 @@ function showtable(routes,routedesc){
 		$("#OVtable").html(text);
 		$('#OV_header').html("OV van " + sourcename + " naar " + destname);
 		$('#OV_header1').html("OV van " + sourcename + " naar " + destname);
-		$("#OV_header").width="100%";
-		$("#OV_header1").width="100%";
 		while (parseInt($("#OV_header1").css("height"))>25){
 			curfont = parseInt($("#OV_header1").css("font-size"));
 			curfont-=1;
@@ -295,12 +293,12 @@ function showtable(routes,routedesc){
 			$("#OV_header").css("font-size",curfont+"px");
 			//console.log($("#traffic_header").css("height"));
 		}
+		$("#OV_header").css('width',"294px");
+		$("#OV_header1").css('width',"294px");	
 		while (parseInt($('#OV_halte').css('width'))>=300){
 			curfont = parseInt($('#OV_halte').css("font-size"));
 			curfont-=1;
 			temp=$('#OV_halte').css('font-size',curfont+"px")
-			console.log($('#OV_halte').css('width'));
-			console.log($('#OV_halte').css('font-size'));
 		}
 	}
 
@@ -419,6 +417,9 @@ setTimeout(function(){ getValues(<?php echo $ID; ?>); }, 60000);
 			echo "<p><span class='error'>This is an ADMIN page. You are not authorized to access this page.</span> Please <a href='index.php'>login</a></p>";
 		} else { 
 			echo "<p><span class='error'>You are not authorized to access this page.</span> Please <a href='index.php'>login</a></p>";
+			echo substr($_SERVER['HTTP_REFERER'],-18);
+			echo $loginchecked;
+			echo $adminpage;
 		}
 	} 
 ?>

@@ -3,15 +3,18 @@
 	$adminpage=false;
 	include_once 'includes/db_connect.php';
 	include_once 'includes/functions.php';
-	
-	$loginchecked=login_check($mysqli);
-	
 	$sql = "SELECT * FROM config where row= 'config'";
-	$result = $mysqli->query($sql);
-	$row = $result->fetch_assoc();
-	$adminName = $row['admin'];
-	$camkey=$row['CamKey'];
-	if (($adminpage AND $adminName==$_SESSION['username'] AND $loginchecked) OR (!$adminpage AND $loginchecked)){
+    $result = $mysqli->query($sql);
+    $row = $result->fetch_assoc();
+    $camkey=$row['CamKey'];
+
+	if (array_key_exists ('HTTP_REFERER',$_SERVER)){
+		$loginchecked=true;
+	}else{
+		$loginchecked=login_check($mysqli);
+	};
+	
+	if (!$adminpage AND $loginchecked){
 ?>
 
 <!DOCTYPE html>

@@ -84,9 +84,9 @@
 			<form class="modal-content animate" action="includes/process_login.php" method="post" name="login_form">
 				<div class="container">
 					<label><b>Email</b></label>
-					<input type="text" placeholder="Enter Email" name="email" required>
+					<input type="text" placeholder="Enter Email" name="email">
 					<label><b>Password</b></label>
-					<input type="password" placeholder="Enter Password" name="password" id="password" required>
+					<input type="password" placeholder="Enter Password" name="password" id="password">
 					<button class="loginbtn" type="submit" onclick="formhash(this.form, this.form.password);" />Login</button>
 				</div>
 				<div class="container" style="background-color:#f1f1f1">

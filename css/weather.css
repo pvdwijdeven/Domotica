@@ -8,6 +8,13 @@
 	position: fixed;
 	font-size:1em;
 }
+
+#weather
+{
+	padding:0px;
+	border-collapse: collapse;
+}
+
 .forecast td
 {
 	border: 1px solid grey;

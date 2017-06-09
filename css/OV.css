@@ -9,6 +9,16 @@
 	font-size:0.8em;
 }
 
+
+#quick_text
+{
+	font-size:1.3em;
+	top:0px;
+	position:absolute;
+	width:100%;
+}
+
+
 .OVdetbutton
 {
   width:100%;
@@ -52,7 +62,7 @@
 
 table.OV, table.OV th, table.OV td
 {
-	border: 1px solid black;
+	border: 1px solid;
 	padding: 2px;
 	font-size:0.8em;
 }
