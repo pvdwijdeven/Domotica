@@ -419,9 +419,6 @@ setTimeout(function(){ getValues(<?php echo $ID; ?>); }, 60000);
 			echo "<p><span class='error'>This is an ADMIN page. You are not authorized to access this page.</span> Please <a href='index.php'>login</a></p>";
 		} else { 
 			echo "<p><span class='error'>You are not authorized to access this page.</span> Please <a href='index.php'>login</a></p>";
-			echo substr($_SERVER['HTTP_REFERER'],-18);
-			echo $loginchecked;
-			echo $adminpage;
 		}
 	} 
 ?>

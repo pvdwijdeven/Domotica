@@ -181,12 +181,18 @@
 				 // Set chart options
 				var options = {'title':'Komende 30 uur:',
                      'width':298,
+					 connectSteps:false,
+					 curveType:'function',
                      'height':146,
 					 'legend':{position:'bottom'},
 					 backgroundColor: 'lightgray',
 					 series:{
-					0:{targetAxisIndex:0, type:"steppedArea", color:"grey"},
-					1:{targetAxisIndex:1, type: "line", color:"red", curveType:'function'}}};
+					0:{targetAxisIndex:0, type:"steppedArea", color:"grey", lineWidth:0},
+					1:{targetAxisIndex:1, type: "line", color:"red"}},
+					vAxes:{
+						0:{minValue:0, maxValue:100}
+					}
+				};
 
 			  // Instantiate and draw our chart, passing in some options.
 			  var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
