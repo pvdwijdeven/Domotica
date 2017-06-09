@@ -135,21 +135,21 @@
 				var suns=current.sys.sunset;
 				var d = new Date();
 				var curepoch = Math.round(d.getTime() / 1000);
-				if (curepoch<sunr || curepoch>suns){
+				//if (curepoch<sunr || curepoch>suns){
 					$('#weather_icon').css("background-color", "black");
 					$('#weather_temp').css("background-color", "black");
 					$('#weather_temp').css("color", "white");
 					for (x=1;x<5;x++){
 						$('#forecast'+x).css("background-color", "black");
 					}
-				}else{
-					$('#weather_icon').css("background-color", "SkyBlue ");
-					$('#weather_temp').css("background-color", "SkyBlue ");
-					$('#weather_temp').css("color", "black");
-					for (x=1;x<5;x++){
-						$('#forecast'+x).css("background-color", "SkyBlue");
-					}					
-				}
+				//}else{
+				//	$('#weather_icon').css("background-color", "SkyBlue ");
+				//	$('#weather_temp').css("background-color", "SkyBlue ");
+				//	$('#weather_temp').css("color", "black");
+				//	for (x=1;x<5;x++){
+				//		$('#forecast'+x).css("background-color", "SkyBlue");
+				//	}					
+				//}
 				
 				setTimeout(function(){ getCurrent(); }, 300000);		
 			}
@@ -182,10 +182,11 @@
 				var options = {'title':'Komende 30 uur:',
                      'width':298,
 					 connectSteps:false,
+					 areaOpacity:1,
 					 curveType:'function',
                      'height':146,
-					 'legend':{position:'bottom'},
-					 backgroundColor: 'lightgray',
+					 'legend':{position:'bottom', textstyle: {color: $('body').css("color")}},
+					 backgroundColor: $('body').css("background-color"),
 					 series:{
 					0:{targetAxisIndex:0, type:"steppedArea", color:"grey", lineWidth:0},
 					1:{targetAxisIndex:1, type: "line", color:"red"}},

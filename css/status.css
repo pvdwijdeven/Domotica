@@ -1,12 +1,43 @@
 
-#OV_mainframe
+#status_mainframe
 {
 	width: 300px;
 	height: 250px;
 	left: 0px;
 	top: 0px;
 	position: fixed;
-	font-size:0.8em;
+	font-size:1em;
+}
+
+.top_border
+{
+	border-top: solid 1px;
+}
+
+#datum
+{
+	font-size:1.2em;
+	font-weight: 600;
+}
+#tijd
+{
+	font-size:3.2em;
+	font-weight: 900;
+	width:290px;
+}
+
+#temperatuur, #lucht
+{
+	font-size:2em;
+	width:143px;
+}
+
+table#status_table
+{
+	border: 1px solid;
+	padding: 2px;
+	font-size:1em;
+	text-align:center;
 }
 
 
@@ -65,12 +96,7 @@
 }
 
 
-table.OV, table.OV th, table.OV td
-{
-	border: 1px solid;
-	padding: 2px;
-	font-size:0.8em;
-}
+
 
 table.OV {
 	border-collapse: collapse;

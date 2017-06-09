@@ -178,10 +178,10 @@ function fgowhenquick(text){
 }
 
 function getsymbols(text,size=8){
-		text = text.replace(/WALK/g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/walk.png' height='"+size+"' width='"+size+"'></img>");
-		text = text.replace(/Bus /g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png' height='"+size+"' width='"+size+"'></img>");
-		text = text.replace(/Tram /g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/tram2.png' height='"+size+"' width='"+size+"'></img>");
-		text = text.replace(/Trein /g,"<img src='https://maps.gstatic.com/mapfiles/transit/iw2/6/rail2.png' height='"+size+"' width='"+size+"'></img>");
+		text = text.replace(/WALK/g,"<img src='resources/OV/walk.png' height='"+size+"' width='"+size+"'></img>");
+		text = text.replace(/Bus /g,"<img src='resources/OV/bus.png' height='"+size+"' width='"+size+"'></img>");
+		text = text.replace(/Tram /g,"<img src='resources/OV/tram.png' height='"+size+"' width='"+size+"'></img>");
+		text = text.replace(/Trein /g,"<img src='resources/OV/rail.png' height='"+size+"' width='"+size+"'></img>");
 		return text;
 }
 
@@ -327,7 +327,7 @@ function getStuff(data_directions_tram){
 			for (x=0; x<data_directions_tram.routes.length; x++){
 				var curroute=[];
 				var curroutedesc=[];
-				if (data_directions_tram.routes[x].legs[0].steps.length>1){
+				if (data_directions_tram.routes[x].legs[0].steps.length>1 & data_directions_tram.routes[x].legs[0].steps.length<6){
 					firststop=false;
 					objdet = addDetail(x);
 					var starttime = data_directions_tram.routes[x].legs[0].departure_time.text;

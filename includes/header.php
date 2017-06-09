@@ -1,25 +1,11 @@
-		<script>
-		function fullscreen(){
-			if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
-		   (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-			if (document.documentElement.requestFullScreen) {  
-			  document.documentElement.requestFullScreen();  
-			} else if (document.documentElement.mozRequestFullScreen) {  
-			  document.documentElement.mozRequestFullScreen();  
-			} else if (document.documentElement.webkitRequestFullScreen) {  
-			  document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
-			}  
-		  } else {  
-			if (document.cancelFullScreen) {  
-			  document.cancelFullScreen();  
-			} else if (document.mozCancelFullScreen) {  
-			  document.mozCancelFullScreen();  
-			} else if (document.webkitCancelFullScreen) {  
-			  document.webkitCancelFullScreen();  
-			}  
-		  }  
-		}
-		</script>
+		<script>	
+			function logout(){
+				var r = confirm("Uitloggen?");
+				if (r == true) {
+					window.location.href='includes/logout.php';
+				}
+			}
+		</script>	
 		
 		<div id="mySidenav" class="sidenav">
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -41,8 +27,8 @@
 			<a href="domo_admin.php">admin page</a>
 			<?php endif; ?>
 			<br>logged in as <b><?php echo htmlentities($_SESSION['username']);?>
-			</b><br> (<a href="includes/logout.php">Log out</a>)<BR>
-			<button onclick='fullscreen()'></button></div>
+			</b><div onclick='logout()'>(Log out)</div>
+			<button onclick='body.webkitRequestFullscreen();'></button></div>
 			<div class="header_center"><?php echo $title; ?></div>
 			<hr>
 		</header>

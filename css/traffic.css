@@ -23,7 +23,7 @@
 }
 
 table.traffic_table, table.traffic_table th, table.traffic_table td {
-	border: 1px solid black;
+	border: 1px solid;
 	padding: 1px;
 	font-size:0.8em;
 }
@@ -43,7 +43,6 @@ table.traffic_table tr, table.traffic_table td {
   width:0;
   z-index:10;
   top:0;
-  background-color:rgba(211,211,211,1);
   font-size:.7em;
 }
 

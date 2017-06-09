@@ -17,7 +17,7 @@
 
 .forecast td
 {
-	border: 1px solid grey;
+	border: 1px solid;
 	text-align: center;
 	font-size: 0.8em;
 }
@@ -30,7 +30,7 @@
 
 #weather
 {
-	border: 1px solid black;
+	border: 1px solid;
 }
 
 .weather_modal1
