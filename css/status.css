@@ -12,6 +12,7 @@
 .top_border
 {
 	border-top: solid 1px;
+	font-size:0.9em;
 }
 
 #datum
@@ -21,7 +22,7 @@
 }
 #tijd
 {
-	font-size:3.2em;
+	font-size:3.1em;
 	font-weight: 900;
 	width:290px;
 }
@@ -34,6 +35,8 @@
 
 table#status_table
 {
+	height: 250px;
+	width: 300px;
 	border: 1px solid;
 	padding: 2px;
 	font-size:1em;
@@ -41,98 +44,15 @@ table#status_table
 }
 
 
+table#status_table td, table#status_table tr
+{
+	padding: 0px;
+}
+
 #quick_text
 {
 	font-size:1.3em;
 	top:0px;
 	position:absolute;
 	width:100%;
-}
-
-#OVtable
-{
-	left:-300px;
-	position: fixed;
-	z-index: 5;
-}
-
-.OVdetbutton
-{
-  width:100%;
-  heigth:100%;
-  text-align:center;
-  font-size:0.9em;
-}
-
-
-.OV_menubutton
-{
-  margin:2px;
-  padding:2px;
-  width:300px;
-  text-align:center;
-}
-
-.OVselectbutton
-{
-  width:100%;
-  heigth:100%;
-  text-align:center;
-  font-weight: 900;
-}
-
-.OV_quick
-{
-  height:250px;
-  width:300px;
-  z-index:20;
-  top:0px;
-}
-
-.OV_emphasize
-{
-	font-size:3.3em;
-	font-weight:900;
-}
-
-
-
-
-table.OV {
-	border-collapse: collapse;
-}
-
-
-.OV_details, .OV_quick
-{
-  position:fixed;
-  left:0;
-  overflow-x:hidden;
-  transition:.5s;
-  margin-left:auto;
-  margin-right:auto;
-
-}
-
-.OV_details
-{
-  height:100%;
-  width:0;
-  z-index:10;
-  top:0;
-  font-size:.7em;
-}
-
-.OV_details
-{
-  position:fixed;
-  left:0;
-  overflow-x:hidden;
-  padding-top:0px;
-  transition:.5s;
-  margin-left:auto;
-  margin-right:auto;
-  widht:0px;
-  height:0px;
-
 }

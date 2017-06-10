@@ -74,6 +74,8 @@ table.OV, table.OV th, table.OV td
 
 table.OV {
 	border-collapse: collapse;
+	height:250px;
+	width:300px;
 }
 
 
@@ -95,6 +97,11 @@ table.OV {
   z-index:10;
   top:0;
   font-size:.7em;
+}
+
+.filler
+{
+	height:100%;
 }
 
 .OV_details

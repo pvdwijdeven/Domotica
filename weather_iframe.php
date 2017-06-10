@@ -156,10 +156,10 @@
 
 			function processForecast(jsforecast){
 					$('#weather_minmax').html("max:"+jsforecast.forecast.simpleforecast.forecastday[0].high.celsius+"&deg<BR>min:"+jsforecast.forecast.simpleforecast.forecastday[0].low.celsius+"&deg");
-					for (x=1;x<5;x++){
-						$("#forecast"+x).html('<img src="'+getIcon(jsforecast.forecast.simpleforecast.forecastday[x].icon)+'" width="70px" height="40px">');
-						$("#temp"+x).html(jsforecast.forecast.simpleforecast.forecastday[x].low.celsius+"&deg/"+jsforecast.forecast.simpleforecast.forecastday[x].high.celsius+"&deg");
-						$("#day"+x).html(jsforecast.forecast.simpleforecast.forecastday[x].date.weekday.substring(0,2));
+					for (x=0;x<4;x++){
+						$("#forecast"+(x+1)).html('<img src="'+getIcon(jsforecast.forecast.simpleforecast.forecastday[x].icon)+'" width="70px" height="40px">');
+						$("#temp"+(x+1)).html(jsforecast.forecast.simpleforecast.forecastday[x].low.celsius+"&deg/"+jsforecast.forecast.simpleforecast.forecastday[x].high.celsius+"&deg");
+						$("#day"+(x+1)).html(jsforecast.forecast.simpleforecast.forecastday[x].date.weekday.substring(0,2));
 					}
 				setTimeout(function(){ getForecast(); }, 3600000);		
 			}
@@ -170,28 +170,30 @@
 				for (x=0;x<jshourly.hourly_forecast.length;x++){
 					var d=new Date();
 					d.setTime(jshourly.hourly_forecast[x].FCTTIME.epoch*1000);
-					hforecast.push([d,parseInt(jshourly.hourly_forecast[x].pop),parseInt(jshourly.hourly_forecast[x].temp.metric)]);
+					hforecast.push([d,parseInt(jshourly.hourly_forecast[x].temp.metric),parseInt(jshourly.hourly_forecast[x].pop)]);
 				}
 				//console.log(hforecast);
 				var data = new google.visualization.DataTable();
 				data.addColumn('datetime', 'datum/tijd');
-				data.addColumn('number', 'neerslag%');
 				data.addColumn('number', 'temp.');
+				data.addColumn('number', 'neerslag%');
 				data.addRows(hforecast);
 				 // Set chart options
 				var options = {'title':'Komende 30 uur:',
-                     'width':298,
+                     'width':293,
 					 connectSteps:false,
 					 areaOpacity:1,
+					 hAxis:{textStyle: {color: $('body').css("color")}},
 					 curveType:'function',
                      'height':146,
-					 'legend':{position:'bottom', textstyle: {color: $('body').css("color")}},
+					 'legend':{position:'top', textStyle: {color: $('body').css("color")}},
 					 backgroundColor: $('body').css("background-color"),
 					 series:{
-					0:{targetAxisIndex:0, type:"steppedArea", color:"grey", lineWidth:0},
-					1:{targetAxisIndex:1, type: "line", color:"red"}},
+					1:{targetAxisIndex:1, type:"area", color:"lightblue", lineWidth:0},
+					0:{targetAxisIndex:0, type: "line", color:"red"}},
 					vAxes:{
-						0:{minValue:0, maxValue:100}
+						1:{minValue:0, maxValue:100, textStyle: {color: $('body').css("color")}},
+						0:{textStyle: {color: $('body').css("color")}}
 					}
 				};
 

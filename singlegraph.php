@@ -149,10 +149,10 @@ $jsonTable = json_encode($table);
 		   curveType: 'none',
 		   crosshair: { trigger: 'both' },
 		   explorer: { axis: 'horizontal', keepInBounds: true, maxZoomIn: .001, maxZoomOut:1000 },
-		   backgroundColor: 'lightsteelblue',
+		   backgroundColor: $('body').css("background-color"),
 		   chartArea:{left:50,top:50,width:'95%',height:'70%'},
-		   hAxis: {gridlines: {color: 'grey'}, format: 'yyyy-MM-dd HH:mm:ss'},
-		   vAxis: {gridlines: {color: 'grey'}, format: '#\'<?php echo $properties['Unit']; ?>\''}
+		   hAxis: {textStyle: {color: $('body').css("color")}, gridlines: {color: 'grey'}, format: 'yyyy-MM-dd HH:mm:ss'},
+		   vAxis: {textStyle: {color: $('body').css("color")}, gridlines: {color: 'grey'}, format: '#\'<?php echo $properties['Unit']; ?>\''}
         };
       // Instantiate and draw our chart, passing in some options.
       // Do not forget to check your div ID

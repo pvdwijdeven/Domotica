@@ -283,7 +283,7 @@ function showtable(routes,routedesc){
 			}	
 		}
 		text+="</table>";
-		quick+="</tr><tr><td colspan="+routes[shortestID].length+"><button id='showoptions' class='OVdetbutton' onclick='showOpt()'>Laat opties zien</button></td></tr></table";
+		quick+="</tr><tr class='filler'><td class='filler' colspan="+routes[shortestID].length+"><button id='showoptions' class='OVdetbutton filler' onclick='showOpt()'>Laat opties zien</button></td></tr></table";
 		$("#quick_text").html(quick);
 		$("#OVtable").html(text);
 		$('#OV_header').html("terug naar overzicht");

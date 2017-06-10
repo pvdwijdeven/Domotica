@@ -5,8 +5,12 @@
 					window.location.href='includes/logout.php';
 				}
 			}
-		</script>	
-		
+	
+		function fullscreen(){
+			$(".header_left").hide();
+			$(".header_right").hide();				
+		}
+		</script>		
 		<div id="mySidenav" class="sidenav">
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 			<table class="menutable">
@@ -28,7 +32,7 @@
 			<?php endif; ?>
 			<br>logged in as <b><?php echo htmlentities($_SESSION['username']);?>
 			</b><div onclick='logout()'>(Log out)</div>
-			<button onclick='body.webkitRequestFullscreen();'></button></div>
+			<button onclick='body.webkitRequestFullscreen(); fullscreen();'></button></div>
 			<div class="header_center"><?php echo $title; ?></div>
 			<hr>
 		</header>

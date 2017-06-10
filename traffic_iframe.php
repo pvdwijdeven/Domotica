@@ -218,7 +218,7 @@ function showtable(routedesc){
 		text+="<tr class="+evenrow+"><td>Aankomsttijd:"+faststr+"</td><td>"+t.toLocaleTimeString().substr(0,5)+"</td></tr>";
 		text+="<tr class="+evenrow+"><td>Reistijd normaal verkeer:</td><td>"+routedesc[x][1]+"</td></tr>";
 	}
-	text+="</table>";
+	text+="<tr><td colspan='2' style='height:100%'></td></tr></table>";
 	$("#traffictable").html(text);
 	if (sourcename=="thuis"){
 		$('#traffic_header').html("verkeer naar " + destname);
