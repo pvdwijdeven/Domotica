@@ -193,7 +193,7 @@ function showtable(routedesc){
 	for (x=0;x<routedesc.length;x++){
 		diff=parseInt(routedesc[x][4])-parseInt(routedesc[x][2]);
 		diff=Math.round(diff/60);
-		col="black";
+		col=$("body").color;
 		if (diff<0){col="green";} else
 		if (diff>0 & diff<15){col="orange";} else
 		if (diff>=15){col="red";}

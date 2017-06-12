@@ -35,10 +35,12 @@
 	</head>
 	
 
-	<body>
+	<body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
 	
 		<script>
 		var Hue_url='<?php echo $hue_url; ?>';
+		var scenes={};
+		var groups={};
 		
 		function HSV_RGB (h, s, u) {
 			if (h === null) {
@@ -151,7 +153,7 @@
 							}else{
 								$('#lamp5').css('color','black');
 							}
-							console.log('rgb('+ HSV_RGB(h,s,v).join(', ') +')');
+							//console.log('rgb('+ HSV_RGB(h,s,v).join(', ') +')');
 						}else{
 							$("#lamp5").css('background-color',$("body").css('background-color'));
 							$("#lamp5").css('color',$("body").css('color'));
@@ -162,13 +164,49 @@
 				};
 				xmlhttp.open("GET", 'Hue.php?Request=lights', true);
 				xmlhttp.send();
-				setTimeout(function(){ getCurrent(); }, 4000);
+				setTimeout(function(){ getCurrent(); }, 1000);
 			}
 
+
+			function getScenes(){
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						var currentresult = JSON.parse(this.responseText);
+						//console.log(currentresult);
+						$.each( currentresult, function( key, value ) {
+						 //console.log( key + ": " + value.name );
+						  scenes[value.name]=key;
+						});
+					}		
+				};
+				xmlhttp.open("GET", 'Hue.php?Request=scenes', true);
+				xmlhttp.send();
+			}
+			
+			function getGroups(){
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						var currentresult = JSON.parse(this.responseText);
+						//console.log(currentresult);
+						$.each( currentresult, function( key, value ) {
+						  //console.log( key + ": " + value.name );
+						  groups[value.name]=key;
+						});
+					}		
+				};
+				xmlhttp.open("GET", 'Hue.php?Request=groups', true);
+				xmlhttp.send();
+			}
+			
 			$( document ).ready(function()  {
 				getCurrent();
+				getScenes();
+				getGroups();
 			});
-
+			
+			
 			function turnOnOff(element){
 				if ($(element).html()=="AAN"){
 					status=false;
@@ -178,7 +216,24 @@
 				lamp=$(element).attr('id').substr(4);
 				console.log('HuePut.php?on='+status+"&light="+lamp);
 				var xmlhttp = new XMLHttpRequest();
-				xmlhttp.open("GET", 'HuePut.php?on='+status+"&light="+lamp, true);
+				xmlhttp.open("GET", 'HuePut.php?action=lights&on='+status+"&light="+lamp, true);
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						console.log(this.responseText);
+						var currentresult = JSON.parse(this.responseText);
+						console.log(currentresult);
+					}
+				};
+				xmlhttp.send();
+			}
+			
+			function setScene(scene){
+				var xmlhttp = new XMLHttpRequest();
+				if (scene=="UIT"){
+					xmlhttp.open("GET", 'HuePut.php?action=groups&scene='+"UIT"+"&group="+groups['woonkamer'], true);
+				}else{
+					xmlhttp.open("GET", 'HuePut.php?action=groups&scene='+scenes[scene]+"&group="+groups['woonkamer'], true);
+				}
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						console.log(this.responseText);
@@ -191,9 +246,9 @@
 
 		</script>
 		<div id="Hue_mainframe">
-			<div class="lamp_frame"><div class="hue_lamp">Hanglamp</div><div class="hue_button" onclick='turnOnOff(this)' id='lamp4'></div><div id="lamp4_hue" class="hue_button">kleur</div><div id="lamp4_bri" class="hue_button">helderheid</div></div>
-			<div class="lamp_frame"><div class="hue_lamp">kleurenlamp</div><div class="hue_button" onclick='turnOnOff(this)' id='lamp5'></div><div id="lamp5_hue" class="hue_button">kleur</div><div id="lamp5_bri" class="hue_button">helderheid</div></div>
-			<div class="lamp_frame"><div class="hue_scene">sfeer dim</div><div class="hue_scene">sfeer 40%</div><div class="hue_scene">sfeer 60%</div><div class="hue_scene">sfeer 100%</div><div class="hue_scene">dag 100%</div><div class="hue_scene">UIT</div></div>
+			<div class="lamp_frame"><div class="hue_lamp noselect">Hanglamp</div><div class="hue_button noselect" onclick='turnOnOff(this)' id='lamp4'></div><div id="lamp4_hue " class="hue_button noselect">kleur</div><div id="lamp4_bri" class="hue_button noselect">helderheid</div></div>
+			<div class="lamp_frame"><div class="hue_lamp">kleurenlamp</div><div class="hue_button noselect" onclick='turnOnOff(this)' id='lamp5'></div><div id="lamp5_hue" class="hue_button noselect">kleur</div><div id="lamp5_bri" class="hue_button noselect">helderheid</div></div>
+			<div class="lamp_frame"><div class="hue_scene noselect" onclick="setScene('WK sfeer dim');">sfeer dim</div><div class="hue_scene noselect" onclick="setScene('WK sfeer 40');">sfeer 40%</div><div class="hue_scene noselect" onclick="setScene('WK sfeer 60');">sfeer 60%</div><div class="hue_scene noselect" onclick="setScene('WK sfeer 100');">sfeer 100%</div><div class="hue_scene noselect" onclick="setScene('WK dag 100');">dag 100%</div><div class="hue_scene noselect" onclick="setScene('UIT');">UIT</div></div>
 		</div>
 	</body>
 </html>

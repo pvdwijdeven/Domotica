@@ -4,13 +4,28 @@
 	$result = $mysqli->query($sql);
 	$row = $result->fetch_assoc();
 	$hue_url = $row['Hue'];
-	$light=$_GET['light'];
-	$on=$_GET['on'];
-	$on=($on=="true");
- 	$arrData['on'] = $on;
-	$data = json_encode($arrData);
-	$url = $hue_url."lights/".$light."/state";
+	$action=$_GET['action'];
+	if ($action=='lights'){
+		$light=$_GET['light'];
+		$on=$_GET['on'];
+		$on=($on=="true");
+		$arrData['on'] = $on;
+		$data = json_encode($arrData);
+		$url = $hue_url."lights/".$light."/state";
+	}
 
+	if ($action=='groups'){
+		$group=$_GET['group'];
+		$scene=$_GET['scene'];
+		if ($scene=="UIT"){
+			$arrData['on'] = false;
+		}else{
+			$arrData['scene'] = $scene;
+		}
+		$data = json_encode($arrData);
+		$url = $hue_url."groups/".$group."/action";
+	}	
+	
 	$ch = curl_init();
 
 	curl_setopt($ch, CURLOPT_URL, $url);
