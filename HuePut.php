@@ -7,9 +7,17 @@
 	$action=$_GET['action'];
 	if ($action=='lights'){
 		$light=$_GET['light'];
-		$on=$_GET['on'];
-		$on=($on=="true");
-		$arrData['on'] = $on;
+		if (array_key_exists('on',$_GET)){
+			$on=$_GET['on'];
+			$on=($on=="true");
+			$arrData['on'] = $on;
+		}
+		if (array_key_exists('ct',$_GET)){
+			$arrData['ct'] = intval($_GET['ct']);
+		}
+		if (array_key_exists('bri',$_GET)){
+			$arrData['bri'] = intval($_GET['bri']);
+		}
 		$data = json_encode($arrData);
 		$url = $hue_url."lights/".$light."/state";
 	}

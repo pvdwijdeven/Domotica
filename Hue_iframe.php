@@ -35,12 +35,54 @@
 	</head>
 	
 
-	<body style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;">
+	<body>
 	
 		<script>
 		var Hue_url='<?php echo $hue_url; ?>';
 		var scenes={};
 		var groups={};
+		var current={};
+		
+		function xytorgb(x,y){
+			var z = 1.0 - x - y;
+			var Y = 1.0; // The given brightness value
+			var X = (Y / y) * x;
+			var Z = (Y / y) * z;
+
+			var r =  X * 1.656492 - Y * 0.354851 - Z * 0.255038;
+			var g = -X * 0.707196 + Y * 1.655397 + Z * 0.036152;
+			var b =  X * 0.051713 - Y * 0.121364 + Z * 1.011530;
+
+			r = (r <= 0.0031308) ? 12.92 * r : (1.0 + 0.055) * Math.pow(r, (1.0 / 2.4)) - 0.055;
+			g = (g <= 0.0031308) ? 12.92 * g : (1.0 + 0.055) * Math.pow(g, (1.0 / 2.4)) - 0.055;
+			b = (b <= 0.0031308) ? 12.92 * b : (1.0 + 0.055) * Math.pow(b, (1.0 / 2.4)) - 0.055;
+
+			if (r > b & r > g) {
+				// red is biggest
+				if (r > 1.0) {
+					g = g / r;
+					b = b / r;
+					r = 1.0;
+				}
+			}
+			else if (g > b & g > r) {
+				// green is biggest
+				if (g > 1.0) {
+					r = r / g;
+					b = b / g;
+					g = 1.0;
+				}
+			}
+			else if (b > r & b > g) {
+				// blue is biggest
+				if (b > 1.0) {
+					r = r / b;
+					g = g / b;
+					b = 1.0;
+				}
+			}
+			return ([parseInt(r*255),parseInt(g*255),parseInt(b*255)]);
+		}		
 		
 		function HSV_RGB (h, s, u) {
 			if (h === null) {
@@ -68,8 +110,7 @@
 			}
 		}
 		
-		function ctToRGB(ct) {
-			var kelvin=1000000/ct;
+		function ctToRGB(kelvin) {
 			var temp = kelvin / 100;
 			var red, green, blue;
 			if (temp <= 66) {
@@ -123,8 +164,20 @@
 					if (this.readyState == 4 && this.status == 200) {
 						var currentresult = JSON.parse(this.responseText);
 						console.log(currentresult);
-						A=ctToRGB(currentresult[4].state.ct);
+						A=ctToRGB(1000000/currentresult[4].state.ct);
+						if (currentresult[4].state.reachable){
+							$("#lamp4").css('border','1px solid');
+						}else{
+							$("#lamp4").css('border','1px solid red');
+						}
 						$("#lamp4_bri").html(parseInt((currentresult[4].state.bri/254)*100)+"%");
+						current[4]={};
+						current[4]['bri']=currentresult[4].state.bri;
+						current[4]['rgbtext']='rgb('+A.r+','+A.g+','+A.b+')';
+						current[4]['rgb']=[A.r,A.g,A.b];
+						current[4]['ct']=parseInt(1000000/currentresult[4].state.ct);
+						current[4]['reachable']=currentresult[4].state.reachable;
+						current[4]['on']=currentresult[4].state.on==true;
 						$('#lamp4_hue').css('color', 'rgb('+A.r+','+A.g+','+A.b+')');
 						if (currentresult[4].state.on==true){
 							$("#lamp4").html("AAN");
@@ -140,15 +193,28 @@
 							$("#lamp4").html("UIT");
 						}
 
-						var h=parseInt(currentresult[5].state.hue*360/65535);
-						var s=parseInt(currentresult[5].state.sat/2.55);
-						var v=120//parseInt(currentresult[5].state.bri);
+						var x=(currentresult[5].state.xy[0]);
+						var y=(currentresult[5].state.xy[1]);
+						if (currentresult[5].state.reachable){
+							$("#lamp5").css('border','1px solid');
+						}else{
+							$("#lamp5").css('border','1px solid red');
+						}
+						var rgb=xytorgb(x,y,1)
+						current[5]={};
+						current[5]['bri']=currentresult[5].state.bri;
+						current[5]['rgbtext']='rgb('+ rgb.join(', ') +')';
+						current[5]['rgb']=rgb;
+						current[5]['xy']=[x,y];
+						current[5]['reachable']=currentresult[5].state.reachable;
+						current[5]['on']=currentresult[5].state.on==true;
+
 						$("#lamp5_bri").html(parseInt((currentresult[5].state.bri/254)*100)+"%");
-						$('#lamp5_hue').css('color','rgb('+ HSV_RGB(h,s,v).join(', ') +')');
+						$('#lamp5_hue').css('color','rgb('+ rgb.join(', ') +')');
 						if (currentresult[5].state.on==true){
-							$('#lamp5').css('background-color','rgb('+ HSV_RGB(h,s,v).join(', ') +')');
+							$('#lamp5').css('background-color','rgb('+ rgb.join(', ') +')');
 							$("#lamp5").html("AAN");
-							if (isLight(HSV_RGB(h,s,v))){
+							if (isLight(rgb)){
 								$('#lamp5').css('color','white');
 							}else{
 								$('#lamp5').css('color','black');
@@ -160,11 +226,12 @@
 							$("#lamp5").html("UIT");
 						}
 						//$('#lamp5').css('background-color', 'rgb('+B.r+','+B.g+','+B.b+')');
+						console.log(current);
 					}		
 				};
 				xmlhttp.open("GET", 'Hue.php?Request=lights', true);
 				xmlhttp.send();
-				setTimeout(function(){ getCurrent(); }, 1000);
+				setTimeout(function(){ getCurrent(); }, 4000);
 			}
 
 
@@ -243,13 +310,99 @@
 				};
 				xmlhttp.send();
 			}
+			
+			function selectCT(element){
+				$("#CTModal").css("display","block");
+				$("#CTModal").css("background-color",$("body").css("background-color"));
+				$("#CTcolor").css("background-color",$(element).css("color"));
+				$("#CTselect").val(current[parseInt(($(element).attr('id')).substr(4))]['ct']);
+				$("#CTbutton").attr('id',"#CTbutton_"+parseInt(($(element).attr('id')).substr(4)));
+			}
+			
+			function showCTVal(newval){
+				var A=ctToRGB(newval);
+				$('#CTcolor').css('background-color', 'rgb('+A.r+','+A.g+','+A.b+')');
+				
+			}
+			
+			function setCT(element){
+				lamp=$(element).attr('id').substr(10);
+				$(element).attr('id',"CTbutton");
+				ct=parseInt(1000000/$("#CTselect").val());
+				console.log($("#CTselect").val());
+				$("#CTModal").css("display","none");
+				console.log('HuePut.php?ct='+ct+"&on=true&light="+lamp);
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.open("GET", 'HuePut.php?action=lights&ct='+ct+"&on=true&light="+lamp, true);
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						console.log(this.responseText);
+						var currentresult = JSON.parse(this.responseText);
+						console.log(currentresult);
+					}
+				};
+				xmlhttp.send();
 
+			}
+	
+			function selectBri(element){
+				$("#BriModal").css("display","block");
+				$("#BriModal").css("background-color",$("body").css("background-color"));
+				curval=parseInt(current[parseInt(($(element).attr('id')).substr(4))]['bri']);
+				$("#Bri").css("background-color",'rgb('+curval+','+curval+','+curval+')');
+				$("#Briselect").val(current[parseInt(($(element).attr('id')).substr(4))]['bri']);
+				$("#Bributton").attr('id',"#Bributton_"+parseInt(($(element).attr('id')).substr(4)));
+				$("#Bri").html(parseInt((curval/255)*100)+"%");
+				if (curval<127){
+					$('#Bri').css('color','white');
+				}else{
+					$('#Bri').css('color','black');
+				}
+
+
+			}
+			
+			function showBri(newval){
+				$("#Bri").css("background-color",'rgb('+newval+','+newval+','+newval+')');
+				$("#Bri").html(parseInt((newval/255)*100)+"%");
+				if (newval<127){
+					$('#Bri').css('color','white');
+				}else{
+					$('#Bri').css('color','black');
+				}
+			}
+			
+			function setBri(element){
+				lamp=$(element).attr('id').substr(11);
+				$(element).attr('id',"Bributton");
+				bri=$("#Briselect").val();
+				console.log(bri);
+				$("#BriModal").css("display","none");
+				console.log('HuePut.php?bri='+bri+"&on=true&light="+lamp);
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.open("GET", 'HuePut.php?action=lights&bri='+bri+"&on=true&light="+lamp, true);
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						console.log(this.responseText);
+						var currentresult = JSON.parse(this.responseText);
+						console.log(currentresult);
+					}
+				};
+				xmlhttp.send();
+
+			}
+
+	
 		</script>
 		<div id="Hue_mainframe">
-			<div class="lamp_frame"><div class="hue_lamp noselect">Hanglamp</div><div class="hue_button noselect" onclick='turnOnOff(this)' id='lamp4'></div><div id="lamp4_hue " class="hue_button noselect">kleur</div><div id="lamp4_bri" class="hue_button noselect">helderheid</div></div>
-			<div class="lamp_frame"><div class="hue_lamp">kleurenlamp</div><div class="hue_button noselect" onclick='turnOnOff(this)' id='lamp5'></div><div id="lamp5_hue" class="hue_button noselect">kleur</div><div id="lamp5_bri" class="hue_button noselect">helderheid</div></div>
+			<div class="lamp_frame"><div class="hue_lamp noselect">Hanglamp</div><div class="hue_button noselect" onclick='turnOnOff(this)' id='lamp4'></div><div id="lamp4_hue" class="hue_button noselect" onclick="selectCT(this)">kleur</div><div id="lamp4_bri" class="hue_button noselect" onclick="selectBri(this)">helderheid</div></div>
+			<div class="lamp_frame"><div class="hue_lamp">kleurenlamp</div><div class="hue_button noselect" onclick='turnOnOff(this)' id='lamp5'></div><div id="lamp5_hue" class="hue_button noselect">kleur</div><div id="lamp5_bri" class="hue_button noselect" onclick="selectBri(this)">helderheid</div></div>
 			<div class="lamp_frame"><div class="hue_scene noselect" onclick="setScene('WK sfeer dim');">sfeer dim</div><div class="hue_scene noselect" onclick="setScene('WK sfeer 40');">sfeer 40%</div><div class="hue_scene noselect" onclick="setScene('WK sfeer 60');">sfeer 60%</div><div class="hue_scene noselect" onclick="setScene('WK sfeer 100');">sfeer 100%</div><div class="hue_scene noselect" onclick="setScene('WK dag 100');">dag 100%</div><div class="hue_scene noselect" onclick="setScene('UIT');">UIT</div></div>
 		</div>
+		
+		<div id="CTModal" class="Huemodal"><div id="CTcolor"></div><input id="CTselect" type="range" min="2200" max="6500" value="0" oninput="showCTVal(this.value)"><button class="HueOK" id="CTbutton" onclick="setCT(this)">OK</button><div class="HueDesc">Selecteer kleurtemperatuur</div></div>
+		
+		<div id="BriModal" class="Huemodal"><div id="Bri"></div><input id="Briselect" type="range" min="0" max="255" value="0" oninput="showBri(this.value)"><button class="HueOK" id="Bributton" onclick="setBri(this)">OK</button><div class="HueDesc">Selecteer helderheid</div></div>
 	</body>
 </html>
 <?php
