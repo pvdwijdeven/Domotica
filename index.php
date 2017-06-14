@@ -4,7 +4,7 @@
 	 
 	if (login_check($mysqli) == true) {
 	    $logged = 'in';
-	header('Location: '.'domo_main.php');
+	header('Location: '.'domo_dashboard.php');
 	die();
 	} else {
 	    $logged = 'out';

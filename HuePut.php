@@ -18,6 +18,11 @@
 		if (array_key_exists('bri',$_GET)){
 			$arrData['bri'] = intval($_GET['bri']);
 		}
+		if (array_key_exists('x',$_GET)){
+			$x=floatval($_GET['x']);
+			$y=floatval($_GET['y']);
+			$arrData['xy'] = [$x,$y];
+		}
 		$data = json_encode($arrData);
 		$url = $hue_url."lights/".$light."/state";
 	}

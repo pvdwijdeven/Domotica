@@ -43,6 +43,26 @@
 		var groups={};
 		var current={};
 		
+		hextorgb = function(hex){
+			hex=parseInt("0x"+hex);
+			var r = hex >> 16;
+			var g = hex >> 8 & 0xFF;
+			var b = hex & 0xFF;
+			return [r,g,b];
+		}
+		
+		function rgbtoxy(red,green,blue){
+			red = (red > 0.04045) ? Math.pow((red + 0.055) / (1.0 + 0.055), 2.4) : (red / 12.92);
+			green = (green > 0.04045) ? Math.pow((green + 0.055) / (1.0 + 0.055), 2.4) : (green / 12.92);
+			blue = (blue > 0.04045) ? Math.pow((blue + 0.055) / (1.0 + 0.055), 2.4) : (blue / 12.92); 
+			var X = red * 0.664511 + green * 0.154324 + blue * 0.162028;
+			var Y = red * 0.283881 + green * 0.668433 + blue * 0.047685;
+			var Z = red * 0.000088 + green * 0.072310 + blue * 0.986039;
+			var x = X / (X + Y + Z);
+			var y = Y / (X + Y + Z);
+			return ([x,y]);
+		}
+		
 		function xytorgb(x,y){
 			var z = 1.0 - x - y;
 			var Y = 1.0; // The given brightness value
@@ -163,7 +183,7 @@
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						var currentresult = JSON.parse(this.responseText);
-						console.log(currentresult);
+						//console.log(currentresult);
 						A=ctToRGB(1000000/currentresult[4].state.ct);
 						if (currentresult[4].state.reachable){
 							$("#lamp4").css('border','1px solid');
@@ -281,14 +301,14 @@
 					status=true;
 				}
 				lamp=$(element).attr('id').substr(4);
-				console.log('HuePut.php?on='+status+"&light="+lamp);
+				//console.log('HuePut.php?on='+status+"&light="+lamp);
 				var xmlhttp = new XMLHttpRequest();
 				xmlhttp.open("GET", 'HuePut.php?action=lights&on='+status+"&light="+lamp, true);
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						console.log(this.responseText);
 						var currentresult = JSON.parse(this.responseText);
-						console.log(currentresult);
+						//console.log(currentresult);
 					}
 				};
 				xmlhttp.send();
@@ -297,15 +317,15 @@
 			function setScene(scene){
 				var xmlhttp = new XMLHttpRequest();
 				if (scene=="UIT"){
-					xmlhttp.open("GET", 'HuePut.php?action=groups&scene='+"UIT"+"&group="+groups['woonkamer'], true);
+					xmlhttp.open("GET", 'HuePut.php?action=groups&scene='+"UIT"+"&group="+groups['Woonkamer'], true);
 				}else{
-					xmlhttp.open("GET", 'HuePut.php?action=groups&scene='+scenes[scene]+"&group="+groups['woonkamer'], true);
+					xmlhttp.open("GET", 'HuePut.php?action=groups&scene='+scenes[scene]+"&group="+groups['Woonkamer'], true);
 				}
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						console.log(this.responseText);
 						var currentresult = JSON.parse(this.responseText);
-						console.log(currentresult);
+						//console.log(currentresult);
 					}
 				};
 				xmlhttp.send();
@@ -329,16 +349,16 @@
 				lamp=$(element).attr('id').substr(10);
 				$(element).attr('id',"CTbutton");
 				ct=parseInt(1000000/$("#CTselect").val());
-				console.log($("#CTselect").val());
+				//console.log($("#CTselect").val());
 				$("#CTModal").css("display","none");
-				console.log('HuePut.php?ct='+ct+"&on=true&light="+lamp);
+				//console.log('HuePut.php?ct='+ct+"&on=true&light="+lamp);
 				var xmlhttp = new XMLHttpRequest();
 				xmlhttp.open("GET", 'HuePut.php?action=lights&ct='+ct+"&on=true&light="+lamp, true);
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						console.log(this.responseText);
 						var currentresult = JSON.parse(this.responseText);
-						console.log(currentresult);
+						//console.log(currentresult);
 					}
 				};
 				xmlhttp.send();
@@ -358,8 +378,6 @@
 				}else{
 					$('#Bri').css('color','black');
 				}
-
-
 			}
 			
 			function showBri(newval){
@@ -376,33 +394,65 @@
 				lamp=$(element).attr('id').substr(11);
 				$(element).attr('id',"Bributton");
 				bri=$("#Briselect").val();
-				console.log(bri);
+				//console.log(bri);
 				$("#BriModal").css("display","none");
-				console.log('HuePut.php?bri='+bri+"&on=true&light="+lamp);
+				//console.log('HuePut.php?bri='+bri+"&on=true&light="+lamp);
 				var xmlhttp = new XMLHttpRequest();
 				xmlhttp.open("GET", 'HuePut.php?action=lights&bri='+bri+"&on=true&light="+lamp, true);
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						console.log(this.responseText);
 						var currentresult = JSON.parse(this.responseText);
-						console.log(currentresult);
+						//console.log(currentresult);
 					}
 				};
 				xmlhttp.send();
 
 			}
 
-	
+			function selectXY(element){
+				$("#XYModal").css("display","block");
+				$("#XYModal").css("background-color",$("body").css("background-color"));
+				rgb=current[parseInt(($(element).attr('id')).substr(4))]['rgb'];
+				document.getElementById('XYselect').jscolor.fromRGB(rgb[0],rgb[1],rgb[2]);
+				$("#XYbutton").attr('id',"#XYbutton_"+parseInt(($(element).attr('id')).substr(4)));
+				document.getElementById('XYselect').jscolor.show();
+			}
+			
+			function setXY(element){
+				hex=$("#XYselect").val();
+				rgb=hextorgb(hex);
+				xy=rgbtoxy(rgb[0],rgb[1],rgb[2]);
+				lamp=$(element).attr('id').substr(10);
+				$(element).attr('id',"XYbutton");
+				//console.log('HuePut.php?action=lights&x='+xy[0]+'&y='+xy[1]+"&on=true&light="+lamp);
+				$("#XYModal").css("display","none");
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.open("GET", 'HuePut.php?action=lights&x='+xy[0]+'&y='+xy[1]+"&on=true&light="+lamp, true);
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						console.log(this.responseText);
+						var currentresult = JSON.parse(this.responseText);
+						//console.log(currentresult);
+					}
+				};
+				xmlhttp.send();
+			}
+
+			
 		</script>
 		<div id="Hue_mainframe">
 			<div class="lamp_frame"><div class="hue_lamp noselect">Hanglamp</div><div class="hue_button noselect" onclick='turnOnOff(this)' id='lamp4'></div><div id="lamp4_hue" class="hue_button noselect" onclick="selectCT(this)">kleur</div><div id="lamp4_bri" class="hue_button noselect" onclick="selectBri(this)">helderheid</div></div>
-			<div class="lamp_frame"><div class="hue_lamp">kleurenlamp</div><div class="hue_button noselect" onclick='turnOnOff(this)' id='lamp5'></div><div id="lamp5_hue" class="hue_button noselect">kleur</div><div id="lamp5_bri" class="hue_button noselect" onclick="selectBri(this)">helderheid</div></div>
+			<div class="lamp_frame"><div class="hue_lamp">kleurenlamp</div><div class="hue_button noselect" onclick='turnOnOff(this)' id='lamp5'></div><div id="lamp5_hue" class="hue_button noselect" onclick="selectXY(this)">kleur</div><div id="lamp5_bri" class="hue_button noselect" onclick="selectBri(this)">helderheid</div></div>
 			<div class="lamp_frame"><div class="hue_scene noselect" onclick="setScene('WK sfeer dim');">sfeer dim</div><div class="hue_scene noselect" onclick="setScene('WK sfeer 40');">sfeer 40%</div><div class="hue_scene noselect" onclick="setScene('WK sfeer 60');">sfeer 60%</div><div class="hue_scene noselect" onclick="setScene('WK sfeer 100');">sfeer 100%</div><div class="hue_scene noselect" onclick="setScene('WK dag 100');">dag 100%</div><div class="hue_scene noselect" onclick="setScene('UIT');">UIT</div></div>
 		</div>
 		
 		<div id="CTModal" class="Huemodal"><div id="CTcolor"></div><input id="CTselect" type="range" min="2200" max="6500" value="0" oninput="showCTVal(this.value)"><button class="HueOK" id="CTbutton" onclick="setCT(this)">OK</button><div class="HueDesc">Selecteer kleurtemperatuur</div></div>
 		
 		<div id="BriModal" class="Huemodal"><div id="Bri"></div><input id="Briselect" type="range" min="0" max="255" value="0" oninput="showBri(this.value)"><button class="HueOK" id="Bributton" onclick="setBri(this)">OK</button><div class="HueDesc">Selecteer helderheid</div></div>
+		
+		<div id="XYModal" class="Huemodal"><div id="XYcolor"></div><input id="XYselect" style="display:none" class="jscolor {position:'top', mode:'HS', width:294, height:180, padding:0}"><button class="HueOK" id="XYbutton" onclick="setXY(this)">OK</button><div class="HueDesc">Selecteer kleur</div></div>
+		
 	</body>
 </html>
 <?php

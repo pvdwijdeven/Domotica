@@ -62,9 +62,17 @@
 	height:100px;
 }
 
+#XYcolor
+{
+	width:300px;
+	height:182px;
+}
+
+
 #CTselect
 {
 	width:300px;
+	height:100px;
 }
 
 #Bri
@@ -79,6 +87,7 @@
 #Briselect
 {
 	width:300px;
+	height:100px;
 }
 
 .hue_button
