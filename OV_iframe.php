@@ -216,8 +216,9 @@ function showtable(routes,routedesc){
 	shortestID=0;
 	for (x=0;x<routes.length;x++){
 		if(routes[x].length>0){
-			if (shortest>routedesc[x][6]){
-				shortest=routedesc[x][6];
+			curdur=Math.ceil(routedesc[x][6])
+			if (shortest>curdur){
+				shortest=curdur;
 				shortestID=x
 			}
 		}

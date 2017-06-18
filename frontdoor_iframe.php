@@ -30,7 +30,25 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body>
-	<div id='cam_holder'><img src="https://192.168.2.224:443/cgi-bin/CGIProxy.fcgi?cmd=snapPicture2&<?php echo $camkey?>&t=" id="cam_frontdoor" onload='setTimeout(function() {src = src.substring(0, (src.lastIndexOf("t=")+2))+(new Date()).getTime()}, 500)' onerror='setTimeout(function() {src = src.substring(0, (src.lastIndexOf("t=")+2))+(new Date()).getTime()}, 5000)' alt='' /></div>
+	
+	<script language="JavaScript" type="text/javascript">
+
+		function reload()
+		{
+		   setTimeout('reloadImg("cam_frontdoor")',1000)
+		};
+
+		function reloadImg(id) 
+		{ 
+		   var obj = document.getElementById(id); 
+		   var date = new Date(); 
+		   obj.src = "frontdoor.php?t=" + Math.floor(date.getTime()/1000); 
+		} 
+
+	</script>
+
+
+	<div id='cam_holder'><img src="frontdoor.php?t=" name="refresh" id="cam_frontdoor" onload='reload(this)' onerror='reload(this)'></div>
 
 	</body>
 </html>
