@@ -51,7 +51,8 @@
 		</script>
 		<?php include "includes/header.php"; ?>
 		<!-- main page start here -->
-		<?php
+
+<?php
 			$curroomname="";
 			if (isset($_COOKIE['room_whathappened_php'])){
 				$curroom = $_COOKIE['room_whathappened_php'];
@@ -182,20 +183,24 @@
 		</div>
 		<script>
 			$( document ).ready(function()  {
+				if(self!=top){
+					$("header").hide();
+					$("footer").hide();
+				}
 				setSButtons();
 				rooms=['Allemaal',<?php echo $RoomSel;?>];
-			roomsID=['0',<?php echo $RoomSelID;?>];
-			curroomname='<?php echo $curroomname;?>';
-			curroom=<?php echo $curroom;?>;
-			var dto = new Date();
-			var diff = dto.getTimezoneOffset()
-			dto.setMinutes ( dto.getMinutes() - diff );
-			$('#formto').val(dto.toJSON().slice(0,16));
-			var dfrom = new Date(dto);
-			dfrom.setHours ( dto.getHours() - 1 );
-			$('#formfrom').val(dfrom.toJSON().slice(0,16));
-			setRoom();
-			getRooms();
+				roomsID=['0',<?php echo $RoomSelID;?>];
+				curroomname='<?php echo $curroomname;?>';
+				curroom=<?php echo $curroom;?>;
+				var dto = new Date();
+				var diff = dto.getTimezoneOffset()
+				dto.setMinutes ( dto.getMinutes() - diff );
+				$('#formto').val(dto.toJSON().slice(0,16));
+				var dfrom = new Date(dto);
+				dfrom.setHours ( dto.getHours() - 1 );
+				$('#formfrom').val(dfrom.toJSON().slice(0,16));
+				setRoom();
+				getRooms();
 			});
 			
 			var generalInfo = {};
@@ -296,6 +301,7 @@
 				}
 				echo "</table>"
 		?>
+		
 		<!-- main page ends here -->		
 		<footer>
 			<hr>

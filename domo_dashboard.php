@@ -27,7 +27,8 @@
 	<body>
 		<script type="text/javascript">
 			<!--
-			
+				var hide_timer;
+				
 				window.onclick = function(event) {
 					if (event.target == document.getElementById("mySidenav")) {
 					document.getElementById("mySidenav").style.width = "0";
@@ -41,16 +42,43 @@
 				function closeNav() {
 					document.getElementById("mySidenav").style.width = "0";
 				}
+				
+				function showModal(element) {
+					$("#dash_modal").show();
+					$("#dash_modal").attr("name",$(element).html());
+					
+					if ($(element).html()=="Logboek"){
+						$("#dash_frame").attr("src","whathappened.php");
+					}
+					if ($(element).html()=="Plattegrond"){
+						$("#dash_frame").attr("src","floorplan.php");
+					}
+					if ($(element).html()=="Alle metingen"){
+						$("#dash_frame").attr("src","domo_main.php");
+					}
+					hide_timer = setTimeout(function(){hideModal(); }, 300000);
+				}
 
-
+				function hideModal() {
+					$("#dash_modal").hide();
+					$("#dash_modal").attr("name","");
+					$("#dash_frame").attr("src","");
+					clearTimeout(hide_timer);
+				}
 			
 				//-->
 		</script>
 		<?php include "includes/header.php"; ?>
 		<!-- main page starts here -->
+		<div id="dash_modal"><iframe id="dash_frame"></iframe><button id="dash_terug" class="dash_menu" onclick="hideModal()">Terug</button></div>
+		
 		<div id="main_wrapper"><iframe id="frame_OV" src="OV_iframe.php"></iframe><iframe id="frame_weather" src="weather_iframe.php"></iframe><iframe id="frame_status" src="status_iframe.php"></iframe><iframe id="frame_traffic" src="traffic_iframe.php"></iframe><iframe id="frame_warning" src="warning_iframe.php"></iframe><iframe id="frame_hue" src="Hue_iframe.php"></iframe></iframe><iframe id="frame_camera" src="frontdoor_iframe.php"></iframe></div>
-
-
+		<hr>
+		<div id="dash_buttons"><button id="dash_met" class="dash_menu" onclick="showModal(this)">Alle metingen</button>
+		<button id="dash_plat" class="dash_menu" onclick="showModal(this)">Plattegrond</button>
+		<button id="dash_agenda" class="dash_menu" onclick="showModal(this)">Agenda</button>
+		<button id="dash_log" class="dash_menu" onclick="showModal(this)">Logboek</button></div>
+		
 		<!-- main page ends here -->	
 		<footer>
 			<hr>

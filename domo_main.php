@@ -255,6 +255,10 @@
 			}
 			
 			$( document ).ready(function()  {
+				if(self!=top){
+					$("header").hide();
+					$("footer").hide();
+				}
 				setSButtons();
 				getValues();
 				getGeneralInfo();

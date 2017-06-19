@@ -14,11 +14,10 @@
 
 		
 		
-		<canvas id="myCanvas" width="1200" height="600" style="border:1px solid #d3d3d3;">
+		<canvas id="myCanvas" width="1200" height="500" style="border:1px solid #d3d3d3;">
 		Your browser does not support the HTML5 canvas tag.</canvas>
 
 		<script>
-
 			var c = document.getElementById("myCanvas");
 			var ctx = c.getContext("2d");
 			maxwidth=24910;
@@ -29,7 +28,6 @@
 				scale=scaleY;
 				ystart=0;
 				xstart=((parseInt($("#myCanvas").css("width"))/scale)-maxwidth)/2;
-
 			}else{
 				scale=scaleX;
 				xstart=0;
@@ -42,7 +40,7 @@
 			ctx.scale(scale,scale);
 			ctx.translate(xstart,ystart);
 			/*tuin*/
-			ctx.fillStyle="#002200";
+			ctx.fillStyle="#003300";
 			ctx.fillRect(0,0,24910,10000);
 			/*BG*/
 			ctx.fillStyle="#000000";
@@ -51,12 +49,17 @@
 			/*garage*/
 			ctx.fillRect(10420,5100,5690,3100);
 			ctx.rect(10420,5100,5690,3100);
+			/* toilet + mk */
+			ctx.rect(5100,0,2250,920);
+			ctx.rect(5662,0,1250,920);
+			/* hall */
+			ctx.moveTo(4000,2100);
+			ctx.lineTo(8305,2100);
+			ctx.lineTo(8305,1000);
+			ctx.rect(7350,0,3100,1000);			
+			
 			ctx.stroke();
-
 		</script>
 
 	</body>
 </html>
-
-
-
