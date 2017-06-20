@@ -56,6 +56,9 @@
 					if ($(element).html()=="Alle metingen"){
 						$("#dash_frame").attr("src","domo_main.php");
 					}
+					if ($(element).html()=="Agenda"){
+						$("#dash_frame").attr("src","calendar.php");
+					}
 					hide_timer = setTimeout(function(){hideModal(); }, 300000);
 				}
 
