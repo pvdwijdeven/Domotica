@@ -96,7 +96,7 @@
 				dag=d.getDate();
 				maand=month[d.getMonth()];
 				jaar=d.getFullYear();
-				tijd=d.toLocaleTimeString();
+				tijd=d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit', hour12: false});
 				dagnaam=weekday[d.getDay()];
 				week=d.getWeek();
 				$("#tijd").html(tijd);
