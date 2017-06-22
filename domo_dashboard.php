@@ -1,4 +1,5 @@
 <?php 
+	$dummy=$_SERVER;
 	$title="Domo Dashboard";
 	$adminpage=false;
 	include_once 'includes/db_connect.php';
@@ -59,6 +60,10 @@
 					if ($(element).html()=="Agenda"){
 						$("#dash_frame").attr("src","calendar.php");
 					}
+					if ($(element).html()=="Buienradar"){
+						$("#dash_frame").attr("src","buienradar.php");
+					}					
+					
 					hide_timer = setTimeout(function(){hideModal(); }, 300000);
 				}
 
@@ -80,7 +85,8 @@
 		<div id="dash_buttons"><button id="dash_met" class="dash_menu" onclick="showModal(this)">Alle metingen</button>
 		<button id="dash_plat" class="dash_menu" onclick="showModal(this)">Plattegrond</button>
 		<button id="dash_agenda" class="dash_menu" onclick="showModal(this)">Agenda</button>
-		<button id="dash_log" class="dash_menu" onclick="showModal(this)">Logboek</button></div>
+		<button id="dash_log" class="dash_menu" onclick="showModal(this)">Logboek</button>
+		<button id="dash_log" class="dash_menu" onclick="showModal(this)">Buienradar</button></div>
 		
 		<!-- main page ends here -->	
 		<footer>

@@ -1,4 +1,5 @@
 <?php 
+	$dummy=$_SERVER;
 	$title="Domo Hue_iframe";
 	$adminpage=false;
 	include_once 'includes/db_connect.php';
@@ -246,7 +247,7 @@
 							$("#lamp5").html("UIT");
 						}
 						//$('#lamp5').css('background-color', 'rgb('+B.r+','+B.g+','+B.b+')');
-						console.log(current);
+						//console.log(current);
 					}		
 				};
 				xmlhttp.open("GET", 'Hue.php?Request=lights', true);
@@ -306,7 +307,7 @@
 				xmlhttp.open("GET", 'HuePut.php?action=lights&on='+status+"&light="+lamp, true);
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						console.log(this.responseText);
+						//console.log(this.responseText);
 						var currentresult = JSON.parse(this.responseText);
 						//console.log(currentresult);
 					}
@@ -323,7 +324,7 @@
 				}
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						console.log(this.responseText);
+						//console.log(this.responseText);
 						var currentresult = JSON.parse(this.responseText);
 						//console.log(currentresult);
 					}
@@ -356,7 +357,7 @@
 				xmlhttp.open("GET", 'HuePut.php?action=lights&ct='+ct+"&on=true&light="+lamp, true);
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						console.log(this.responseText);
+						//console.log(this.responseText);
 						var currentresult = JSON.parse(this.responseText);
 						//console.log(currentresult);
 					}
@@ -401,7 +402,7 @@
 				xmlhttp.open("GET", 'HuePut.php?action=lights&bri='+bri+"&on=true&light="+lamp, true);
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						console.log(this.responseText);
+						//console.log(this.responseText);
 						var currentresult = JSON.parse(this.responseText);
 						//console.log(currentresult);
 					}
@@ -431,7 +432,7 @@
 				xmlhttp.open("GET", 'HuePut.php?action=lights&x='+xy[0]+'&y='+xy[1]+"&on=true&light="+lamp, true);
 				xmlhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						console.log(this.responseText);
+						//console.log(this.responseText);
 						var currentresult = JSON.parse(this.responseText);
 						//console.log(currentresult);
 					}

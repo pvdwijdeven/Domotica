@@ -1,0 +1,14 @@
+#wrapper{
+	border:1px solid;
+	text-align:center;
+}
+
+#left{
+	margin:2px;
+	pointer-events: none;
+}
+#right{
+	margin:2px;
+	pointer-events: none;
+}
+

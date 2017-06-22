@@ -1,4 +1,5 @@
 <?php 
+	$dummy=$_SERVER;
 	$title="Domo warnings_iframe";
 	$adminpage=false;
 	include_once 'includes/db_connect.php';
@@ -32,7 +33,7 @@
 	<body>
 		<script>
 			function addLog(text, setter="", button=false){
-				console.log(button);
+				//console.log(button);
 				if (!button){
 					$("#warning_mainframe").append("<div class='warning' id='"+setter+"'>"+text+"</div>");
 				}else{

@@ -1,4 +1,5 @@
 <?php 
+	$dummy=$_SERVER;
 	$title="Domo status_iframe";
 	$adminpage=false;
 	include_once 'includes/db_connect.php';

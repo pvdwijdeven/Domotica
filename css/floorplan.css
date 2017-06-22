@@ -1,0 +1,16 @@
+#myCanvas{
+	border:1px solid;
+}
+
+#button_area{
+	width:100px;
+	height:500px;
+	border:1px solid;
+	float:left;
+}
+
+.floorsel{
+	margin:2px;
+	width:96px;
+	height:40px;
+}
