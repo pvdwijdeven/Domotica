@@ -14,7 +14,7 @@
 	<body>
 	
 		<script>
-			var curFloor = "Tuin";
+			var curFloor = "BG";
 			function showTuin(){
 				curFloor="Tuin";
 				var c = document.getElementById("myCanvas");
@@ -79,21 +79,103 @@
 				ctx.strokeStyle="#FFFFFF";
 				ctx.beginPath();
 				
-				ctx.translate(xstart,ystart);
-				/*BG*/
-				ctx.fillStyle="#000000";
-				ctx.fillRect(0,0,12110,5100);
-				ctx.rect(0,0,12110,5100);
-				/* toilet + mk */
-				ctx.rect(1100,0,2250,920);
-				ctx.rect(1662,0,1250,920);
-				/* hall */
-				ctx.moveTo(0,2100);
-				ctx.lineTo(4305,2100);
-				ctx.lineTo(4305,1000);
-				ctx.rect(3350,0,3100,1000);			
 				
+				ctx.translate(xstart,ystart);
+				
+				/*floors*/
+				ctx.fillStyle="#222222";
+				ctx.fillRect(0,0,12110,5100);
+
+				/*walls*/
+				ctx.fillStyle="#FFFFFF";
+				ctx.fillRect(0,2100,4375,70);				
+				ctx.fillRect(4305,2100,70,-1070);
+				ctx.fillRect(4305,1000,6450-4305,70);
+				ctx.fillRect(6450,1000,-70,-1000);
+				ctx.fillRect(1100,0,70,990);
+				ctx.fillRect(6450-3100-70,0,-70,990);
+				ctx.fillRect(1570,0,70,990);
+				ctx.fillRect(1570+70+1250,0,70,990);
+				ctx.fillRect(1100,990,2180,-70);		ctx.stroke();
+
+				/*doors*/
+				ctx.fillStyle="#333333";
+				ctx.strokeStyle="#333333";
+				ctx.lineWidth=parseInt(3/scale);
+				/*toilet*/
+				ctx.fillRect(2800,919,-915,72);
+				ctx.beginPath();
+				ctx.arc(2800-915,919+72,915,0,0.5*Math.PI);
+				ctx.lineTo(2800-915,919+72);
 				ctx.stroke();
+				/*meterkast*/
+				ctx.fillRect(1099,5,72,915);
+				ctx.beginPath();
+				ctx.arc(1099,5,915,0.5*Math.PI,Math.PI);
+				ctx.lineTo(1099,5);
+				ctx.stroke();
+				/*meterkast*/
+				ctx.fillRect(4304,1130,72,915);
+				ctx.beginPath();
+				ctx.arc(4304,1130,915,0.5*Math.PI,0,true);
+				ctx.lineTo(4304,1130);
+				ctx.stroke();
+				/*trapkast*/
+				ctx.fillRect(6450-70,999,-915,72);
+				ctx.beginPath();
+				ctx.arc(6450-70,999,915,Math.PI,0.5*Math.PI,true);
+				ctx.lineTo(6450-70,999);
+				ctx.stroke();
+				
+				/*keuken*/
+				ctx.fillRect(0,5100,3971,-600);
+				ctx.fillRect(918,2170,1221+1836,600);
+				
+				/*stairs*/
+				ctx.fillStyle="#333333";
+				ctx.strokeStyle="#333333";
+				ctx.lineWidth=parseInt(3/scale);
+				ctx.beginPath();
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280+990,0);
+				ctx.moveTo(3280,990);
+				ctx.lineTo(3280+3100,990);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280,990-Math.tan(18/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280,990-Math.tan(36/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280+Math.tan(18/360*2*Math.PI)*990,0);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280+Math.tan(36/360*2*Math.PI)*990,0);
+				ctx.moveTo(3280+990+198,990);
+				ctx.lineTo(3280+990+198,0);
+				ctx.moveTo(3280+990+2*224,990);
+				ctx.lineTo(3280+990+2*224,0);
+				ctx.moveTo(3280+990+3*224,990);
+				ctx.lineTo(3280+990+3*224,0);
+				ctx.moveTo(3280+990+4*224,990);
+				ctx.lineTo(3280+990+4*224,0);
+				ctx.moveTo(3280+990+5*224,990);
+				ctx.lineTo(3280+990+5*224,0);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990,990-Math.tan(18/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990,990-Math.tan(36/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990-Math.tan(18/360*2*Math.PI)*990,0);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990-Math.tan(36/360*2*Math.PI)*990,0);
+				ctx.stroke();
+				
+				/*outerwalls*/
+				ctx.beginPath();
+				ctx.lineWidth=parseInt(3/scale);
+				ctx.strokeStyle="#FFFFFF";
+				ctx.rect(0,0,12110,5100);
+				ctx.stroke();
+				
+				
 			}
 
 			function show1e(){
@@ -102,7 +184,7 @@
 				c.width = window.innerWidth-138;
 				var ctx = c.getContext("2d");
 				ctx.clearRect(0, 0, c.width, c.height);
-				maxwidth=9710;
+				maxwidth=12110;
 				maxheight=5100;
 				scaleX=parseInt($("#myCanvas").css("width"))/maxwidth;
 				scaleY=parseInt($("#myCanvas").css("height"))/maxheight;
@@ -116,47 +198,105 @@
 					ystart=((parseInt($("#myCanvas").css("height"))/scale)-maxheight)/2;
 				}
 				//console.log([xstart,ystart]);
-				ctx.lineWidth=parseInt(3/scale);
-				ctx.scale(scale,scale);
-				ctx.strokeStyle="#FFFFFF";
-				ctx.beginPath();
 				
+				ctx.scale(scale,scale);
+				ctx.beginPath();
 				ctx.translate(xstart,ystart);
 
-				/*1e*/
+				/*floors*/
 				ctx.fillStyle="#222222";
 				ctx.fillRect(0,0,9710,5100);
-				ctx.rect(0,0,9710,5100);
-				/*hal+toilet*/
-				ctx.fillRect(1640,0,4740,2150);
-				ctx.rect(1640,0,4740,2150);
-				ctx.moveTo(1640,990);
-				ctx.lineTo(1640+4740,990);
+
+				/*walls*/
+				ctx.fillStyle="#FFFFFF";
+				ctx.fillRect(1570,2150,4880+3260,70);				
+				ctx.fillRect(1570,0,70,2220);				
+				ctx.fillRect(1570,920,1250+390+70,70);				
+				ctx.fillRect(1570+70+1250,0,70,920);				
+				ctx.fillRect(1570+1250+390,0,70,920);				
+				ctx.fillRect(6380,0,70,2220);				
+				ctx.fillRect(3410,2220,70,2880);				
+				ctx.fillRect(5310,2220,70,2880);
+
+				/*doors*/
+				ctx.fillStyle="#333333";
+				ctx.strokeStyle="#333333";
+				ctx.lineWidth=parseInt(3/scale);
 				/*toilet*/
-				ctx.fillRect(1640,0,1250,920);
-				ctx.rect(1640,0,1250,920);
-				ctx.fillRect(1640,0,1250+390,920);
-				ctx.rect(1640,0,1250+390,920);
-				/*trap*/
-				ctx.fillRect(3280,0,3100,920);
-				ctx.rect(3280,0,3100,920);
-				/*slaapkamer 3*/
-				ctx.fillRect(9710,0,-3260,2150);
-				ctx.rect(9710,0,-3260,2150);
-				/*slaapkamer 2*/
-				ctx.fillRect(9710,5100,-4330,-2880);
-				ctx.rect(9710,5100,-4330,-2880);
-				/*badkamer*/
-				ctx.fillRect(3480,2220,1830,2880);
-				ctx.rect(3480,2220,1830,2880);
-				/*slaapkamer 1*/
-				ctx.moveTo(1570,0);
-				ctx.lineTo(1570,2220);
-				ctx.lineTo(3410,2220);
-				ctx.lineTo(3410,2220+2880);
-				
-				
+				ctx.fillRect(2800,919,-915,72);
+				ctx.beginPath();
+				ctx.arc(2800-915,919+72,915,0,0.5*Math.PI);
+				ctx.lineTo(2800-915,919+72);
 				ctx.stroke();
+				/*slaapkamer1*/
+				ctx.fillRect(3390,2220-69,-915,72);
+				ctx.beginPath();
+				ctx.arc(3390,2220+3,915,Math.PI,0.5*Math.PI,true);
+				ctx.lineTo(3390,2220+3);
+				ctx.stroke();
+				/*badkamer*/
+				ctx.fillRect(3390+1830+70,2220-69,-915,72);
+				ctx.beginPath();
+				ctx.arc(3390+1830+70,2220-69,915,Math.PI,1.5*Math.PI);
+				ctx.lineTo(3390+1830+70,2220-69);
+				ctx.stroke();
+				/*slaapkamer2*/
+				ctx.fillRect(5400,2220-69,915,72);
+				ctx.beginPath();
+				ctx.arc(5400,2220+3,915,0,0.5*Math.PI);
+				ctx.lineTo(5400,2220+3);
+				ctx.stroke();				
+				/*slaapkamer3*/
+				ctx.fillRect(9710-3259,2130,-72,-915);
+				ctx.beginPath();
+				ctx.arc(9710-3259,2130,915,1.5*Math.PI,2*Math.PI);
+				ctx.lineTo(9710-3259,2130);
+				ctx.stroke();			
+				
+				/*stairs*/
+				ctx.fillStyle="#333333";
+				ctx.strokeStyle="#333333";
+				ctx.lineWidth=parseInt(3/scale);
+				ctx.beginPath();
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280+990,0);
+				ctx.moveTo(3280,990);
+				ctx.lineTo(3280+3100,990);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280,990-Math.tan(18/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280,990-Math.tan(36/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280+Math.tan(18/360*2*Math.PI)*990,0);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280+Math.tan(36/360*2*Math.PI)*990,0);
+				ctx.moveTo(3280+990+198,990);
+				ctx.lineTo(3280+990+198,0);
+				ctx.moveTo(3280+990+2*224,990);
+				ctx.lineTo(3280+990+2*224,0);
+				ctx.moveTo(3280+990+3*224,990);
+				ctx.lineTo(3280+990+3*224,0);
+				ctx.moveTo(3280+990+4*224,990);
+				ctx.lineTo(3280+990+4*224,0);
+				ctx.moveTo(3280+990+5*224,990);
+				ctx.lineTo(3280+990+5*224,0);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990,990-Math.tan(18/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990,990-Math.tan(36/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990-Math.tan(18/360*2*Math.PI)*990,0);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990-Math.tan(36/360*2*Math.PI)*990,0);
+				ctx.stroke();
+				
+				/*outerwalls*/
+				ctx.beginPath();
+				ctx.lineWidth=parseInt(3/scale);
+				ctx.strokeStyle="#FFFFFF";
+				ctx.rect(0,0,9710,5100);
+				ctx.stroke();
+				
 			}
 
 			function show2e(){
@@ -165,7 +305,7 @@
 				c.width = window.innerWidth-138;
 				var ctx = c.getContext("2d");
 				ctx.clearRect(0, 0, c.width, c.height);
-				maxwidth=7960;
+				maxwidth=12110;
 				maxheight=5100;
 				scaleX=parseInt($("#myCanvas").css("width"))/maxwidth;
 				scaleY=parseInt($("#myCanvas").css("height"))/maxheight;
@@ -186,17 +326,102 @@
 				
 				ctx.translate(xstart,ystart);
 
-				/*1e*/
-				ctx.fillStyle="#000000";
-				ctx.fillRect(0,0,7960,5100);
-				ctx.rect(0,0,7960,5100);
+				/*floors*/
+				ctx.fillStyle="#222222";
+				ctx.moveTo(0,5100-242);
+				ctx.lineTo(0,5100-242-3000);
+				ctx.lineTo(3280-1485,5100-242-3000);
+				ctx.lineTo(3280-1485,0);
+				ctx.lineTo(7960,0);
+				ctx.lineTo(7960,5100);
+				ctx.lineTo(3280-1485,5100);
+				ctx.lineTo(3280-1485,5100-242);
+				ctx.lineTo(0,5100-242);
+				ctx.fill();
+
+				/*walls*/
+				ctx.fillStyle="#FFFFFF";
+				ctx.fillRect(3210,0,70,1060);
+				ctx.fillRect(3210,990,5415-3210+70,70);
+				ctx.fillRect(5415,1060,70,4030);
+				ctx.fillRect(7960-1465-70,0,70,1970);
+				ctx.fillRect(7960-1465,1900,1465,70);
+
+				/*doors*/
+				ctx.fillStyle="#333333";
+				ctx.strokeStyle="#333333";
+				ctx.lineWidth=parseInt(3/scale);
+				/*berging*/
+				ctx.fillRect(7960-1465+20,1899,915,72);
+				ctx.beginPath();
+				ctx.arc(7960-1465+20,1899+72,915,0,0.5*Math.PI);
+				ctx.lineTo(7960-1465+20,1899+72);
+				ctx.stroke();
+
+				/*slaapkamer4*/
+				ctx.fillRect(5414,1080,72,915);
+				ctx.beginPath();
+				ctx.arc(5414,1080+72,915,0.5*Math.PI,Math.PI);
+				ctx.lineTo(5414,1080+72);
+				ctx.stroke();
+
+				/*stairs*/
+				ctx.fillStyle="#333333";
+				ctx.strokeStyle="#333333";
+				ctx.lineWidth=parseInt(3/scale);
+				ctx.beginPath();
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280+990,0);
+				ctx.moveTo(3280,990);
+				ctx.lineTo(3280+3100,990);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280,990-Math.tan(18/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280,990-Math.tan(36/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280+Math.tan(18/360*2*Math.PI)*990,0);
+				ctx.moveTo(3280+990,990);
+				ctx.lineTo(3280+Math.tan(36/360*2*Math.PI)*990,0);
+				ctx.moveTo(3280+990+198,990);
+				ctx.lineTo(3280+990+198,0);
+				ctx.moveTo(3280+990+2*224,990);
+				ctx.lineTo(3280+990+2*224,0);
+				ctx.moveTo(3280+990+3*224,990);
+				ctx.lineTo(3280+990+3*224,0);
+				ctx.moveTo(3280+990+4*224,990);
+				ctx.lineTo(3280+990+4*224,0);
+				ctx.moveTo(3280+990+5*224,990);
+				ctx.lineTo(3280+990+5*224,0);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990,990-Math.tan(18/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990,990-Math.tan(36/360*2*Math.PI)*990);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990-Math.tan(18/360*2*Math.PI)*990,0);
+				ctx.moveTo(3280+990+1120,990);
+				ctx.lineTo(3280+990+1120+990-Math.tan(36/360*2*Math.PI)*990,0);
+				ctx.stroke();
+
+				
+				/*outerwalls*/
+				ctx.beginPath();
+				ctx.strokeStyle="#FFFFFF";
+				ctx.moveTo(0,5100-242);
+				ctx.lineTo(0,5100-242-3000);
+				ctx.lineTo(3280-1485,5100-242-3000);
+				ctx.lineTo(3280-1485,0);
+				ctx.lineTo(7960,0);
+				ctx.lineTo(7960,5100);
+				ctx.lineTo(3280-1485,5100);
+				ctx.lineTo(3280-1485,5100-242);
+				ctx.lineTo(0,5100-242);
 				
 				ctx.stroke();
-			}
 
+			}
 			
 			$('document').ready(function(){
-				showTuin();
+				window.onresize();
 			});
 			
 			window.onresize = function(event) {
