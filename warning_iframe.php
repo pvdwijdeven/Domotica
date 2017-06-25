@@ -32,6 +32,20 @@
 	</head>
 	<body>
 		<script>
+		
+		
+			function openDet() {
+				getraspstat();
+				$("#showdetails").css('width', $(warning_mainframe).css('width'));
+				$("#showdetails").css('height', $(warning_mainframe).css('height'));
+				setTimeout(function(){closeDet(); }, 60000);
+			}
+		
+			function closeDet() {
+				document.getElementById("showdetails").style.width = "0";
+				document.getElementById("showdetails").style.height = "0";
+			}
+
 			function addLog(text, setter="", button=false){
 				//console.log(button);
 				if (!button){
@@ -50,7 +64,11 @@
 						$("#button_"+setter).remove();
 					}
 				};
-				xmlhttp.open("GET", "putToCurrent.php?"+setter+"=0", true);
+				if (setter!="diskfree"){
+					xmlhttp.open("GET", "putToCurrent.php?"+setter+"=0", true);
+				}else{
+					xmlhttp.open("GET", "putToCurrent.php?"+setter+"=100", true);
+				}
 				xmlhttp.send();
 			}
 
@@ -77,7 +95,8 @@
 				xmlhttp.open("GET", "getFromCurrent.php?request=wasmachine", true);
 				xmlhttp.send();
 			}
-			
+
+		
 			function getValues2(){
 				var xmlhttp = new XMLHttpRequest();
 				xmlhttp.onreadystatechange = function() {
@@ -94,6 +113,53 @@
 				xmlhttp.send();
 			}
 
+			function getValues3(){
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						var currentresult = this.responseText;
+						if (parseInt(currentresult)<=20){
+							if (!$( "#diskfree" ).length){
+								addLog("Lage diskruimte: "+parseInt(currentresult)+"%","diskfree",true);
+							}
+						}
+					}
+				};
+				xmlhttp.open("GET", "getFromCurrent.php?request=diskfree", true);
+				xmlhttp.send();
+			}
+
+			function getValues4(){
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						var currentresult = this.responseText;
+						if (parseInt(currentresult)>=70){
+							if (!$( "#CPUtemp" ).length){
+								addLog("CPU temperatuur te hoog: "+parseInt(currentresult)+"&degC","CPUtemp",true);
+							}
+						}
+					}
+				};
+				xmlhttp.open("GET", "getFromCurrent.php?request=CPUtemp", true);
+				xmlhttp.send();
+			}
+
+			function getValues5(){
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						var currentresult = this.responseText;
+						if (parseInt(currentresult)>=80){
+							if (!$( "#CPUmax" ).length){
+								addLog("CPU load te hoog: "+parseInt(currentresult)+"%","CPUmax",true);
+							}
+						}
+					}
+				};
+				xmlhttp.open("GET", "getFromCurrent.php?request=CPUmax", true);
+				xmlhttp.send();
+			}
 			
 			function getHue(){
 				var xmlhttp = new XMLHttpRequest();
@@ -123,14 +189,33 @@
 					$("#all_ok").hide();
 				}
 			}
+
+			function getraspstat(){
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						var currentresult = this.responseText;
+						$("#detail_text").html(currentresult);
+					}
+				};
+				xmlhttp.open("GET", "raspstat.php", true);
+				xmlhttp.send();
+			}
+
 			
 			$( document ).ready(function()  {
 				getValues1();
 				getValues2();
+				getValues3();
+				getValues4();
+				getValues5();
 				getHue();
 				allOK();
 				setInterval(getValues1, 5000);
 				setInterval(getValues2, 5000);
+				setInterval(getValues3, 600000);
+				setInterval(getValues4, 600000);
+				setInterval(getValues5, 600000);
 				setInterval(getHue, 5000);
 				setInterval(allOK, 5000);
 				
@@ -138,9 +223,13 @@
 
 		</script>
 		<div id="warning_mainframe">
-		<div class="warning_header">Meldingen</div>
+		<div class="warning_header" onclick="openDet()">Meldingen</div>
 			<div class="warning_none" id="all_ok">Alles is OK!</div>
 		</div>
+		<div id="showdetails" class="warning_details" onclick="closeDet()">
+		<div id="detail_text"></div>
+</div>
+		
 	</body>
 </html>
 <?php
