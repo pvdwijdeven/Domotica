@@ -35,14 +35,14 @@
 
 		function reload()
 		{
-		   setTimeout('reloadImg("cam_frontdoor")',1000)
+		   setTimeout('reloadImg("cam_frontdoor")',500)
 		};
 
 		function reloadImg(id) 
 		{ 
 		   var obj = document.getElementById(id); 
 		   var date = new Date(); 
-		   obj.src = "frontdoor.php?t=" + Math.floor(date.getTime()/1000); 
+		   obj.src = "frontdoor.php?t=" + Math.floor(date.getTime()); 
 		} 
 
 	</script>

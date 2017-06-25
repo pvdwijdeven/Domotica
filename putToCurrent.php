@@ -11,8 +11,9 @@
 		$value=intval($_GET['sabotagehal']);
 		$field='sabotagehal';
 	}
-	
+	//trigger_error(implode(",",$_GET).' - '.implode(",",array_keys($_GET)));
 	$sqlstring = "update currentstats set " . $field . " = " . $value . " where status='NOW'";
 	$result = mysql_query($sqlstring) or die('something went wrong with '.mysql_error(). ' sql-string: '.$sqlstring);
 	echo $sqlstring;
+	//trigger_error(implode(",",$_GET));
 ?>
