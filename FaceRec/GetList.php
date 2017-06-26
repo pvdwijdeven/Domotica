@@ -17,12 +17,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSSample</title>
+    <title>Get Facelist</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 </head>
 <body>
 
 <script type="text/javascript">
+	var faceIDlist=[];
     $(function() {
         var params = {
             // Request parameters
@@ -39,8 +40,16 @@
             data: "{body}",
         })
         .done(function(data) {
-            alert("success");
-			console.log(data);
+ 			console.log(data);
+			var members = data.persistedFaces.length;
+			for (x=0;x<members;x++){
+				faceIDlist.push({
+					key: data.persistedFaces[x].persistedFaceId,
+					value: data.persistedFaces[x].userData
+				})
+			}
+			console.log(faceIDlist);
+			
         })
         .fail(function() {
             alert("error");

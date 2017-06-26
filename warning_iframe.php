@@ -82,14 +82,12 @@
 					if (this.readyState == 4 && this.status == 200) {
 						var currentresult = this.responseText;
 						if (currentresult==2){
-							if (!$( "#wasmachine" ).length){
-								addLog("wasmachine is klaar","wasmachine",true);
-							}
+							$("#wasmachine").remove()
+							addLog("wasmachine is klaar","wasmachine",true);
 						}
 						if (currentresult==1){
-							if (!$( "#wasmachine" ).length){
-								addLog("wasmachine draait","wasmachine",false);
-							}
+							$("#wasmachine").remove()
+							addLog("wasmachine draait","wasmachine",false);
 						}					}
 				};
 				xmlhttp.open("GET", "getFromCurrent.php?request=wasmachine", true);

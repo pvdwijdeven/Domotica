@@ -10,6 +10,7 @@
 	$result = $mysqli->query($sql);
 	$row = $result->fetch_assoc();
 	$adminName = $row['admin'];
+	$FaceURL= $row['FaceURL'];
 	$FaceKey1 = $row['FaceKey1'];
 
 	if (($adminpage AND $adminName==$_SESSION['username'] AND $loginchecked) OR (!$adminpage AND $loginchecked)){
@@ -23,7 +24,42 @@
 <body>
 
 <script type="text/javascript">
-    $(function() {
+
+	var faceIDlist=[];
+	var faceID="";
+	
+    function getFaceList() {
+        var params = {
+            // Request parameters
+        };
+      
+        $.ajax({
+            url: "https://westeurope.api.cognitive.microsoft.com/face/v1.0/facelists/frontdoor?" + $.param(params),
+            beforeSend: function(xhrObj){
+                // Request headers
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","<?php echo $FaceKey1 ?>");
+            },
+            type: "GET",
+            // Request body
+            data: "{body}",
+        })
+        .done(function(data) {
+ 			console.log(data);
+			var members = data.persistedFaces.length;
+			for (x=0;x<members;x++){
+				faceIDlist[data.persistedFaces[x].persistedFaceId]= data.persistedFaces[x].userData
+			}
+			console.log(faceIDlist);
+			detectFace();
+			
+        })
+        .fail(function() {
+            alert("error");
+        });
+    }
+
+
+	function detectFace(){
         var params = {
             // Request parameters
             "returnFaceId": "true",
@@ -40,17 +76,49 @@
             },
             type: "POST",
             // Request body
-            data: "{'url':'*****FILL IN IMAGE URL*****'}",
+            data: "{'url':'<?php echo $FaceURL;?>2'}",
         })
         .done(function(data) {
-            alert("success");
 			console.log(data);
+			faceID=data[0].faceId;
+			recognizeFace();
         })
         .fail(function() {
             alert("error");
         });
-    });
+    }
+	
+    function recognizeFace() {
+        var params = {
+            // Request parameters
+        };
+      
+        $.ajax({
+            url: "https://westeurope.api.cognitive.microsoft.com/face/v1.0/findsimilars?" + $.param(params),
+            beforeSend: function(xhrObj){
+                // Request headers
+                xhrObj.setRequestHeader("Content-Type","application/json");
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","<?php echo $FaceKey1 ?>");
+            },
+            type: "POST",
+            // Request body
+            data: "{'faceId':'"+faceID+"','faceListId':'frontdoor','maxNumOfCandidatesReturned':10,'mode': 'matchPerson'}",
+        })
+        .done(function(data) {
+			console.log(data);
+			console.log(faceIDlist[data[0].persistedFaceId]);
+        })
+        .fail(function() {
+            alert("error");
+        });
+    }
+
+	
+	
+	
 </script>
+
+	<button onclick="getFaceList()">
 </body>
 </html>
 <?php
