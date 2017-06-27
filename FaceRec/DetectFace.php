@@ -64,7 +64,7 @@
             // Request parameters
             "returnFaceId": "true",
             "returnFaceLandmarks": "false",
-            //"returnFaceAttributes": "{string}",
+            "returnFaceAttributes": "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories",
         };
       
         $.ajax({
@@ -76,11 +76,15 @@
             },
             type: "POST",
             // Request body
-            data: "{'url':'<?php echo $FaceURL;?>2'}",
+            data: "{'url':'<?php echo $FaceURL;?>1498599440.jpg'}",
         })
         .done(function(data) {
 			console.log(data);
 			faceID=data[0].faceId;
+			var c=document.getElementById("myCanvas");
+			var ctx=c.getContext("2d");
+			var img=document.getElementById("myImage");
+			ctx.drawImage(img,data[0].faceRectangle.left,data[0].faceRectangle.top,data[0].faceRectangle.width,data[0].faceRectangle.height,0,0,data[0].faceRectangle.width,data[0].faceRectangle.height);
 			recognizeFace();
         })
         .fail(function() {
@@ -118,7 +122,10 @@
 	
 </script>
 
-	<button onclick="getFaceList()">
+	<button onclick="getFaceList()">Detect Face</button>
+	<img id="myImage" src="<?php echo $FaceURL;?>/1498599440.jpg">
+	<canvas id="myCanvas" width="480" height="480" style="border:1px solid #d3d3d3;"></canvas>
+	
 </body>
 </html>
 <?php
