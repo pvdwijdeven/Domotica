@@ -16,11 +16,13 @@
 			<table class="menutable">
 				<tr><td><button class="menubutton" id="menuButton_1" onmouseup="window.location.href='domo_main.php'">Domo Main</button></td></tr>
 				<tr><td><button class="menubutton" id="menuButton_2" onmouseup="window.location.href='domo_dashboard.php'">Domo Dashboard</button></td></tr>
-				<tr><td><button class="menubutton" id="menuButton_3" onmouseup="window.location.href='whathappened.php'">Domo What Happened?</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_4" onmouseup="window.location.href='whathappened.php'">Domo Logboek</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_5" onmouseup="window.location.href='newFace.php'">Domo Gezichtsherkenning</button></td></tr>
 				<?php if ($_SESSION['username'] == $adminName){ ?>
-				<tr><td><button class="menubutton" id="menuButton_4" onmouseup="window.location.href='view_tables.php'">Domo View/Modify Tables</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_6" onmouseup="window.location.href='view_tables.php'">Domo View/Modify Tables</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_7" onmouseup="window.location.href='faceList.php'">Domo Face List</button></td></tr>
 				<?php } ?>
-				<tr><td><button class="menubutton" id="menuButton_5" onmouseup="window.location.href='includes/logout.php'">Domo Log out</button></td></tr>
+				<tr><td><button class="menubutton" id="menuButton_8" onmouseup="window.location.href='includes/logout.php'">Domo Log out</button></td></tr>
 			</table>
 		</div>
 	

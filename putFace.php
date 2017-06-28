@@ -12,6 +12,11 @@
 	$adminName = $row['admin'];
 	if (($adminpage AND $adminName==$_SESSION['username'] AND $loginchecked) OR (!$adminpage AND $loginchecked)){
 		$target_dir = "faces/";
+		$files = glob($target_dir."*"); // get all file names
+		foreach($files as $file){ // iterate files
+		  if(is_file($file))
+			unlink($file); // delete file
+		}
 		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 		
 		$uploadOk = 1;
@@ -51,6 +56,7 @@
 		} else {
 			if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file2)) {
 				echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+				header('Location: detectFace.php?faceURL='.$target_file2);
 			} else {
 				echo "Sorry, there was an error uploading your file.";
 			}
