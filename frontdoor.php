@@ -29,7 +29,11 @@
 
 		$target_file= $target_dir . strval(time()) . ".jpg";
 		file_put_contents($target_file, $response);
-		header('Location: detectFace.php?faceURL='.$target_file);
+		if (intval($_GET['savefile'])==2){
+			header('Location: detectFace2.php?faceURL='.$target_file);
+		}else{
+			header('Location: detectFace.php?faceURL='.$target_file);
+		}
 	}else{
 		echo $response;
 	}
