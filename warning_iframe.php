@@ -83,6 +83,7 @@
 						var currentresult = this.responseText;
 						if (currentresult==2){
 							$("#wasmachine").remove()
+							$("#button_wasmachine").remove()
 							addLog("wasmachine is klaar","wasmachine",true);
 						}
 						if (currentresult==1){
