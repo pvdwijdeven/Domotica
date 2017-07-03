@@ -18,14 +18,22 @@
 	$temp=floatval(shell_exec("cat /sys/class/thermal/thermal_zone0/temp")/1000);
 	$epoch=filemtime('/var/log/apt/history.log');
 
+	$sqlstring = "select * from currentstats where status='NOW'";
+	$result = mysql_query($sqlstring) or die('something went wrong with '.mysql_error(). ' sql-string: '.$sqlstring);
+	$row = mysql_fetch_row($result, MYSQL_ASSOC);
+	$diskfree=intval($row['diskfree']);
+	$CPUtemp=floatval($row['CPUtemp']);
+	$CPUmax=floatval($row['CPUmax']);
+
+	
 	echo "Overview raspberry PI:<BR><BR>";
 	echo "Up since: ". shell_exec('uptime -s');
 	echo "<BR>";
-	echo "CPU temperature: ".$temp."&degC";
+	echo "CPU temperature: ".$temp."&degC (max: ".$CPUtemp."&degC)";
 	echo "<BR>";
-	echo "Free disk space: ".$dp."%";
+	echo "Free disk space: ".$dp."% (min: ".$diskfree."%)";
 	echo "<BR>";
-	echo "Average CPU load: ". floatval(sys_getloadavg()[2]*100)."%";
+	echo "Average CPU load: ". floatval(sys_getloadavg()[2]*100)."% (max: ".$CPUmax."%)";
 	echo "<BR>";
 	echo "Last software update: " . date("Y-m-d H:i:s", substr($epoch, 0, 10));
 	}

@@ -45,11 +45,25 @@
 		   obj.src = "frontdoor.php?t=" + Math.floor(date.getTime()); 
 		} 
 
+		function sendCommand(command){
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.open("GET", 'frontdoormove.php?cmd='+command, true);
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						console.log(this.responseText);
+					}
+				};
+				xmlhttp.send();
+			}
+		
 	</script>
 
 
-	<div id='cam_holder'><img src="frontdoor.php?t=" name="refresh" id="cam_frontdoor" onload='reload(this)' onerror='reload(this)'></div>
 
+	<div id='cam_holder'><img src="frontdoor.php?t=" name="refresh" id="cam_frontdoor" onload='reload(this)' onerror='reload(this)'></div>
+	<div  id="control_frontdoor"><table><tr><td></td><td><button onclick="sendCommand('ptzMoveUp')">&uarr;</button></td><td></td></tr>
+	<tr><td><button onclick="sendCommand('ptzMoveLeft')">&larr;</button></td><td><button onclick="sendCommand('ptzGotoPresetPoint')">O</button></td><td><button onclick="sendCommand('ptzMoveRight')">&rarr;</button></td></tr>
+	<tr><td></td><td><button onclick="sendCommand('ptzMoveDown')">&darr;</button></td><td></td></tr></table></div>
 	</body>
 </html>
 <?php

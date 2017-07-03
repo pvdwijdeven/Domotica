@@ -14,3 +14,10 @@
 	width:300px;
 	height:169px;
 }
+
+#control_frontdoor
+{
+	left: 100px;
+	top: 160px;
+	position: fixed;
+}
