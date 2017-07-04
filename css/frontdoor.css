@@ -18,6 +18,26 @@
 #control_frontdoor
 {
 	left: 100px;
-	top: 160px;
+	top: 170px;
+	font-siE:0.6em;
 	position: fixed;
+	padding:0px;
+}
+
+tr, td
+{
+	margin:0px;
+	border-width:0px;
+	padding:0px;
+	width:20px;
+	height:20px;
+}
+
+
+button
+{
+	height: 100%;
+	width:100%;
+	padding:0px;
+	margin:0px;
 }

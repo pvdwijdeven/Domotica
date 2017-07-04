@@ -61,9 +61,8 @@
 
 
 	<div id='cam_holder'><img src="frontdoor.php?t=" name="refresh" id="cam_frontdoor" onload='reload(this)' onerror='reload(this)'></div>
-	<div  id="control_frontdoor"><table><tr><td></td><td><button onclick="sendCommand('ptzMoveUp')">&uarr;</button></td><td></td></tr>
-	<tr><td><button onclick="sendCommand('ptzMoveLeft')">&larr;</button></td><td><button onclick="sendCommand('ptzGotoPresetPoint')">O</button></td><td><button onclick="sendCommand('ptzMoveRight')">&rarr;</button></td></tr>
-	<tr><td></td><td><button onclick="sendCommand('ptzMoveDown')">&darr;</button></td><td></td></tr></table></div>
+	<div  id="control_frontdoor"><table><tr><td></td><td><button onclick="sendCommand('ptzMoveUp')"></button></td><td></td></tr><tr><td><button onclick="sendCommand('ptzMoveLeft')"></button></td><td><button onclick="sendCommand('ptzGotoPresetPoint')"></button></td><td><button onclick="sendCommand('ptzMoveRight')"></button></td></tr>
+	<tr><td></td><td><button onclick="sendCommand('ptzMoveDown')"></button></td><td></td></tr></table></div>
 	</body>
 </html>
 <?php
