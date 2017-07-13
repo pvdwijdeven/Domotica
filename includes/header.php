@@ -8,7 +8,9 @@
 	
 		function fullscreen(){
 			$(".header_left").hide();
-			$(".header_right").hide();				
+			$(".header_right").hide();
+			$(".header_center").hide();
+			$("footer").hide();			
 		}
 		</script>		
 		<div id="mySidenav" class="sidenav">

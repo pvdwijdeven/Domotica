@@ -1,0 +1,63 @@
+
+#status_mainframe
+{
+	width: 99%;
+	height: 350px;
+	left: 0px;
+	top: 0px;
+	position: fixed;
+	font-size:1.2em;
+}
+
+.top_border
+{
+	border-top: solid 0px;
+	font-size:0.9em;
+}
+
+
+
+#datum
+{
+	font-size:1.2em;
+	font-weight: 600;
+}
+#tijd
+{
+	font-size:3.2em;
+	font-weight: 900;
+	width:95%;
+	vertical-align:top;
+}
+
+#temperatuur, #lucht
+{
+	font-size:2.2em;
+	width:143px;
+	text-align:center;
+	margin: auto;
+}
+
+table#status_table
+{
+	height: 350px;
+	width: 100%;
+	border: 0px solid;
+	padding: 2px;
+	font-size:1em;
+	text-align:center;
+}
+
+
+table#status_table td, table#status_table tr
+{
+	padding: 0px;
+}
+
+#quick_text
+{
+	font-size:1.3em;
+	top:0px;
+	position:absolute;
+	width:100%;
+}

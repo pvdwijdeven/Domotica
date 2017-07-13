@@ -95,8 +95,6 @@ $jsonTable = json_encode($table);
 
 ?>
 
-<html>
-  <head>
   <!doctype html>
 <html lang="en">
 	<head>

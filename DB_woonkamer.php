@@ -23,22 +23,26 @@
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="css/style.css?v=3.0">
+		<link rel="stylesheet" href="css/DB_woonkamer.css?v=3.0">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body>
 		<?php include "includes/header.php"; ?>
-		<!-- main page starts here -->
-		<div id="dash_modal"><iframe id="dash_frame"></iframe><button id="dash_terug" class="dash_menu" onclick="hideModal()">Terug</button></div>
-		
-		<div id="main_wrapper"><iframe id="frame_OV" src="OV_iframe.php"></iframe><iframe id="frame_weather" src="weather_iframe.php"></iframe><iframe id="frame_status" src="status_iframe.php"></iframe><iframe id="frame_traffic" src="traffic_iframe.php"></iframe><iframe id="frame_warning" src="warning_iframe.php"></iframe><iframe id="frame_hue" src="Hue_iframe.php"></iframe></iframe><iframe id="frame_camera" src="frontdoor_iframe.php"></iframe></div>
-		<hr>
-		<div id="dash_buttons"><button id="dash_met" class="dash_menu" onclick="showModal(this)">Alle metingen</button>
+	
+	<div id="dash_modal2"><iframe id="dash_frame"></iframe><button id="dash_terug" class="dash_menu" onclick="hideModal()">Terug</button></div>
+	
+	<div id="upperframe"><div id="OVTframe"></div><div id="rightframe"><div id="upperrightframe"><iframe src="weather_iframe2.php" id="weerframe"></iframe><iframe id="statusframe" src="status_iframe2.php"></iframe></div><div id="lowerrightframe"><iframe id="camframe" src="frontdoor_iframe2.php"></iframe><iframe id="lightframe" src="Hue_iframe2.php"></iframe></div></div></div>
+	<div id="buttonframe"><div id="dash_buttons"><button id="dash_fs" class="dash_menu" onclick='refresh()'>Fullscreen</button>
+	<button id="dash_met" class="dash_menu" onclick="showModal(this)">Alle metingen</button>
 		<button id="dash_plat" class="dash_menu" onclick="showModal(this)">Plattegrond</button>
 		<button id="dash_agenda" class="dash_menu" onclick="showModal(this)">Agenda</button>
 		<button id="dash_log" class="dash_menu" onclick="showModal(this)">Logboek</button>
 		<button id="dash_log" class="dash_menu" onclick="showModal(this)">Buienradar</button></div>
-		
-		<script type="text/javascript">
+	</div>
+	<div id="meldingen">Meldingen!!
+	</div>
+	
+			<script type="text/javascript">
 			<!--
 				var hide_timer;
 				
@@ -56,23 +60,37 @@
 					document.getElementById("mySidenav").style.width = "0";
 				}
 				
+				$( document ).ready(function()  {
+					$('header').hide();
+					$('footer').hide();					
+				});			
+				
+				function refresh(){
+					if ($('#dash_fs').html()=="Fullscreen"){
+						document.querySelector('body').webkitRequestFullscreen(); 
+						$('#dash_fs').html("Herladen")
+					}else{
+						location.reload();
+					}
+				}
+				
 				var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
 				var eventer = window[eventMethod];
 				var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-				var frontdoorcam = document.getElementById("frame_camera").contentWindow;
+				var frontdoorcam = document.getElementById("camframe").contentWindow;
 
 				// Listen to message from child window
 				eventer(messageEvent,function(e) {
-				  $("#dash_modal").show();
-				  $("#dash_modal").attr("name",e.data);
+				  $("#dash_modal2").show();
+				  $("#dash_modal2").attr("name",e.data);
 				  $("#dash_frame").attr("src",e.data);
 				  hide_timer = setTimeout(function(){hideModal(); }, 300000);
 				  
 				},false);
 				
 				function showModal(element) {
-					$("#dash_modal").show();
-					$("#dash_modal").attr("name",$(element).html());
+					$("#dash_modal2").show();
+					$("#dash_modal2").attr("name",$(element).html());
 					
 					if ($(element).html()=="Logboek"){
 						$("#dash_frame").attr("src","whathappened.php");
@@ -94,8 +112,8 @@
 				}
 
 				function hideModal() {
-					$("#dash_modal").hide();
-					$("#dash_modal").attr("name","");
+					$("#dash_modal2").hide();
+					$("#dash_modal2").attr("name","");
 					$("#dash_frame").attr("src","");
 					frontdoorcam.postMessage("go","*");
 					clearTimeout(hide_timer);
@@ -103,7 +121,8 @@
 			
 				//-->
 		</script>
-		
+
+	
 		<!-- main page ends here -->	
 		<footer>
 			<hr>

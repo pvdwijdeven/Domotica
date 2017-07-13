@@ -26,7 +26,7 @@
 		<meta name="author" content="Pascal van de Wijdeven">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="css/style.css?v=3.0">
-		<link rel="stylesheet" href="css/frontdoor.css?v=3.0">
+		<link rel="stylesheet" href="css/frontdoor2.css?v=3.0">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body>
@@ -83,8 +83,6 @@
 
 
 	<div id='cam_holder'><img src="frontdoor.php?t=" name="refresh" id="cam_frontdoor" onload='reload(this)' onerror='reload(this)' onclick='getFull()'></div>
-	<div  id="control_frontdoor"><table><tr><td></td><td><button onclick="sendCommand('ptzMoveUp')"></button></td><td></td></tr><tr><td><button onclick="sendCommand('ptzMoveLeft')"></button></td><td><button onclick="sendCommand('ptzGotoPresetPoint')"></button></td><td><button onclick="sendCommand('ptzMoveRight')"></button></td></tr>
-	<tr><td></td><td><button onclick="sendCommand('ptzMoveDown')"></button></td><td></td></tr></table></div>
 	</body>
 </html>
 <?php
