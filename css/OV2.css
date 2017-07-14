@@ -1,0 +1,121 @@
+
+#OV_mainframe
+{
+	width: 536px;
+	height: 500px;
+	left: 0px;
+	top: 0px;
+	position: fixed;
+	font-size:1.5em;
+}
+
+
+#quick_text
+{
+	font-size:1.3em;
+	top:0px;
+	position:absolute;
+	width:532px;
+}
+
+#OVtable
+{
+	left:-630px;
+	position: fixed;
+	z-index: 5;
+}
+
+.OVdetbutton
+{
+  width:100%;
+  heigth:100%;
+  text-align:center;
+  font-size:0.9em;
+}
+
+
+.OV_menubutton
+{
+  margin:2px;
+  padding:2px;
+  width:530px;
+  text-align:center;
+  font-size:0.9em;
+}
+
+.OVselectbutton
+{
+  width:530px;
+  heigth:100%;
+  text-align:center;
+  font-weight: 900;
+  font-size:0.9em;
+}
+
+.OV_quick
+{
+  height:500px;
+  width:532px;
+  z-index:20;
+  top:0px;
+}
+
+.OV_emphasize
+{
+	font-size:3.3em;
+	font-weight:900;
+}
+
+
+table.OV, table.OV th, table.OV td
+{
+	border: 1px solid;
+	padding: 2px;
+	font-size:0.8em;
+}
+
+table.OV {
+	border-collapse: collapse;
+	height:250px;
+	width:528px;
+}
+
+
+.OV_details, .OV_quick
+{
+  position:fixed;
+  left:0;
+  overflow-x:hidden;
+  transition:.5s;
+  margin-left:auto;
+  margin-right:auto;
+
+}
+
+.OV_details
+{
+  height:100%;
+  width:0;
+  z-index:10;
+  top:0;
+  font-size:.7em;
+}
+
+.filler
+{
+	height:100%;
+}
+
+.OV_details
+{
+  position:fixed;
+  left:0;
+  overflow-x:hidden;
+  padding-top:0px;
+  transition:.5s;
+  margin-left:auto;
+  margin-right:auto;
+  widht:0px;
+  height:0px;
+
+}
