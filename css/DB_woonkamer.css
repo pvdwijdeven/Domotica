@@ -36,6 +36,27 @@ div, iframe
 
 #OVTframe
 {
+	width:100%;
+	height:510px;
+	display: inline-block;
+	float: left;
+}
+
+#OVTSchedule
+{
+	width:100%;
+	height:120px;
+	float:left;
+}
+
+.OVtbutton
+{
+	width:100%;
+	font-size:1em;
+}
+
+#leftframe
+{
 	width:42.5%;
 	height:630px;
 	display: inline-block;
@@ -91,3 +112,4 @@ div, iframe
 	float: left;
 
 }
+

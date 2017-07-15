@@ -31,7 +31,7 @@
 	
 	<div id="dash_modal2"><iframe id="dash_frame"></iframe><button id="dash_terug" class="dash_menu" onclick="hideModal()">Terug</button></div>
 	
-	<div id="upperframe"><iframe id="OVTframe" src="OV_iframe2.php"></iframe><div id="rightframe"><div id="upperrightframe"><iframe src="weather_iframe2.php" id="weerframe"></iframe><iframe id="statusframe" src="status_iframe2.php"></iframe></div><div id="lowerrightframe"><iframe id="camframe" src="frontdoor_iframe2.php"></iframe><iframe id="lightframe" src="Hue_iframe2.php"></iframe></div></div></div>
+	<div id="upperframe"><div id="leftframe"><iframe id="OVTframe" src="traffic_iframe2.php"></iframe><div id="OVTSchedule"><button class="OVtbutton">Schedule</button><button id='switch' class="OVtbutton" onclick='switchOVT()'>OV</button></div></div><div id="rightframe"><div id="upperrightframe"><iframe src="weather_iframe2.php" id="weerframe"></iframe><iframe id="statusframe" src="status_iframe2.php"></iframe></div><div id="lowerrightframe"><iframe id="camframe" src="frontdoor_iframe2.php"></iframe><iframe id="lightframe" src="Hue_iframe2.php"></iframe></div></div></div>
 	<div id="buttonframe"><div id="dash_buttons"><button id="dash_fs" class="dash_menu" onclick='refresh()'>Fullscreen</button>
 	<button id="dash_met" class="dash_menu" onclick="showModal(this)">Alle metingen</button>
 		<button id="dash_plat" class="dash_menu" onclick="showModal(this)">Plattegrond</button>
@@ -39,8 +39,7 @@
 		<button id="dash_log" class="dash_menu" onclick="showModal(this)">Logboek</button>
 		<button id="dash_log" class="dash_menu" onclick="showModal(this)">Buienradar</button></div>
 	</div>
-	<div id="meldingen">Meldingen!!
-	</div>
+	<iframe id="meldingen" src="warning_iframe2.php"></iframe>
 	
 			<script type="text/javascript">
 			<!--
@@ -118,7 +117,16 @@
 					frontdoorcam.postMessage("go","*");
 					clearTimeout(hide_timer);
 				}
-			
+				
+				function switchOVT() {
+					if ($("#OVTframe").attr("src")=='traffic_iframe2.php'){
+						$("#OVTframe").attr("src","OV_iframe2.php");
+						$("#switch").html("Verkeer");
+					}else{
+						$("#OVTframe").attr("src","traffic_iframe2.php");
+						$("#switch").html("OV");
+					}
+				}		
 				//-->
 		</script>
 

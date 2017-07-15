@@ -26,7 +26,6 @@
 	$CPUmax=floatval($row['CPUmax']);
 
 	
-	echo "Overview raspberry PI:<BR><BR>";
 	echo "Up since: ". shell_exec('uptime -s');
 	echo "<BR>";
 	echo "CPU temperature: ".$temp."&degC (max: ".$CPUtemp."&degC)";

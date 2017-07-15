@@ -1,0 +1,104 @@
+
+#traffic_mainframe
+{
+	width: 536px;
+	height: 500px;
+	left: 0px;
+	top: 0px;
+	position: fixed;
+	font-size:1.2em;
+}
+
+.traffic_details
+{
+  position:fixed;
+  left:0;
+  
+  overflow-x:hidden;
+  padding-top:0px;
+  transition:.5s;
+  margin-left:auto;
+  margin-right:auto;
+
+}
+
+table.traffic_table, table.traffic_table th, table.traffic_table td {
+	border: 1px solid;
+	padding: 1px;
+	font-size:0.9em;
+}
+
+table.traffic_table {
+	border-collapse: collapse;
+	text-align: center;
+	width:536px;
+	height:500px;
+}
+
+table.traffic_table tr, table.traffic_table td {
+	text-align: left;
+}
+
+.traffic_details
+{
+  height:0px;
+  width:0;
+  z-index:10;
+  top:0;
+  font-size:.7em;
+}
+
+.traffic_details .closebtn
+{
+  position:absolute;
+  top:0;
+  right:25px;
+  font-size:36px;
+  margin-left:50px;
+}
+
+.leftcol
+{
+	width: 160px;
+}
+
+.traffic_details a
+{
+  margin: auto;
+  text-decoration:none;
+  font-size:25px;
+  color:#818181;
+  display:block;
+  transition:.3s;
+  padding:8px 8px 8px 32px;
+}
+
+.traffic_details a:hover,.offcanvas a:focus
+{
+  color:#f1f1f1;
+}
+
+.trafficselectbutton
+{
+  width:100%;
+  height:100%;
+  text-align:center;
+  font-weight: 900;
+  font-size: 1em;
+}
+
+.trafficdetbutton
+{
+  width:100%;
+  height:100%;
+  text-align:center;
+  font-size:1.2em;
+}
+
+.traffic_menubutton
+{
+  margin:2px;
+  padding:2px;
+  width:536px;
+  text-align:center;
+}
