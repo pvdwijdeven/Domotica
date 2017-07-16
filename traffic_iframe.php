@@ -120,6 +120,8 @@ function setRouteMenu(){
 
 $( document ).ready(function()  {
 	getValues(<?php echo $ID; ?>);
+	setInterval(function(){ getValues(<?php echo $ID; ?>); }, 280000);		
+
 	if (window.self == window.top){
 		setTimeout(function(){ window.location.href = "domo_dashboard.php"; }, 3600000);
 	}
@@ -291,7 +293,6 @@ function getStuff(data_traffic){
 		} else {det[x].log(data_traffic.status);
 		}
 		
-setTimeout(function(){ getValues(<?php echo $ID; ?>); }, 280000);		
 	};
 
 

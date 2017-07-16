@@ -132,6 +132,8 @@ function setRouteMenu(){
 
 $( document ).ready(function()  {
 	getValues(<?php echo $ID; ?>);
+	setInterval(function(){ getValues(<?php echo $ID; ?>); }, 60000);		
+
 	//if (window.self == window.top){
 	//	setTimeout(function(){ window.location.href = "domo_dashboard.php"; }, 60000);
 	//}
@@ -168,7 +170,7 @@ function fgowhen(seconds){
 	if (seconds < 120){
 		return "<b>vertrek nu!</b>";
 	}
-	return "vertrek over " + Math.round(seconds/60) + " minuten";
+	return "vertrek over " + Math.floor(seconds/60) + " minuten";
 }
 
 function fgowhenquick(text){
@@ -336,7 +338,7 @@ function getStuff(data_directions_tram){
 					var arrivaltime = data_directions_tram.routes[x].legs[0].arrival_time.text;
 					var duration = data_directions_tram.routes[x].legs[0].duration.text;
 					var startepoch = data_directions_tram.routes[x].legs[0].departure_time.value;
-					var currentepoch = Math.ceil(new Date().getTime() / 1000);
+					var currentepoch = Math.ceil(new Date().getTime() / 1000)+60;
 					var gowhen = fgowhen(startepoch-currentepoch);
 					var durationvar = data_directions_tram.routes[x].legs[0].duration.value;
 					curroutedesc=[starttime,arrivaltime,duration,gowhen];
@@ -385,7 +387,6 @@ function getStuff(data_directions_tram){
 		} else {det[x].log(data_directions_tram.status);
 		}
 		
-setTimeout(function(){ getValues(<?php echo $ID; ?>); }, 60000);		
 	};
 
 

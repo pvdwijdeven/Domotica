@@ -31,7 +31,7 @@
 	
 	<div id="dash_modal2"><iframe id="dash_frame"></iframe><button id="dash_terug" class="dash_menu" onclick="hideModal()">Terug</button></div>
 	
-	<div id="upperframe"><div id="leftframe"><iframe id="OVTframe" src="traffic_iframe2.php"></iframe><div id="OVTSchedule"><button class="OVtbutton">Schedule</button><button id='switch' class="OVtbutton" onclick='switchOVT()'>OV</button></div></div><div id="rightframe"><div id="upperrightframe"><iframe src="weather_iframe2.php" id="weerframe"></iframe><iframe id="statusframe" src="status_iframe2.php"></iframe></div><div id="lowerrightframe"><iframe id="camframe" src="frontdoor_iframe2.php"></iframe><iframe id="lightframe" src="Hue_iframe2.php"></iframe></div></div></div>
+	<div id="upperframe"><div id="leftframe"><iframe id="OVTframe" src="traffic_iframe2.php"></iframe><div id="OVTSchedule"><?php if($adminName==$_SESSION['username']) {echo('<button class="OVtbutton">Schedule</button>');} ?><button id='switch' class="OVtbutton" onclick='switchOVT()'>OV</button></div></div><div id="rightframe"><div id="upperrightframe"><iframe src="weather_iframe2.php" id="weerframe"></iframe><iframe id="statusframe" src="status_iframe2.php"></iframe></div><div id="lowerrightframe"><iframe id="camframe" src="frontdoor_iframe2.php"></iframe><iframe id="lightframe" src="Hue_iframe2.php"></iframe></div></div></div>
 	<div id="buttonframe"><div id="dash_buttons"><button id="dash_fs" class="dash_menu" onclick='refresh()'>Fullscreen</button>
 	<button id="dash_met" class="dash_menu" onclick="showModal(this)">Alle metingen</button>
 		<button id="dash_plat" class="dash_menu" onclick="showModal(this)">Plattegrond</button>
