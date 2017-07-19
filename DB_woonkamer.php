@@ -12,6 +12,26 @@
 	$row = $result->fetch_assoc();
 	$adminName = $row['admin'];
 	if (($adminpage AND $adminName==$_SESSION['username'] AND $loginchecked) OR (!$adminpage AND $loginchecked)){
+		$result = mysql_query('SELECT * FROM OVTschedule');
+		$i = -1;
+		while ($row = mysql_fetch_row($result, MYSQL_ASSOC)) {
+			$i += 1;
+			$IDs[$i]          = $row['ID'];
+			$startat[$i] = $row['startat'];
+			$endat[$i] = $row['endat'];
+			$OV[$i] = $row['OV'];
+			$day[$i] = $row['day'];
+			$route[$i] = $row['route'];
+			$default[$i] = $row['def'];
+		}
+		$IDs         = implode(",", $IDs);
+		$startat     = implode(",", $startat);
+		$endat       = implode(",", $endat);
+		$OV          = implode(",", $OV);
+		$day         = implode(",", $day);
+		$route       = implode(",", $route);
+		$default     = implode(",", $default);
+		
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +49,7 @@
 	<body>
 		<?php include "includes/header.php"; ?>
 	
-	<div id="dash_modal2"><iframe id="dash_frame"></iframe><button id="dash_terug" class="dash_menu" onclick="hideModal()">Terug</button></div>
+	<div id="dash_modal2"><iframe id="dash_frame"></iframe><button id="dash_terug" class="dash_menu" onclick="hideModal()">Terug</button><button id="dash_lock" class="dash_menu" onclick="lockModal()">Lock</button></div>
 	
 	<div id="upperframe"><div id="leftframe"><iframe id="OVTframe" src="traffic_iframe2.php"></iframe><div id="OVTSchedule"><?php if($adminName==$_SESSION['username']) {echo('<button class="OVtbutton">Schedule</button>');} ?><button id='switch' class="OVtbutton" onclick='switchOVT()'>OV</button></div></div><div id="rightframe"><div id="upperrightframe"><iframe src="weather_iframe2.php" id="weerframe"></iframe><iframe id="statusframe" src="status_iframe2.php"></iframe></div><div id="lowerrightframe"><iframe id="camframe" src="frontdoor_iframe2.php"></iframe><iframe id="lightframe" src="Hue_iframe2.php"></iframe></div></div></div>
 	<div id="buttonframe"><div id="dash_buttons"><button id="dash_fs" class="dash_menu" onclick='refresh()'>Fullscreen</button>
@@ -61,7 +81,8 @@
 				
 				$( document ).ready(function()  {
 					$('header').hide();
-					$('footer').hide();					
+					$('footer').hide();
+					getValues();					
 				});			
 				
 				function refresh(){
@@ -86,6 +107,13 @@
 				  hide_timer = setTimeout(function(){hideModal(); }, 300000);
 				  
 				},false);
+				
+				function lockModal(){
+					clearTimeout(hide_timer);
+					$("#dash_lock").hide();
+				}
+				
+				
 				
 				function showModal(element) {
 					$("#dash_modal2").show();
@@ -112,6 +140,8 @@
 
 				function hideModal() {
 					$("#dash_modal2").hide();
+					$("#dash_lock").html("Lock");
+					$("#dash_lock").show();
 					$("#dash_modal2").attr("name","");
 					$("#dash_frame").attr("src","");
 					frontdoorcam.postMessage("go","*");
@@ -126,7 +156,102 @@
 						$("#OVTframe").attr("src","traffic_iframe2.php");
 						$("#switch").html("OV");
 					}
-				}		
+				}	
+
+				function getMSec(timestamp){
+					timestamp=timestamp.split(':');
+					var MSec=parseInt(timestamp[0])*1000*60*60;
+					MSec+=parseInt(timestamp[1])*1000*60;
+					MSec+=parseInt(timestamp[1])*1000;
+					return MSec;
+				}
+				
+				function getEpochs(starttimes,stoptimes,days){
+					var today = new Date();
+					var daynum = (today.getDay()+6)%7;
+					var curepoch = today.getTime();
+					var utc = new Date().toJSON().slice(0,10).replace(/-/g,',');
+					var dateepoch= new Date(utc).getTime();
+					var result=[];
+					
+					for (x=0;x<days.length;x++){
+						var curresult=[];
+						for (d=0;d<8;d++){
+							checkday=(daynum+d)%7+1;
+							if (days[x] & Math.pow(2,checkday-1)){
+								start=dateepoch+d*24*60*60*1000+getMSec(starttimes[x]);
+								end=dateepoch+d*24*60*60*1000+getMSec(stoptimes[x]);
+								curresult.push([start,end]);
+							}
+							
+						}
+						result.push(curresult);
+					}
+					return result;
+				}
+				
+				function getValues(setCurrent=true){
+					
+					var today = new Date();
+					var curepoch = today.getTime();
+				
+					var IDs= "<?php echo $IDs;?>";
+					var startat = "<?php echo $startat;?>";
+					var endat= "<?php echo $endat;?>";
+					var OV = "<?php echo $OV;?>";
+					var day = "<?php echo $day;?>";
+					var route= "<?php echo $route;?>";
+					var defaultYN = "<?php echo $default;?>";
+					IDs=IDs.split(',');
+					startat=startat.split(',');
+					endat=endat.split(',');
+					OV=OV.split(',');
+					day=day.split(',');
+					route=route.split(',');
+					defaultYN=defaultYN.split(',');
+					epochs=getEpochs(startat,endat,day);
+					console.log(epochs);
+					ID=-1
+					for (x=0;x<day.length;x++){
+						if (defaultYN[x]=='0'){
+							for (y=0;y<epochs[x].length;y++){
+								if (curepoch>=epochs[x][y][0] && curepoch<epochs[x][y][1]){
+									ID=x;
+									checknew=epochs[x][y][1];
+								}
+							}
+						}
+					}
+					if (ID==-1){
+						for (x=0;x<day.length;x++){
+							if (defaultYN[x]=='1'){
+								ID=x;
+
+							}
+						}
+						checknew=2145916799000;
+						for (x=0;x<day.length;x++){
+							if (defaultYN[x]=='0'){
+								for (y=0;y<epochs[x].length;y++){
+									if (checknew>epochs[x][y][0] && epochs[x][y][0]>curepoch){
+										checknew=epochs[x][y][0];
+									}
+								}
+							}
+						}
+
+					}
+					if (setCurrent){
+						if (OV[ID]=="1"){
+							$("#OVTframe").attr("src","OV_iframe2.php?ID="+route[ID]);
+						}else{
+							$("#OVTframe").attr("src","traffic_iframe2.php?ID="+route[ID]);
+						}
+					}
+					console.log(checknew-curepoch);
+					setTimeout(function(){ getValues(); }, checknew-curepoch);
+				}
+				
 				//-->
 		</script>
 
