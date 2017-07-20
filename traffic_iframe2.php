@@ -125,10 +125,7 @@ $( document ).ready(function()  {
 	if (window.self == window.top){
 		setTimeout(function(){ window.location.href = "domo_dashboard.php"; }, 3600000);
 	}
-	
-	if (<?php echo $ID; ?> != 0){
-		setTimeout(function(){ window.location.href = "traffic_iframe2.php"; }, 3600000);
-	}
+
 	setRouteMenu();
 });
 
